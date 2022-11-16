@@ -1,0 +1,4 @@
+spring.profiles.group:
+  "local": "h2db,common"
+  "dev":  "testdb,common"
+  "prod": "proddb,common"

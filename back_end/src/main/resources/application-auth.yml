@@ -1,0 +1,6 @@
+jwt:
+  secret-key: Ly8gVE9ETzogcGxlYXNlIGRldGVybWluZSB0aGlzIGtleSEhIEJ5IGlrc2FkTm9ydGguIDop
+  expired-time-ms: 86400000
+
+logging.level:
+  org.springframework.security: DEBUG

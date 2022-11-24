@@ -3,12 +3,14 @@ package com.project.shoppingmall.domain;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.Table;
 
+@ToString
+// 위는 테스트 편의를 위한 어노테이션
 @EntityListeners(AuditingEntityListener.class)
 // 위는 JpaAuditing을 위한 어노테이션
 @SQLDelete(sql = "UPDATE `ad_img` SET deleted_at = NOW() WHERE id = ?")
@@ -19,13 +21,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor @Getter @Setter
 @AllArgsConstructor @Builder
 // 위는 JPA Entity 사용을 위한 어노테이션
-public class AdImg {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @CreatedDate
-    private LocalDateTime createdAt;
-    private LocalDateTime deletedAt;
-
+public class AdImg extends BaseEntity {
     private Long termDay;
     private String path;
     private String link;

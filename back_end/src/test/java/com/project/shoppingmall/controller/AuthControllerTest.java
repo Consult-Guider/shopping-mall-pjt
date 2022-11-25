@@ -7,6 +7,8 @@ import com.project.shoppingmall.model.response.LoginResponse;
 import com.project.shoppingmall.service.AuthService;
 import com.project.shoppingmall.type.ErrorCode;
 import com.project.shoppingmall.utils.EnableProjectSecurityConfiguration;
+import com.project.shoppingmall.utils.SetProfile;
+import com.project.shoppingmall.utils.UrlPrefixManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @DisplayName("AuthController Controller Test")
 @EnableProjectSecurityConfiguration
+@SetProfile
 @WithAnonymousUser
 @WebMvcTest(AuthController.class)
 class AuthControllerTest {
@@ -34,7 +37,7 @@ class AuthControllerTest {
     ObjectMapper objectMapper;
     @MockBean
     private AuthService authService;
-    private final String prefix = "/api/v1/auth";
+    private final String prefix = UrlPrefixManager.addPrefix("/auth");
     private final LoginRequest loginFixture = new LoginRequest();
 
     @Test

@@ -6,9 +6,11 @@ import com.project.shoppingmall.model.request.LoginRequest;
 import com.project.shoppingmall.model.response.LoginResponse;
 import com.project.shoppingmall.service.AuthService;
 import com.project.shoppingmall.type.ErrorCode;
+import com.project.shoppingmall.type.RoleType;
 import com.project.shoppingmall.utils.EnableProjectSecurityConfiguration;
 import com.project.shoppingmall.utils.SetProfile;
 import com.project.shoppingmall.utils.UrlPrefixManager;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,13 @@ class AuthControllerTest {
     private AuthService authService;
     private final String prefix = UrlPrefixManager.addPrefix("/auth");
     private final LoginRequest loginFixture = new LoginRequest();
+
+    @BeforeEach
+    public void beforeEach() {
+        loginFixture.setRole(RoleType.USER);
+        loginFixture.setEmail("iksadnorth@gmail.com");
+        loginFixture.setPassword("q1w2e3r4");
+    }
 
     @Test
     @DisplayName("[정상 작동][post][/api/v1/auth] 로그인 성공 시, 토큰 발급")

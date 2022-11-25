@@ -157,3 +157,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/linux,windows,intellij+all,java
+
+# QueryDSL 부산물 제외
+QClass/**

@@ -56,9 +56,4 @@ public class AuthenticationConfig {
                 )
                 .build();
     }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 }

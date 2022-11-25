@@ -23,7 +23,7 @@ public class ClaimsAdapter {
     }
 
     public RoleType getRole() {
-        return RoleType.valueOf(claims.get(ROLE, String.class));
+        return RoleType.findByName(claims.get(ROLE, String.class));
     }
 
     public void setRole(RoleType role) {

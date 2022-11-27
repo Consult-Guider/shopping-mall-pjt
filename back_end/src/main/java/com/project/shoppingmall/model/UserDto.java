@@ -53,4 +53,19 @@ public class UserDto implements UserDetails {
     @Override public boolean isAccountNonLocked() { return deletedAt==null; }
     @Override public boolean isCredentialsNonExpired() { return deletedAt==null; }
     @Override public boolean isEnabled() { return deletedAt==null; }
+
+    public User toEntity() {
+        User entity = new User();
+        entity.setId(id);
+        entity.setCreatedAt(createdAt);
+        entity.setDeletedAt(deletedAt);
+
+        entity.setEmail(email);
+        entity.setPassword(password);
+
+        entity.setName(name);
+        entity.setPhoneNum(phoneNum);
+        entity.setAddress(address);
+        return entity;
+    }
 }

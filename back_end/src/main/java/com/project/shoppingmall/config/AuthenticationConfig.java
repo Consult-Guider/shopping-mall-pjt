@@ -5,14 +5,18 @@ import com.project.shoppingmall.config.properties.JwtProperties;
 import com.project.shoppingmall.exception.JwtAccessDeniedHandler;
 import com.project.shoppingmall.exception.JwtAuthenticationEntryPoint;
 import com.project.shoppingmall.service.UserDetailServiceFactory;
+import com.project.shoppingmall.type.RoleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import static com.project.shoppingmall.utils.UrlPrefixManager.addPrefix;
 
 @EnableWebSecurity
 @Configuration
@@ -38,6 +42,15 @@ public class AuthenticationConfig {
 
                 // 우선 모든 api에 대해 허용한. TODO: 나중에 세부적으로 조정할 것.
                 .and().authorizeRequests()
+
+                .mvcMatchers(HttpMethod.POST, addPrefix("/user")).permitAll()
+                .mvcMatchers(HttpMethod.GET, addPrefix("/user/principal")).authenticated()
+                .mvcMatchers(HttpMethod.PUT, addPrefix("/user/principal")).authenticated()
+                .mvcMatchers(HttpMethod.DELETE, addPrefix("/user/principal")).authenticated()
+                .mvcMatchers(HttpMethod.GET, addPrefix("/user/*")).hasRole(RoleType.ADMIN.withoutPrefix())
+                .mvcMatchers(HttpMethod.PUT, addPrefix("/user/*")).hasRole(RoleType.ADMIN.withoutPrefix())
+                .mvcMatchers(HttpMethod.DELETE, addPrefix("/user/*")).hasRole(RoleType.ADMIN.withoutPrefix())
+
                 .anyRequest().permitAll()
 
                 // exception handling

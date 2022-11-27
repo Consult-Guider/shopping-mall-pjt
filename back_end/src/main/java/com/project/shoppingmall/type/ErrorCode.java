@@ -13,7 +13,8 @@ public enum ErrorCode {
     UNSUPPORTED_JWT(HttpStatus.UNAUTHORIZED, "지원되지 않는 JWT 토큰입니다."),
     ILLEGALARGUMENT_JWT(HttpStatus.UNAUTHORIZED, "JWT 토큰이 잘못되었습니다."),
     ACCOUNT_NOT_FOUNDED(HttpStatus.NOT_FOUND, "해당 계정은 찾을 수가 없습니다."),
-    WRONG_PASSWORD(HttpStatus.UNAUTHORIZED, "로그인을 시도한 비밀번호가 맞지 않습니다.");
+    WRONG_PASSWORD(HttpStatus.UNAUTHORIZED, "로그인을 시도한 비밀번호가 맞지 않습니다."),
+    INVALID_ROLETYPE(HttpStatus.BAD_REQUEST, "해당 RoleType은 존재하지 않습니다.");
 
     private final HttpStatus status;
     private final String message;

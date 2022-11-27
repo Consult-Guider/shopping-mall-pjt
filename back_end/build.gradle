@@ -19,6 +19,9 @@ repositories {
 }
 
 dependencies {
+//	Validation 적용
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
 //	QueryDSL 적용
 	implementation "com.querydsl:querydsl-jpa"
 	implementation "com.querydsl:querydsl-collections"
@@ -55,24 +58,4 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
-}
-
-//	QueryDSL 적용
-//	QClass 빌드 장소 정의.
-def generated = 'QClass'
-
-//	querydsl QClass 파일 생성 위치를 해당 장소로 지정.
-tasks.withType(JavaCompile) {
-	options.getGeneratedSourceOutputDirectory().set(file(generated))
-}
-
-//	java source set에 해당 장소 추가.
-//	참고 https://goateedev.tistory.com/73
-sourceSets {
-	main.java.srcDirs += [ generated ]
-}
-
-//	gradle clean 작업 동작 시, 해당 장소도 삭제.
-clean {
-	delete file(generated)
 }

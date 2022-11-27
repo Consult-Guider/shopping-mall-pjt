@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {
@@ -17,7 +19,7 @@ public class AuthController {
     AuthService authService;
 
     @PostMapping
-    public Response<LoginResponse> doLogin(@RequestBody LoginRequest request) {
+    public Response<LoginResponse> doLogin(@RequestBody @Valid LoginRequest request) {
         LoginResponse token = authService.doLogin(request);
         return Response.success(token);
     }

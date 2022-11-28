@@ -51,4 +51,18 @@ public class AdminDto implements UserDetails {
     @Override public boolean isAccountNonLocked() { return deletedAt==null; }
     @Override public boolean isCredentialsNonExpired() { return deletedAt==null; }
     @Override public boolean isEnabled() { return deletedAt==null; }
+
+    public Admin toEntity() {
+        Admin entity = new Admin();
+        entity.setId(id);
+        entity.setCreatedAt(createdAt);
+        entity.setDeletedAt(deletedAt);
+
+        entity.setEmail(email);
+        entity.setPassword(password);
+
+        entity.setName(name);
+        entity.setPhoneNum(phoneNum);
+        return entity;
+    }
 }

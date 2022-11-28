@@ -40,7 +40,7 @@ public class AuthenticationConfig {
                 // JWT를 사용할 것이기에 세션을 사용하지 않음.
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-                // 우선 모든 api에 대해 허용한. TODO: 나중에 세부적으로 조정할 것.
+                // api 접근 권한 제어.
                 .and().authorizeRequests()
 
                 .mvcMatchers(HttpMethod.POST, addPrefix("/user")).permitAll()
@@ -50,6 +50,14 @@ public class AuthenticationConfig {
                 .mvcMatchers(HttpMethod.GET, addPrefix("/user/*")).hasRole(RoleType.ADMIN.withoutPrefix())
                 .mvcMatchers(HttpMethod.PUT, addPrefix("/user/*")).hasRole(RoleType.ADMIN.withoutPrefix())
                 .mvcMatchers(HttpMethod.DELETE, addPrefix("/user/*")).hasRole(RoleType.ADMIN.withoutPrefix())
+
+                .mvcMatchers(HttpMethod.POST, addPrefix("/admin")).permitAll()
+                .mvcMatchers(HttpMethod.GET, addPrefix("/admin/principal")).authenticated()
+                .mvcMatchers(HttpMethod.PUT, addPrefix("/admin/principal")).authenticated()
+                .mvcMatchers(HttpMethod.DELETE, addPrefix("/admin/principal")).authenticated()
+                .mvcMatchers(HttpMethod.GET, addPrefix("/admin/*")).hasRole(RoleType.ADMIN.withoutPrefix())
+                .mvcMatchers(HttpMethod.PUT, addPrefix("/admin/*")).hasRole(RoleType.ADMIN.withoutPrefix())
+                .mvcMatchers(HttpMethod.DELETE, addPrefix("/admin/*")).hasRole(RoleType.ADMIN.withoutPrefix())
 
                 .anyRequest().permitAll()
 

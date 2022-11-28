@@ -3,6 +3,7 @@ package com.project.shoppingmall.utils;
 import com.project.shoppingmall.model.AdminDto;
 import com.project.shoppingmall.model.SellerDto;
 import com.project.shoppingmall.model.UserDto;
+import com.project.shoppingmall.model.request.AdminCreateRequest;
 import com.project.shoppingmall.model.request.UserCreateRequest;
 import org.junit.jupiter.params.provider.Arguments;
 
@@ -31,6 +32,15 @@ public class FixtureFactory {
 
     private static UserCreateRequest makeUserCreateRequestFixture() {
         return UserCreateRequest.of(
+                "mockEmail@gmail.com",
+                "mock password",
+                "mock name",
+                "010-1234-0234"
+        );
+    }
+
+    public static AdminCreateRequest adminCreateRequestFixture() {
+        return AdminCreateRequest.of(
                 "mockEmail@gmail.com",
                 "mock password",
                 "mock name",
@@ -103,4 +113,53 @@ public class FixtureFactory {
         ));
     }
 
+    private static Stream<AdminDto> provideInappropriateAdminDto() {
+        return Stream.of(
+                // 부적절한 이메일 형식
+                AdminDto.builder()
+                        .email("Inappropriate Email Format")
+                        .password("mock password")
+                        .name("mock name")
+                        .phoneNum("010-1234-1234")
+                        .build(),
+                // '-' 표시가 없는 전화번호
+                AdminDto.builder()
+                        .email("mockEmail@gmail.com")
+                        .password("mock password")
+                        .name("mock name")
+                        .phoneNum("01012341234")
+                        .build(),
+                // 앞의 자릿수(4)가 맞지 않는 전화번호
+                AdminDto.builder()
+                        .email("mockEmail@gmail.com")
+                        .password("mock password")
+                        .name("mock name")
+                        .phoneNum("0101-1234-1234")
+                        .build(),
+                // 중간 자릿수(5)가 맞지 않는 전화번호
+                AdminDto.builder()
+                        .email("mockEmail@gmail.com")
+                        .password("mock password")
+                        .name("mock name")
+                        .phoneNum("010-12345-1234")
+                        .build(),
+                // 마지막 자릿수(5)가 맞지 않는 전화번호
+                AdminDto.builder()
+                        .email("mockEmail@gmail.com")
+                        .password("mock password")
+                        .name("mock name")
+                        .phoneNum("010-1234-12345")
+                        .build()
+        );
+    }
+
+    public static Stream<Arguments> provideInappropriateParametersAdminCreateRequest() {
+        Stream<AdminDto> stream = provideInappropriateAdminDto();
+        return stream.map(adminDto -> Arguments.of(
+                adminDto.getEmail(),
+                adminDto.getPassword(),
+                adminDto.getName(),
+                adminDto.getPhoneNum()
+        ));
+    }
 }

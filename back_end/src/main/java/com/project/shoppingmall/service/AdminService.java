@@ -2,6 +2,9 @@ package com.project.shoppingmall.service;
 
 import com.project.shoppingmall.exception.AuthenticationException;
 import com.project.shoppingmall.model.AdminDto;
+import com.project.shoppingmall.model.request.AdminCreateRequest;
+import com.project.shoppingmall.model.request.AdminUpdateRequest;
+import com.project.shoppingmall.model.response.AdminReadResponse;
 import com.project.shoppingmall.repository.AdminRepository;
 import com.project.shoppingmall.type.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +29,29 @@ public class AdminService implements UserDetailsService {
                                 String.format("검색에 사용한 Email: %s", username)
                         )
                 );
+    }
+
+    public void createUser(AdminCreateRequest request) {
+
+    }
+
+    public AdminReadResponse readUser(Long uid) {
+        return null;
+    }
+
+    public void updateUser(Long uid, AdminUpdateRequest request) {
+
+    }
+
+    public void deleteUser(Long uid) {
+
+    }
+
+    public void updatePrincipal(AdminDto principal, AdminUpdateRequest request) {
+
+    }
+
+    public void deletePrincipal(AdminDto principal) {
+
     }
 }

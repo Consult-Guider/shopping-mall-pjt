@@ -1,5 +1,6 @@
 package com.project.shoppingmall.model.response;
 
+import com.project.shoppingmall.domain.Seller;
 import com.project.shoppingmall.model.SellerDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,19 @@ public class SellerReadResponse {
 
         response.setName(entity.getName());
         response.setPhoneNum(entity.getPhoneNum());
+        return response;
+    }
+
+    public static SellerReadResponse fromEntity(Seller entity) {
+        SellerReadResponse response = new SellerReadResponse();
+        response.setId(entity.getId());
+        response.setCreatedAt(entity.getCreatedAt());
+
+        response.setEmail(entity.getEmail());
+
+        response.setName(entity.getName());
+        response.setPhoneNum(entity.getPhoneNum());
+        response.setCompanyName(entity.getCompanyName());
         return response;
     }
 }

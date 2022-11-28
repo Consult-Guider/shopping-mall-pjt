@@ -1,8 +1,10 @@
 package com.project.shoppingmall.model.request;
 
+import com.project.shoppingmall.domain.Seller;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -30,5 +32,16 @@ public class SellerCreateRequest {
         createFixture.setPhoneNum(phoneNum);
         createFixture.setCompanyName(companyName);
         return createFixture;
+    }
+
+    public Seller toEntity(PasswordEncoder passwordEncoder) {
+        Seller entity = new Seller();
+        entity.setEmail(email);
+        entity.setPassword(passwordEncoder.encode(password));
+
+        entity.setName(name);
+        entity.setPhoneNum(phoneNum);
+        entity.setCompanyName(companyName);
+        return entity;
     }
 }

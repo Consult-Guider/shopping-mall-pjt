@@ -4,6 +4,7 @@ import com.project.shoppingmall.model.AdminDto;
 import com.project.shoppingmall.model.SellerDto;
 import com.project.shoppingmall.model.UserDto;
 import com.project.shoppingmall.model.request.AdminCreateRequest;
+import com.project.shoppingmall.model.request.SellerCreateRequest;
 import com.project.shoppingmall.model.request.UserCreateRequest;
 import org.junit.jupiter.params.provider.Arguments;
 
@@ -45,6 +46,16 @@ public class FixtureFactory {
                 "mock password",
                 "mock name",
                 "010-1234-0234"
+        );
+    }
+
+    public static SellerCreateRequest sellerCreateRequestFixture() {
+        return SellerCreateRequest.of(
+                "mockEmail@gmail.com",
+                "mock password",
+                "mock name",
+                "010-1234-0234",
+                "coupang"
         );
     }
 
@@ -160,6 +171,62 @@ public class FixtureFactory {
                 adminDto.getPassword(),
                 adminDto.getName(),
                 adminDto.getPhoneNum()
+        ));
+    }
+
+    private static Stream<SellerDto> provideInappropriateSellerDto() {
+        return Stream.of(
+                // 부적절한 이메일 형식
+                SellerDto.builder()
+                        .email("Inappropriate Email Format")
+                        .password("mock password")
+                        .name("mock name")
+                        .phoneNum("010-1234-1234")
+                        .companyName("mock companyName")
+                        .build(),
+                // '-' 표시가 없는 전화번호
+                SellerDto.builder()
+                        .email("mockEmail@gmail.com")
+                        .password("mock password")
+                        .name("mock name")
+                        .phoneNum("01012341234")
+                        .companyName("mock companyName")
+                        .build(),
+                // 앞의 자릿수(4)가 맞지 않는 전화번호
+                SellerDto.builder()
+                        .email("mockEmail@gmail.com")
+                        .password("mock password")
+                        .name("mock name")
+                        .phoneNum("0101-1234-1234")
+                        .companyName("mock companyName")
+                        .build(),
+                // 중간 자릿수(5)가 맞지 않는 전화번호
+                SellerDto.builder()
+                        .email("mockEmail@gmail.com")
+                        .password("mock password")
+                        .name("mock name")
+                        .phoneNum("010-12345-1234")
+                        .companyName("mock companyName")
+                        .build(),
+                // 마지막 자릿수(5)가 맞지 않는 전화번호
+                SellerDto.builder()
+                        .email("mockEmail@gmail.com")
+                        .password("mock password")
+                        .name("mock name")
+                        .phoneNum("010-1234-12345")
+                        .companyName("mock companyName")
+                        .build()
+        );
+    }
+
+    public static Stream<Arguments> provideInappropriateParametersSellerCreateRequest() {
+        Stream<SellerDto> stream = provideInappropriateSellerDto();
+        return stream.map(sellerDto -> Arguments.of(
+                sellerDto.getEmail(),
+                sellerDto.getPassword(),
+                sellerDto.getName(),
+                sellerDto.getPhoneNum(),
+                sellerDto.getCompanyName()
         ));
     }
 }

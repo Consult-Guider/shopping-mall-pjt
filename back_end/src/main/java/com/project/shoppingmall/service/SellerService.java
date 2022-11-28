@@ -2,6 +2,9 @@ package com.project.shoppingmall.service;
 
 import com.project.shoppingmall.exception.AuthenticationException;
 import com.project.shoppingmall.model.SellerDto;
+import com.project.shoppingmall.model.request.SellerCreateRequest;
+import com.project.shoppingmall.model.request.SellerUpdateRequest;
+import com.project.shoppingmall.model.response.SellerReadResponse;
 import com.project.shoppingmall.repository.SellerRepository;
 import com.project.shoppingmall.type.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +29,29 @@ public class SellerService implements UserDetailsService {
                                 String.format("검색에 사용한 Email: %s", username)
                         )
                 );
+    }
+
+    public void createUser(SellerCreateRequest request) {
+
+    }
+
+    public SellerReadResponse readUser(Long uid) {
+        return null;
+    }
+
+    public void updateUser(Long uid, SellerUpdateRequest request) {
+
+    }
+
+    public void deleteUser(Long uid) {
+
+    }
+
+    public void updatePrincipal(SellerDto principal, SellerUpdateRequest request) {
+
+    }
+
+    public void deletePrincipal(SellerDto principal) {
+
     }
 }

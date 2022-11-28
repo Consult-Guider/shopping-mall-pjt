@@ -23,4 +23,10 @@ public class GlobalControllerAdvice {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Response.error(e.getMessage()));
     }
+
+    @ExceptionHandler(CrudException.class)
+    public ResponseEntity<?> errorHandler(CrudException e) {
+        return ResponseEntity.status(e.getErrorCode().getStatus())
+                .body(Response.error(e.printErrorMessage()));
+    }
 }

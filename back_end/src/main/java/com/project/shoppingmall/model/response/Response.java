@@ -12,6 +12,10 @@ public class Response<T> {
         return new Response<>("SUCCESS", data);
     }
 
+    public static <T> Response<T> success() {
+        return new Response<>("SUCCESS", null);
+    }
+
     public static Response<Void> error(String errorMessage) {
         return new Response<>(errorMessage, null);
     }

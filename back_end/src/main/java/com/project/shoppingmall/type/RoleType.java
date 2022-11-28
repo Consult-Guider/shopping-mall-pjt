@@ -11,6 +11,10 @@ public enum RoleType {
     ADMIN("ROLE_ADMIN")
     ;
 
+    public String withoutPrefix() {
+        return name.substring("ROLE_".length());
+    }
+
     private final String name;
 
     public static RoleType findByName(String name) {

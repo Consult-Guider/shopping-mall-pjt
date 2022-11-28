@@ -1,5 +1,6 @@
 package com.project.shoppingmall.model.response;
 
+import com.project.shoppingmall.domain.Admin;
 import com.project.shoppingmall.model.AdminDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,18 @@ public class AdminReadResponse {
 
         response.setName(dto.getName());
         response.setPhoneNum(dto.getPhoneNum());
+        return response;
+    }
+
+    public static AdminReadResponse fromEntity(Admin entity) {
+        AdminReadResponse response = new AdminReadResponse();
+        response.setId(entity.getId());
+        response.setCreatedAt(entity.getCreatedAt());
+
+        response.setEmail(entity.getEmail());
+
+        response.setName(entity.getName());
+        response.setPhoneNum(entity.getPhoneNum());
         return response;
     }
 }

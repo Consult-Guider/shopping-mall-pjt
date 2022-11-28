@@ -1,8 +1,10 @@
 package com.project.shoppingmall.model.request;
 
+import com.project.shoppingmall.domain.Admin;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -29,5 +31,15 @@ public class AdminCreateRequest {
         createFixture.setName(name);
         createFixture.setPhoneNum(phoneNum);
         return createFixture;
+    }
+
+    public Admin toEntity(PasswordEncoder passwordEncoder) {
+        Admin entity = new Admin();
+        entity.setEmail(email);
+        entity.setPassword(passwordEncoder.encode(password));
+
+        entity.setName(name);
+        entity.setPhoneNum(phoneNum);
+        return entity;
     }
 }

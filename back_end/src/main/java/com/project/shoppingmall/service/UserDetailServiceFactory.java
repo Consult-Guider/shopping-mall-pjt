@@ -3,9 +3,7 @@ package com.project.shoppingmall.service;
 import com.project.shoppingmall.type.RoleType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Component;
 
-@Component
 public abstract class UserDetailServiceFactory {
     @Autowired protected UserService userService;
     @Autowired protected SellerService sellerService;

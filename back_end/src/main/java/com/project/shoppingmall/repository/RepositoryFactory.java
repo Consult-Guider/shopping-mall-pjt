@@ -3,11 +3,9 @@ package com.project.shoppingmall.repository;
 import com.project.shoppingmall.domain.LoginEntity;
 import com.project.shoppingmall.type.RoleType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-@Component
 public abstract class RepositoryFactory {
     @Autowired protected UserRepository userRepository;
     @Autowired protected SellerRepository sellerRepository;

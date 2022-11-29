@@ -17,7 +17,7 @@ import static com.project.shoppingmall.utils.JwtTokenDealer.generateAccessToken;
 
 @Service
 @Transactional
-public class AuthServiceImpl {
+public class AuthServiceImpl implements AuthService {
     @Autowired
     JwtProperties jwtProperties;
     @Autowired

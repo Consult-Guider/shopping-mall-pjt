@@ -8,16 +8,18 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class RepositoryFactory {
-    @Autowired private UserRepository userRepository;
-    @Autowired private SellerRepository sellerRepository;
-    @Autowired private AdminRepository adminRepository;
+public abstract class RepositoryFactory {
+    @Autowired protected UserRepository userRepository;
+    @Autowired protected SellerRepository sellerRepository;
+    @Autowired protected AdminRepository adminRepository;
 
-    public Optional<? extends LoginEntity> getFinderByEmail(RoleType role, String email) {
+    public LoginRepository<?> newInstance(RoleType role) {
         return switch (role) {
-            case USER -> userRepository.findByEmail(email);
-            case SELLER -> sellerRepository.findByEmail(email);
-            case ADMIN -> adminRepository.findByEmail(email);
+            case USER -> userRepository;
+            case SELLER -> sellerRepository;
+            case ADMIN -> adminRepository;
         };
     }
+
+    public abstract Optional<? extends LoginEntity> getFinderByEmail(RoleType role, String email);
 }

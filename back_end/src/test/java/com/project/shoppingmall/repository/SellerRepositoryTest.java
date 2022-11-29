@@ -1,6 +1,7 @@
 package com.project.shoppingmall.repository;
 
 import com.project.shoppingmall.domain.Seller;
+import com.project.shoppingmall.utils.EnableProjectQueryDslConfiguration;
 import com.project.shoppingmall.utils.SetProfile;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 @DisplayName("Seller Repository Test")
 @SetProfile
+@EnableProjectQueryDslConfiguration
 @DataJpaTest
 class SellerRepositoryTest {
     @Autowired

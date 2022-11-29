@@ -31,7 +31,7 @@ import static org.mockito.Mockito.mock;
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
     @InjectMocks
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Mock
     private UserRepository userRepository;

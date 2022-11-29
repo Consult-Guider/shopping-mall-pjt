@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.Pattern;
+import java.util.Optional;
 
 @NoArgsConstructor @Getter @Setter
 public class UserUpdateRequest {
@@ -31,11 +32,15 @@ public class UserUpdateRequest {
             UserUpdateRequest dto,
             PasswordEncoder passwordEncoder
     ) {
-        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+        Optional.ofNullable(dto.getPassword())
+                .filter(s -> !s.isBlank()).map(passwordEncoder::encode).ifPresent(entity::setPassword);
 
-        entity.setName(dto.getName());
-        entity.setPhoneNum(dto.getPhoneNum());
-        entity.setAddress(dto.getAddress());
+        Optional.ofNullable(dto.getName())
+                .filter(s -> !s.isBlank()).ifPresent(entity::setName);
+        Optional.ofNullable(dto.getPhoneNum())
+                .filter(s -> !s.isBlank()).ifPresent(entity::setPhoneNum);
+        Optional.ofNullable(dto.getAddress())
+                .filter(s -> !s.isBlank()).ifPresent(entity::setAddress);
         return entity;
     }
 }

@@ -2,6 +2,7 @@ package com.project.shoppingmall.repository;
 
 import com.project.shoppingmall.domain.LoginEntity;
 import com.project.shoppingmall.type.RoleType;
+import com.project.shoppingmall.utils.EnableProjectQueryDslConfiguration;
 import com.project.shoppingmall.utils.SetProfile;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -15,7 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 @Slf4j
 @DisplayName("RepositoryFactory Factory Test")
 @SetProfile
-@Import({RepositoryFactory.class})
+@EnableProjectQueryDslConfiguration
+@Import({RepositoryFactoryImpl.class})
 @DataJpaTest
 class RepositoryFactoryTest {
     @Autowired

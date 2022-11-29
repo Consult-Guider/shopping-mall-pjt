@@ -78,7 +78,7 @@ class UserControllerTest {
 
         UserCreateRequest createFixture = FixtureFactory.userCreateRequestFixture;
         willThrow(new CrudException(code))
-                .given(userService).createUser(any(UserCreateRequest.class));
+                .given(userService).create(any(UserCreateRequest.class));
 
         // when
         RequestBuilder request = post(prefix)
@@ -127,7 +127,7 @@ class UserControllerTest {
         Long uid = 1L;
         UserReadResponse response = new UserReadResponse();
 
-        given(userService.readUser(anyLong())).willReturn(response);
+        given(userService.read(anyLong())).willReturn(response);
 
         // when
         RequestBuilder request = get(addUid(uid));
@@ -168,7 +168,7 @@ class UserControllerTest {
         UserUpdateRequest dto = new UserUpdateRequest();
 
         willThrow(new CrudException(code))
-                .given(userService).updateUser(anyLong(), any(UserUpdateRequest.class));
+                .given(userService).update(anyLong(), any(UserUpdateRequest.class));
 
         // when
         RequestBuilder request = put(addUid(uid))
@@ -207,7 +207,7 @@ class UserControllerTest {
         Long uid = 1L;
 
         willThrow(new CrudException(code))
-                .given(userService).deleteUser(uid);
+                .given(userService).delete(uid);
 
         // when
         RequestBuilder request = delete(addUid(uid));

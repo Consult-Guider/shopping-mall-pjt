@@ -31,7 +31,7 @@ import static org.mockito.Mockito.mock;
 @ExtendWith(MockitoExtension.class)
 class SellerServiceTest {
     @InjectMocks
-    private SellerService sellerService;
+    private SellerServiceImpl sellerService;
 
     @Mock
     private SellerRepository sellerRepository;

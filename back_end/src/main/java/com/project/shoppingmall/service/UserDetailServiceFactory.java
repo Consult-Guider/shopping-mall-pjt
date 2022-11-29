@@ -1,22 +1,21 @@
 package com.project.shoppingmall.service;
 
 import com.project.shoppingmall.type.RoleType;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Component;
 
-@Component
-@RequiredArgsConstructor
-public class UserDetailServiceFactory {
-    private final UserService userService;
-    private final SellerService sellerService;
-    private final AdminService adminService;
+public abstract class UserDetailServiceFactory {
+    @Autowired protected UserService userService;
+    @Autowired protected SellerService sellerService;
+    @Autowired protected AdminService adminService;
 
-    public UserDetailsService getService(RoleType role) {
+    public UserDetailsService newInstance(RoleType role) {
         return switch (role) {
             case USER -> userService;
             case SELLER -> sellerService;
             case ADMIN -> adminService;
         };
     }
+
+    public abstract UserDetailsService getService(RoleType role);
 }

@@ -20,13 +20,13 @@ public class SellerController {
 
     @PostMapping
     public Response<Void> createUser(@RequestBody @Valid SellerCreateRequest request) {
-        sellerService.createUser(request);
+        sellerService.create(request);
         return Response.success();
     }
 
     @GetMapping("/{uid}")
     public Response<SellerReadResponse> readUser(@PathVariable Long uid) {
-        SellerReadResponse dto = sellerService.readUser(uid);
+        SellerReadResponse dto = sellerService.read(uid);
         return Response.success(dto);
     }
 
@@ -35,13 +35,13 @@ public class SellerController {
             @PathVariable Long uid,
             @RequestBody @Valid SellerUpdateRequest request
     ) {
-        sellerService.updateUser(uid, request);
+        sellerService.update(uid, request);
         return Response.success();
     }
 
     @DeleteMapping("/{uid}")
     public Response<Void> deleteUser(@PathVariable Long uid) {
-        sellerService.deleteUser(uid);
+        sellerService.delete(uid);
         return Response.success();
     }
 

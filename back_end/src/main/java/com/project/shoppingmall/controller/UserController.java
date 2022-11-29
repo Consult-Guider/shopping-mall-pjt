@@ -20,13 +20,13 @@ public class UserController {
 
     @PostMapping
     public Response<Void> createUser(@RequestBody @Valid UserCreateRequest request) {
-        userService.createUser(request);
+        userService.create(request);
         return Response.success();
     }
 
     @GetMapping("/{uid}")
     public Response<UserReadResponse> readUser(@PathVariable Long uid) {
-        UserReadResponse dto = userService.readUser(uid);
+        UserReadResponse dto = userService.read(uid);
         return Response.success(dto);
     }
 
@@ -35,13 +35,13 @@ public class UserController {
             @PathVariable Long uid,
             @RequestBody @Valid UserUpdateRequest request
     ) {
-        userService.updateUser(uid, request);
+        userService.update(uid, request);
         return Response.success();
     }
 
     @DeleteMapping("/{uid}")
     public Response<Void> deleteUser(@PathVariable Long uid) {
-        userService.deleteUser(uid);
+        userService.delete(uid);
         return Response.success();
     }
 

@@ -31,7 +31,7 @@ import static org.mockito.Mockito.mock;
 @ExtendWith(MockitoExtension.class)
 class AdminServiceTest {
     @InjectMocks
-    private AdminService adminService;
+    private AdminServiceImpl adminService;
 
     @Mock
     private AdminRepository adminRepository;

@@ -20,13 +20,13 @@ public class AdminController {
 
     @PostMapping
     public Response<Void> createUser(@RequestBody @Valid AdminCreateRequest request) {
-        adminService.createUser(request);
+        adminService.create(request);
         return Response.success();
     }
 
     @GetMapping("/{uid}")
     public Response<AdminReadResponse> readUser(@PathVariable Long uid) {
-        AdminReadResponse dto = adminService.readUser(uid);
+        AdminReadResponse dto = adminService.read(uid);
         return Response.success(dto);
     }
 
@@ -35,13 +35,13 @@ public class AdminController {
             @PathVariable Long uid,
             @RequestBody @Valid AdminUpdateRequest request
     ) {
-        adminService.updateUser(uid, request);
+        adminService.update(uid, request);
         return Response.success();
     }
 
     @DeleteMapping("/{uid}")
     public Response<Void> deleteUser(@PathVariable Long uid) {
-        adminService.deleteUser(uid);
+        adminService.delete(uid);
         return Response.success();
     }
 

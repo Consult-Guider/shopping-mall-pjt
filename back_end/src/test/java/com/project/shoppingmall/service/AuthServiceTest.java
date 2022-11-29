@@ -38,7 +38,7 @@ import static org.mockito.BDDMockito.willReturn;
 @ExtendWith(MockitoExtension.class)
 class AuthServiceTest {
     @InjectMocks
-    private AuthService authService;
+    private AuthServiceImpl authService;
     @Mock
     private RepositoryFactory repositoryFactory;
     @Mock

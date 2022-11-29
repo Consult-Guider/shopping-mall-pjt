@@ -81,7 +81,7 @@ class SellerControllerTest {
 
         SellerCreateRequest createFixture = FixtureFactory.sellerCreateRequestFixture();
         willThrow(new CrudException(code))
-                .given(sellerService).createUser(any(SellerCreateRequest.class));
+                .given(sellerService).create(any(SellerCreateRequest.class));
 
         // when
         RequestBuilder request = post(prefix)
@@ -130,7 +130,7 @@ class SellerControllerTest {
         Long uid = 1L;
         SellerReadResponse response = new SellerReadResponse();
 
-        given(sellerService.readUser(anyLong())).willReturn(response);
+        given(sellerService.read(anyLong())).willReturn(response);
 
         // when
         RequestBuilder request = get(addUid(uid));
@@ -178,7 +178,7 @@ class SellerControllerTest {
         SellerUpdateRequest dto = new SellerUpdateRequest();
 
         willThrow(new CrudException(code))
-                .given(sellerService).updateUser(anyLong(), any(SellerUpdateRequest.class));
+                .given(sellerService).update(anyLong(), any(SellerUpdateRequest.class));
 
         // when
         RequestBuilder request = put(addUid(uid))
@@ -217,7 +217,7 @@ class SellerControllerTest {
         Long uid = 1L;
 
         willThrow(new CrudException(code))
-                .given(sellerService).deleteUser(uid);
+                .given(sellerService).delete(uid);
 
         // when
         RequestBuilder request = delete(addUid(uid));

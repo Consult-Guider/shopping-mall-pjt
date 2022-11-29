@@ -81,7 +81,7 @@ class AdminControllerTest {
 
         AdminCreateRequest createFixture = FixtureFactory.adminCreateRequestFixture();
         willThrow(new CrudException(code))
-                .given(adminService).createUser(any(AdminCreateRequest.class));
+                .given(adminService).create(any(AdminCreateRequest.class));
 
         // when
         RequestBuilder request = post(prefix)
@@ -130,7 +130,7 @@ class AdminControllerTest {
         Long uid = 1L;
         AdminReadResponse response = new AdminReadResponse();
 
-        given(adminService.readUser(anyLong())).willReturn(response);
+        given(adminService.read(anyLong())).willReturn(response);
 
         // when
         RequestBuilder request = get(addUid(uid));
@@ -177,7 +177,7 @@ class AdminControllerTest {
         AdminUpdateRequest dto = new AdminUpdateRequest();
 
         willThrow(new CrudException(code))
-                .given(adminService).updateUser(anyLong(), any(AdminUpdateRequest.class));
+                .given(adminService).update(anyLong(), any(AdminUpdateRequest.class));
 
         // when
         RequestBuilder request = put(addUid(uid))
@@ -216,7 +216,7 @@ class AdminControllerTest {
         Long uid = 1L;
 
         willThrow(new CrudException(code))
-                .given(adminService).deleteUser(uid);
+                .given(adminService).delete(uid);
 
         // when
         RequestBuilder request = delete(addUid(uid));

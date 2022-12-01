@@ -62,3 +62,23 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// QueryDSL적용
+// QClass빌드 장소 정의.
+def generated = 'QClass'
+
+// querydsl QClass파일 생성 위치를 해당 장소로 지정.
+tasks.withType(JavaCompile){
+	options.getGeneratedSourceOutputDirectory().set(file(generated))
+}
+
+// java source set에 해당 장소 추가.
+//참고 https://goateedev.tistory.com/73
+sourceSets{
+	main.java.srcDirs += [ generated ]
+}
+
+// gradle clean작업 동작 시,해당 장소도 삭제.
+clean{
+	delete file(generated)
+}

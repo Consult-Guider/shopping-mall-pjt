@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
 
     public void update(Long uid, UserUpdateRequest request) {
         User entity = loadUserById(uid);
-        User entityOverWritten = UserUpdateRequest.overwrite(entity, request, passwordEncoder);
+        User entityOverWritten = request.overwrite(entity, passwordEncoder);
         userRepository.save(entityOverWritten);
     }
 
@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
     public void updatePrincipal(UserDto principal, UserUpdateRequest request) {
         User entity = principal.toEntity();
 
-        User entityOverWritten = UserUpdateRequest.overwrite(entity, request, passwordEncoder);
+        User entityOverWritten = request.overwrite(entity, passwordEncoder);
         userRepository.save(entityOverWritten);
     }
 

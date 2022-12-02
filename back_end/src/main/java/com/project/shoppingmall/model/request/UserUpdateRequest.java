@@ -27,19 +27,18 @@ public class UserUpdateRequest {
         return request;
     }
 
-    public static User overwrite(
+    public User overwrite(
             User entity,
-            UserUpdateRequest dto,
             PasswordEncoder passwordEncoder
     ) {
-        Optional.ofNullable(dto.getPassword())
+        Optional.ofNullable(this.getPassword())
                 .filter(s -> !s.isBlank()).map(passwordEncoder::encode).ifPresent(entity::setPassword);
 
-        Optional.ofNullable(dto.getName())
+        Optional.ofNullable(this.getName())
                 .filter(s -> !s.isBlank()).ifPresent(entity::setName);
-        Optional.ofNullable(dto.getPhoneNum())
+        Optional.ofNullable(this.getPhoneNum())
                 .filter(s -> !s.isBlank()).ifPresent(entity::setPhoneNum);
-        Optional.ofNullable(dto.getAddress())
+        Optional.ofNullable(this.getAddress())
                 .filter(s -> !s.isBlank()).ifPresent(entity::setAddress);
         return entity;
     }

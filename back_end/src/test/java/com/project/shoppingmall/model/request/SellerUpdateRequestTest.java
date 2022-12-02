@@ -28,7 +28,7 @@ class SellerUpdateRequestTest {
         request.setAddress("mock address");
 
         // when
-        Seller entityOverwritten = SellerUpdateRequest.overwrite(entity, request, passwordEncoder);
+        Seller entityOverwritten = request.overwrite(entity, passwordEncoder);
 
         // then
         assertTrue(passwordEncoder.matches("mock password", entityOverwritten.getPassword()));
@@ -54,7 +54,7 @@ class SellerUpdateRequestTest {
         SellerUpdateRequest request = new SellerUpdateRequest();
 
         // when
-        Seller entityOverwritten = SellerUpdateRequest.overwrite(entity, request, passwordEncoder);
+        Seller entityOverwritten = request.overwrite(entity, passwordEncoder);
 
         // then
         assertTrue(passwordEncoder.matches("mock password", entityOverwritten.getPassword()));
@@ -85,7 +85,7 @@ class SellerUpdateRequestTest {
         request.setAddress(" ");
 
         // when
-        Seller entityOverwritten = SellerUpdateRequest.overwrite(entity, request, passwordEncoder);
+        Seller entityOverwritten = request.overwrite(entity, passwordEncoder);
 
         // then
         assertTrue(passwordEncoder.matches("mock password", entityOverwritten.getPassword()));

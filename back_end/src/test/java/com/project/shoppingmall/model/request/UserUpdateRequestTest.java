@@ -27,7 +27,7 @@ class UserUpdateRequestTest {
         request.setAddress("mock address");
 
         // when
-        User entityOverwritten = UserUpdateRequest.overwrite(entity, request, passwordEncoder);
+        User entityOverwritten = request.overwrite(entity, passwordEncoder);
 
         // then
         assertTrue(passwordEncoder.matches("mock password", entityOverwritten.getPassword()));
@@ -51,7 +51,7 @@ class UserUpdateRequestTest {
         UserUpdateRequest request = new UserUpdateRequest();
 
         // when
-        User entityOverwritten = UserUpdateRequest.overwrite(entity, request, passwordEncoder);
+        User entityOverwritten = request.overwrite(entity, passwordEncoder);
 
         // then
         assertTrue(passwordEncoder.matches("mock password", entityOverwritten.getPassword()));
@@ -79,7 +79,7 @@ class UserUpdateRequestTest {
         request.setAddress(" ");
 
         // when
-        User entityOverwritten = UserUpdateRequest.overwrite(entity, request, passwordEncoder);
+        User entityOverwritten = request.overwrite(entity, passwordEncoder);
 
         // then
         assertTrue(passwordEncoder.matches("mock password", entityOverwritten.getPassword()));

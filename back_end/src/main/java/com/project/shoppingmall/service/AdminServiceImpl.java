@@ -64,7 +64,7 @@ public class AdminServiceImpl implements AdminService {
 
     public void update(Long uid, AdminUpdateRequest request) {
         Admin entity = loadUserById(uid);
-        Admin entityOverWritten = AdminUpdateRequest.overwrite(entity, request, passwordEncoder);
+        Admin entityOverWritten = request.overwrite(entity, passwordEncoder);
         adminRepository.save(entityOverWritten);
     }
 
@@ -75,7 +75,7 @@ public class AdminServiceImpl implements AdminService {
     public void updatePrincipal(AdminDto principal, AdminUpdateRequest request) {
         Admin entity = principal.toEntity();
 
-        Admin entityOverWritten = AdminUpdateRequest.overwrite(entity, request, passwordEncoder);
+        Admin entityOverWritten = request.overwrite(entity, passwordEncoder);
         adminRepository.save(entityOverWritten);
     }
 

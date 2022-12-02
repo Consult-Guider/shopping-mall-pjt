@@ -26,7 +26,7 @@ class AdminUpdateRequestTest {
         request.setPhoneNum("mock changed phoneNum");
 
         // when
-        Admin entityOverwritten = AdminUpdateRequest.overwrite(entity, request, passwordEncoder);
+        Admin entityOverwritten = request.overwrite(entity, passwordEncoder);
 
         // then
         assertTrue(passwordEncoder.matches("mock password", entityOverwritten.getPassword()));
@@ -48,7 +48,7 @@ class AdminUpdateRequestTest {
         AdminUpdateRequest request = new AdminUpdateRequest();
 
         // when
-        Admin entityOverwritten = AdminUpdateRequest.overwrite(entity, request, passwordEncoder);
+        Admin entityOverwritten = request.overwrite(entity, passwordEncoder);
 
         // then
         assertTrue(passwordEncoder.matches("mock password", entityOverwritten.getPassword()));
@@ -73,7 +73,7 @@ class AdminUpdateRequestTest {
         request.setPhoneNum(" ");
 
         // when
-        Admin entityOverwritten = AdminUpdateRequest.overwrite(entity, request, passwordEncoder);
+        Admin entityOverwritten = request.overwrite(entity, passwordEncoder);
 
         // then
         assertTrue(passwordEncoder.matches("mock password", entityOverwritten.getPassword()));

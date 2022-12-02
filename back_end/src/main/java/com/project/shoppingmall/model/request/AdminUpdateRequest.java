@@ -17,17 +17,16 @@ public class AdminUpdateRequest {
     @Pattern(regexp = "^\\d{3}-\\d{3,4}-\\d{4}|\\d{2}-\\d{3}-\\d{4}$")
     private String phoneNum;
 
-    public static Admin overwrite(
+    public Admin overwrite(
             Admin entity,
-            AdminUpdateRequest dto,
             PasswordEncoder passwordEncoder
     ) {
-        Optional.ofNullable(dto.getPassword())
+        Optional.ofNullable(this.getPassword())
                 .filter(s -> !s.isBlank()).map(passwordEncoder::encode).ifPresent(entity::setPassword);
 
-        Optional.ofNullable(dto.getName())
+        Optional.ofNullable(this.getName())
                 .filter(s -> !s.isBlank()).ifPresent(entity::setName);
-        Optional.ofNullable(dto.getPhoneNum())
+        Optional.ofNullable(this.getPhoneNum())
                 .filter(s -> !s.isBlank()).ifPresent(entity::setPhoneNum);
         return entity;
     }

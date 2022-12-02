@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends
         UserDetailsService,
-        CrudService<UserCreateRequest, UserReadResponse, UserUpdateRequest>,
+        CrudService<Long, UserCreateRequest, UserReadResponse, UserUpdateRequest>,
         CrudPrincipalService<UserDto, UserUpdateRequest> {
     void isThereEmailEqualTo(String email);
     User loadUserById(Long uid);

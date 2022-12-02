@@ -64,7 +64,7 @@ public class SellerServiceImpl implements SellerService {
 
     public void update(Long uid, SellerUpdateRequest request) {
         Seller entity = loadUserById(uid);
-        Seller entityOverWritten = SellerUpdateRequest.overwrite(entity, request, passwordEncoder);
+        Seller entityOverWritten = request.overwrite(entity, passwordEncoder);
         sellerRepository.save(entityOverWritten);
     }
 
@@ -75,7 +75,7 @@ public class SellerServiceImpl implements SellerService {
     public void updatePrincipal(SellerDto principal, SellerUpdateRequest request) {
         Seller entity = principal.toEntity();
 
-        Seller entityOverWritten = SellerUpdateRequest.overwrite(entity, request, passwordEncoder);
+        Seller entityOverWritten = request.overwrite(entity, passwordEncoder);
         sellerRepository.save(entityOverWritten);
     }
 

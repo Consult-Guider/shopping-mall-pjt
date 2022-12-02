@@ -19,6 +19,38 @@ repositories {
 }
 
 dependencies {
+//	Parameterized test 적용
+	testImplementation 'org.junit.jupiter:junit-jupiter-params:5.4.2'
+
+//	Validation 적용
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+//	QueryDSL 적용
+	implementation "com.querydsl:querydsl-jpa"
+	implementation "com.querydsl:querydsl-collections"
+	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+
+//	spring security 적용
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	testImplementation 'org.springframework.security:spring-security-test'
+
+//	Json Web Token 적용
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+
+//	BDD Mockito 적용
+	testImplementation 'org.mockito:mockito-core:4.8.0'
+
+//	정적 메서드를 mocking하기 위해 적용
+	testImplementation 'org.mockito:mockito-inline:4.8.0'
+
+//	Test에서 @Slf4j 적용을 위한 설정
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
@@ -29,4 +61,24 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+// QueryDSL적용
+// QClass빌드 장소 정의.
+def generated = 'QClass'
+
+// querydsl QClass파일 생성 위치를 해당 장소로 지정.
+tasks.withType(JavaCompile){
+	options.getGeneratedSourceOutputDirectory().set(file(generated))
+}
+
+// java source set에 해당 장소 추가.
+//참고 https://goateedev.tistory.com/73
+sourceSets{
+	main.java.srcDirs += [ generated ]
+}
+
+// gradle clean작업 동작 시,해당 장소도 삭제.
+clean{
+	delete file(generated)
 }

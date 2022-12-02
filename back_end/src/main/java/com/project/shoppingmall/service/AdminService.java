@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface AdminService extends
         UserDetailsService,
-        CrudService<AdminCreateRequest, AdminReadResponse, AdminUpdateRequest>,
+        CrudService<Long, AdminCreateRequest, AdminReadResponse, AdminUpdateRequest>,
         CrudPrincipalService<AdminDto, AdminUpdateRequest> {
     void isThereEmailEqualTo(String email);
     Admin loadUserById(Long uid);

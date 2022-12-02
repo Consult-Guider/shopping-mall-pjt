@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface SellerService extends
         UserDetailsService,
-        CrudService<SellerCreateRequest, SellerReadResponse, SellerUpdateRequest>,
+        CrudService<Long, SellerCreateRequest, SellerReadResponse, SellerUpdateRequest>,
         CrudPrincipalService<SellerDto, SellerUpdateRequest> {
     void isThereEmailEqualTo(String email);
     Seller loadUserById(Long uid);

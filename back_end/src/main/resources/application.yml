@@ -1,4 +1,4 @@
 spring.profiles.group:
-  "local": "h2db,common,auth"
-  "dev":  "testdb,common,auth"
-  "prod": "proddb,common,auth"
+  "local": "h2db,common,auth,elasticsearchdb"
+  "dev":  "testdb,common,auth,elasticsearchdb"
+  "prod": "proddb,common,auth,elasticsearchdb"

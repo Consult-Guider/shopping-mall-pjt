@@ -1,0 +1,16 @@
+version: "3.1"
+
+services:
+  es:
+    image: elasticsearch:7.17.7
+    container_name: es
+    restart: always
+    environment:
+      - node.name=single-node
+      - discovery.type=single-node
+      - cluster.name=${CLUSTER_NAME}
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - ${DIR_MOUNTED}:/usr/share/elasticsearch/data

@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -17,7 +16,7 @@ import java.util.List;
 @ToString
 // 위는 테스트 편의를 위한 어노테이션
 @AllArgsConstructor @Getter @Builder
-public class SellerDto implements UserDetails {
+public class SellerDto implements LoginDto {
     private final Long id;
     private final LocalDateTime createdAt;
     private final LocalDateTime deletedAt;

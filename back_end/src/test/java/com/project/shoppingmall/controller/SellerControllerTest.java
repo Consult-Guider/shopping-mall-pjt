@@ -7,6 +7,7 @@ import com.project.shoppingmall.model.request.SellerUpdateRequest;
 import com.project.shoppingmall.model.response.SellerReadResponse;
 import com.project.shoppingmall.service.SellerService;
 import com.project.shoppingmall.type.ErrorCode;
+import com.project.shoppingmall.type.RoleType;
 import com.project.shoppingmall.utils.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -229,7 +230,7 @@ class SellerControllerTest {
     }
 
     @Test
-    @WithAuthenticationPrincipal(role = "SELLER")
+    @WithAuthenticationPrincipal(role = RoleType.SELLER)
     @DisplayName("[정상 작동][get][/api/v1/seller/principal] 계정 단일 조회")
     public void givenPrincipal_whenCallReadUser_thenReturnUser() throws Exception {
         // given
@@ -251,7 +252,7 @@ class SellerControllerTest {
     }
 
     @Test
-    @WithAuthenticationPrincipal(role = "SELLER")
+    @WithAuthenticationPrincipal(role = RoleType.SELLER)
     @DisplayName("[정상 작동][put][/api/v1/seller/principal] 계정 수정")
     public void givenPrincipal_whenCallUpdateUser_thenUpdate() throws Exception {
         // given
@@ -269,7 +270,7 @@ class SellerControllerTest {
     }
 
     @Test
-    @WithAuthenticationPrincipal(role = "SELLER")
+    @WithAuthenticationPrincipal(role = RoleType.SELLER)
     @DisplayName("[정상 작동][delete][/api/v1/seller/principal] 계정 삭제")
     public void givenPrincipal_whenCallDeleteUser_thenDelete() throws Exception {
         // given

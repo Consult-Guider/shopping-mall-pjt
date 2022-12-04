@@ -7,6 +7,7 @@ import com.project.shoppingmall.model.request.AdminUpdateRequest;
 import com.project.shoppingmall.model.response.AdminReadResponse;
 import com.project.shoppingmall.service.AdminService;
 import com.project.shoppingmall.type.ErrorCode;
+import com.project.shoppingmall.type.RoleType;
 import com.project.shoppingmall.utils.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -228,7 +229,7 @@ class AdminControllerTest {
     }
 
     @Test
-    @WithAuthenticationPrincipal(role = "ADMIN")
+    @WithAuthenticationPrincipal(role = RoleType.ADMIN)
     @DisplayName("[정상 작동][get][/api/v1/admin/principal] 계정 단일 조회")
     public void givenPrincipal_whenCallReadUser_thenReturnUser() throws Exception {
         // given
@@ -249,7 +250,7 @@ class AdminControllerTest {
     }
 
     @Test
-    @WithAuthenticationPrincipal(role = "ADMIN")
+    @WithAuthenticationPrincipal(role = RoleType.ADMIN)
     @DisplayName("[정상 작동][put][/api/v1/admin/principal] 계정 수정")
     public void givenPrincipal_whenCallUpdateUser_thenUpdate() throws Exception {
         // given
@@ -267,7 +268,7 @@ class AdminControllerTest {
     }
 
     @Test
-    @WithAuthenticationPrincipal(role = "ADMIN")
+    @WithAuthenticationPrincipal(role = RoleType.ADMIN)
     @DisplayName("[정상 작동][delete][/api/v1/admin/principal] 계정 삭제")
     public void givenPrincipal_whenCallDeleteUser_thenDelete() throws Exception {
         // given

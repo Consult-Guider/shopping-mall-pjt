@@ -21,7 +21,7 @@ public class Review {
     private String option;
     @Field(type = FieldType.Text)
     private String content;
-    @Field(type = FieldType.Date, format = DateFormat.basic_date_time) @CreatedDate
+    @Field(type = FieldType.Date, format = DateFormat.date_hour_minute_second_millis) @CreatedDate
     private LocalDateTime createdAt;
     @Field(type = FieldType.Object) @Builder.Default
     private List<Like> likes = new ArrayList<>();

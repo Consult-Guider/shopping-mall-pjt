@@ -11,7 +11,7 @@ public class WithSecurityContextFactoryImpl implements WithSecurityContextFactor
 
     @Override
     public SecurityContext createSecurityContext(WithAuthenticationPrincipal annotation) {
-        RoleType role = RoleType.valueOf(annotation.role());
+        RoleType role = annotation.role();
 
         UserDetails principal = switch (role) {
             case USER -> FixtureFactory.userDtoFixture;

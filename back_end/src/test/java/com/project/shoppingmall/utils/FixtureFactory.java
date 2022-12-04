@@ -13,17 +13,17 @@ import java.util.stream.Stream;
 
 public class FixtureFactory {
     public static final UserDto userDtoFixture = UserDto.builder()
-            .id(1L).createdAt(LocalDateTime.MIN).deletedAt(LocalDateTime.MAX)
+            .id(1L).createdAt(LocalDateTime.now()).deletedAt(null)
             .email("mock email").password("mock password").name("mock name")
             .phoneNum("mock phoneNum").address("mock address")
             .build();
     public static final SellerDto sellerDtoFixture = SellerDto.builder()
-            .id(1L).createdAt(LocalDateTime.MIN).deletedAt(LocalDateTime.MAX)
+            .id(1L).createdAt(LocalDateTime.now()).deletedAt(null)
             .email("mock email").password("mock password").name("mock name")
             .phoneNum("mock phoneNum").address("mock address").companyName("mock companyName")
             .build();
     public static final AdminDto adminDtoFixture = AdminDto.builder()
-            .id(1L).createdAt(LocalDateTime.MIN).deletedAt(LocalDateTime.MAX)
+            .id(1L).createdAt(LocalDateTime.now()).deletedAt(null)
             .email("mock email").password("mock password").name("mock name")
             .phoneNum("mock phoneNum")
             .build();

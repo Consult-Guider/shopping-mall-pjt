@@ -1,7 +1,6 @@
 package com.project.shoppingmall.domain;
 
 import com.project.shoppingmall.domain.nested.*;
-import com.project.shoppingmall.model.LoginDto;
 import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -35,7 +34,7 @@ public class Item {
     @Field(type = FieldType.Long)
     private Long price;
     @Field(type = FieldType.Long) @CreatedBy
-    private LoginDto seller;
+    private Long seller;
     @Field(type = FieldType.Text)
     private String imagePath;
 

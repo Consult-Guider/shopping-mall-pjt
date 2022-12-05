@@ -29,8 +29,8 @@ public class ItemController {
     }
 
     @GetMapping("/{id}/all")
-    public ItemReadResponse readItemAll(@PathVariable String id) {
-        return itemService.readItemAll(id);
+    public Response<ItemReadResponse> readItemAll(@PathVariable String id) {
+        return Response.success(itemService.readItemAll(id));
     }
 
     @PutMapping("/{id}")

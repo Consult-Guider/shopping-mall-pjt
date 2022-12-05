@@ -17,7 +17,9 @@ public enum ErrorCode {
     INVALID_ROLETYPE(HttpStatus.BAD_REQUEST, "해당 RoleType은 존재하지 않습니다."),
     ACCOUNT_ALREADY_EXISTED(HttpStatus.CONFLICT, "해당 계정은 이미 존재합니다."),
     FORBIDDEN(HttpStatus.FORBIDDEN,  "해당 계정은 접근 불가 상태입니다."),
-    UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "로그인 후 사용 가능합니다. ");
+    UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "로그인 후 사용 가능합니다. "),
+    ITEM_NOT_FOUNDED(HttpStatus.NOT_FOUND, "해당 품목은 찾을 수가 없습니다."),
+    NO_OWNERSHIP(HttpStatus.FORBIDDEN, "소유권이 없어서 조작할 수 없습니다.");
 
     private final HttpStatus status;
     private final String message;

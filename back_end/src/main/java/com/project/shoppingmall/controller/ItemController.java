@@ -1,5 +1,6 @@
 package com.project.shoppingmall.controller;
 
+import com.project.shoppingmall.model.LoginDto;
 import com.project.shoppingmall.model.request.ItemCreateRequest;
 import com.project.shoppingmall.model.request.ItemUpdateRequest;
 import com.project.shoppingmall.model.response.ItemReadResponse;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,14 +36,18 @@ public class ItemController {
     }
 
     @PutMapping("/{id}")
-    public Response<Void> updateItem(@PathVariable String id, @RequestBody ItemUpdateRequest request) {
-        itemService.update(id, request);
+    public Response<Void> updateItem(
+            @PathVariable String id,
+            @RequestBody ItemUpdateRequest request,
+            @AuthenticationPrincipal LoginDto principal
+            ) {
+        itemService.update(id, request, principal);
         return Response.success();
     }
 
     @DeleteMapping("/{id}")
-    public Response<Void> deleteItem(@PathVariable String id) {
-        itemService.delete(id);
+    public Response<Void> deleteItem(@PathVariable String id, @AuthenticationPrincipal LoginDto principal) {
+        itemService.delete(id, principal);
         return Response.success();
     }
 

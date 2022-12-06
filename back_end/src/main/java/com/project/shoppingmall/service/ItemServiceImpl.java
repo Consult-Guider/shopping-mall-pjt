@@ -44,8 +44,10 @@ public class ItemServiceImpl implements ItemService {
             if(role.getAuthority().equals(RoleType.ADMIN.getName())) { return ; }
         }
 
-        itemRepository.findByIdAndSeller(iid, uid).orElseThrow(() -> new CrudException(
-                ErrorCode.NO_OWNERSHIP, String.format("조회를 시도한 UId: %s, Iid: %s", uid, iid)
+        itemRepository.findById(iid)
+                .map(Item::getSeller).filter(seller -> seller.equals(uid))
+                .orElseThrow(() -> new CrudException(
+                    ErrorCode.NO_OWNERSHIP, String.format("조회를 시도한 UId: %s, Iid: %s", uid, iid)
         ));
     }
 

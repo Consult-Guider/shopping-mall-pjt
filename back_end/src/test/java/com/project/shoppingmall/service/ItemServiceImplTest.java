@@ -25,7 +25,6 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 
@@ -107,9 +106,12 @@ class ItemServiceImplTest {
     void givenLoginDtoAndIid_whenAssertPossession_thenDoNothing() {
         // given
         LoginDto principal = SellerDto.builder().id(1L).build();
+        Item response = new Item();
+        response.setSeller(principal.getId());
+
         String iid = "mock Id";
 
-        given(itemRepository.findByIdAndSeller(anyString(), anyLong())).willReturn(Optional.of(new Item()));
+        given(itemRepository.findById(anyString())).willReturn(Optional.of(response));
         
         // when & then
         assertDoesNotThrow(() -> itemService.assertPossession(principal, iid));
@@ -120,12 +122,14 @@ class ItemServiceImplTest {
     void givenAdminAccount_whenAssertPossession_thenDoNothing() {
         // given
         LoginDto principal = AdminDto.builder().id(1L).build();
+        Item response = new Item();
+        response.setSeller(principal.getId());
+
         String iid = "mock Id";
 
         ErrorCode code = ErrorCode.NO_OWNERSHIP;
 
-        given(itemRepository.findByIdAndSeller(anyString(), anyLong()))
-                .willThrow(new CrudException(code));
+        given(itemRepository.findById(anyString())).willReturn(Optional.empty());
 
         // when & then
         assertDoesNotThrow(() -> itemService.assertPossession(principal, iid));
@@ -136,12 +140,14 @@ class ItemServiceImplTest {
     void givenLoginDtoAndIidNotBelonging_whenAssertPossession_thenThrowError() {
         // given
         LoginDto principal = SellerDto.builder().id(1L).build();
+        Item response = new Item();
+        response.setSeller(principal.getId());
+
         String iid = "mock Id";
 
         ErrorCode code = ErrorCode.NO_OWNERSHIP;
 
-        given(itemRepository.findByIdAndSeller(anyString(), anyLong()))
-                .willThrow(new CrudException(code));
+        given(itemRepository.findById(anyString())).willReturn(Optional.empty());
 
         // when & then
         CrudException e = assertThrows(CrudException.class, () -> itemService.assertPossession(principal, iid));

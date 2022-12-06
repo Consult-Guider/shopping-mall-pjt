@@ -1,14 +1,19 @@
 package com.project.shoppingmall.utils;
 
+import com.project.shoppingmall.domain.nested.*;
 import com.project.shoppingmall.model.AdminDto;
 import com.project.shoppingmall.model.SellerDto;
 import com.project.shoppingmall.model.UserDto;
 import com.project.shoppingmall.model.request.AdminCreateRequest;
+import com.project.shoppingmall.model.request.ItemCreateRequest;
 import com.project.shoppingmall.model.request.SellerCreateRequest;
 import com.project.shoppingmall.model.request.UserCreateRequest;
+import com.project.shoppingmall.model.response.ItemReadResponse;
+import com.project.shoppingmall.model.response.SellerWithItemResponse;
 import org.junit.jupiter.params.provider.Arguments;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class FixtureFactory {
@@ -228,5 +233,94 @@ public class FixtureFactory {
                 sellerDto.getPhoneNum(),
                 sellerDto.getCompanyName()
         ));
+    }
+
+    public static ItemCreateRequest itemCreateRequestFixture() {
+        ItemCreateRequest request = new ItemCreateRequest();
+        request.setName("mock Name");
+        request.setPrice(10000L);
+        request.setImagePath("mock ImagePath");
+
+        request.setImageList(List.of(imageFixture()));
+        request.setOptionList(List.of(optionFixture()));
+        request.setDescriptionList(List.of(descriptionFixture()));
+        request.setTagList(List.of(tagFixture()));
+
+        return request;
+    }
+
+    public static Image imageFixture() {
+        Image entity = new Image();
+        entity.setPath("mock Image Path");
+        return entity;
+    }
+
+    public static Option optionFixture() {
+        Option entity = new Option();
+        entity.setName("mock Option Name");
+        return entity;
+    }
+
+    public static Description descriptionFixture() {
+        Description entity = new Description();
+        entity.setPath("mock Description Path");
+        return entity;
+    }
+
+    public static Tag tagFixture() {
+        Tag entity = new Tag();
+        entity.setName("mock Tag Name");
+        return entity;
+    }
+
+    public static Review reviewFixture() {
+        Review entity = new Review();
+        entity.setRating(5);
+        entity.setContent("mock Review Content");
+        return entity;
+    }
+
+    public static Question questionFixture() {
+        Question entity = new Question();
+        entity.setContent("mock Question Content");
+        return entity;
+    }
+
+    public static SellerWithItemResponse sellerWithItemResponseFixture() {
+        return SellerWithItemResponse.builder()
+                .id(2L)
+                .name("mock SellerWithItemResponse Name")
+                .companyName("mock SellerWithItemResponse CompanyName")
+                .build();
+    }
+
+
+    public static ItemReadResponse itemReadResponseFixture() {
+        return ItemReadResponse.builder()
+                .id("mock id")
+                .createdAt(LocalDateTime.now())
+                .name("mock name")
+                .price(10000L)
+                .seller(sellerWithItemResponseFixture())
+                .imagePath("mock imagePath")
+                .build();
+    }
+
+    public static ItemReadResponse itemReadAllResponseFixture() {
+        return ItemReadResponse.builder()
+                .id("mock id")
+                .createdAt(LocalDateTime.now())
+                .name("mock name")
+                .price(10000L)
+                .seller(sellerWithItemResponseFixture())
+                .imagePath("mock imagePath")
+
+                .imageList(List.of(imageFixture()))
+                .optionList(List.of(optionFixture()))
+                .descriptionList(List.of(descriptionFixture()))
+                .reviewList(List.of(reviewFixture()))
+                .questionList(List.of(questionFixture()))
+                .tagList(List.of(tagFixture()))
+                .build();
     }
 }

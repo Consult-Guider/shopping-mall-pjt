@@ -67,6 +67,13 @@ public class AuthenticationConfig {
                 .mvcMatchers(HttpMethod.PUT, addPrefix("/seller/*")).hasRole(RoleType.ADMIN.withoutPrefix())
                 .mvcMatchers(HttpMethod.DELETE, addPrefix("/seller/*")).hasRole(RoleType.ADMIN.withoutPrefix())
 
+                .mvcMatchers(HttpMethod.POST, addPrefix("/item")).hasAnyRole(RoleType.SELLER.withoutPrefix(), RoleType.ADMIN.withoutPrefix())
+                .mvcMatchers(HttpMethod.GET, addPrefix("/item")).permitAll()
+                .mvcMatchers(HttpMethod.GET, addPrefix("/item/*")).permitAll()
+                .mvcMatchers(HttpMethod.GET, addPrefix("/item/*/all")).permitAll()
+                .mvcMatchers(HttpMethod.PUT, addPrefix("/item/*")).hasRole(RoleType.SELLER.withoutPrefix())
+                .mvcMatchers(HttpMethod.DELETE, addPrefix("/item/*")).hasRole(RoleType.SELLER.withoutPrefix())
+
                 .anyRequest().permitAll()
 
                 // exception handling

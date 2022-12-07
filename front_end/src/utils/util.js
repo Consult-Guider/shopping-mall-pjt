@@ -36,6 +36,10 @@ function str2date(date) {
     return date;
 }
 
+function str2Avatar(str) {
+    return str.slice(0, 3).toUpperCase();
+}
+
 export default {
     "range": range,
     "makeFrame": makeFrame,
@@ -44,4 +48,5 @@ export default {
     "transPrice": transPrice,
     "beAnonymous": beAnonymous,
     "str2date": str2date,
+    "str2Avatar":str2Avatar,
 }

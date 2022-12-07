@@ -40,6 +40,9 @@ import com_exchanges from '@/components/exchange/com_exchanges'
 import com_exchanges_unit from '@/components/exchange/com_exchanges_unit'
 
 import com_history_query from '@/components/historyQuery/com_history_query'
+import com_query_chat from '@/components/historyQuery/com_query_chat'
+import com_query_chat_unit from '@/components/historyQuery/com_query_chat_unit'
+import com_query_state from '@/components/historyQuery/com_query_state.vue'
 
 const components = {
     "com_header": com_header,
@@ -84,6 +87,9 @@ const components = {
     "com_exchanges_unit": com_exchanges_unit,
 
     "com_history_query": com_history_query,
+    "com_query_chat": com_query_chat,
+    "com_query_chat_unit": com_query_chat_unit,
+    "com_query_state": com_query_state,
 };
 
 export default {

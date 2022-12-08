@@ -50,6 +50,8 @@ import com_payment_receiver from '@/components/payment/com_payment_receiver.vue'
 import com_payment_sender from '@/components/payment/com_payment_sender.vue'
 import com_payment_header from '@/components/payment/com_payment_header.vue'
 
+import com_updateAccount from '@/components/updateAccount/com_updateAccount.vue'
+
 const components = {
     "com_header": com_header,
     "com_footer": com_footer,
@@ -102,6 +104,8 @@ const components = {
     "com_payment_receiver": com_payment_receiver,
     "com_payment_sender": com_payment_sender,
     "com_payment_header": com_payment_header,
+
+    "com_updateAccount": com_updateAccount,
 };
 
 export default {

@@ -12,6 +12,7 @@ const routes = [
   { path: endPoint.exchange, component: () => import("@/views/view_exchange.vue")},
   { path: endPoint.historyQuery, component: () => import("@/views/view_history_query.vue")},
   { path: endPoint.payment, component: () => import("@/views/view_payment.vue")},
+  { path: endPoint.updateAccount, component: () => import("@/views/view_updateAccount.vue")},
 ];
 
 export default createRouter({

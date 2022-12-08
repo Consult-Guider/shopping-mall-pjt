@@ -16,4 +16,6 @@ export default {
     "historyQuery": "/historyQuery",
 
     "updateAccount": "/updateAccount",
+
+    "payment": "/payment",
 }

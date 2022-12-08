@@ -44,6 +44,12 @@ import com_query_chat from '@/components/historyQuery/com_query_chat'
 import com_query_chat_unit from '@/components/historyQuery/com_query_chat_unit'
 import com_query_state from '@/components/historyQuery/com_query_state.vue'
 
+import com_payment_item from '@/components/payment/com_payment_item.vue'
+import com_payment_payment from '@/components/payment/com_payment_payment.vue'
+import com_payment_receiver from '@/components/payment/com_payment_receiver.vue'
+import com_payment_sender from '@/components/payment/com_payment_sender.vue'
+import com_payment_header from '@/components/payment/com_payment_header.vue'
+
 const components = {
     "com_header": com_header,
     "com_footer": com_footer,
@@ -90,6 +96,12 @@ const components = {
     "com_query_chat": com_query_chat,
     "com_query_chat_unit": com_query_chat_unit,
     "com_query_state": com_query_state,
+
+    "com_payment_item": com_payment_item,
+    "com_payment_payment": com_payment_payment,
+    "com_payment_receiver": com_payment_receiver,
+    "com_payment_sender": com_payment_sender,
+    "com_payment_header": com_payment_header,
 };
 
 export default {

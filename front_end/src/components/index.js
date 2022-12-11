@@ -52,6 +52,10 @@ import com_payment_header from '@/components/payment/com_payment_header.vue'
 
 import com_updateAccount from '@/components/updateAccount/com_updateAccount.vue'
 
+import com_item_info_create from '@/components/createItem/com_item_info_create'
+import com_desc_create from '@/components/createItem/com_desc_create'
+import com_img_create from '@/components/createItem/com_img_create'
+
 const components = {
     "com_header": com_header,
     "com_footer": com_footer,
@@ -106,6 +110,10 @@ const components = {
     "com_payment_header": com_payment_header,
 
     "com_updateAccount": com_updateAccount,
+
+    "com_item_info_create": com_item_info_create,
+    "com_desc_create": com_desc_create,
+    "com_img_create": com_img_create,
 };
 
 export default {

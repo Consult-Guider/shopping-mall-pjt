@@ -35,14 +35,24 @@
         :length="total"
         ></v-pagination>
     </div>
+
+    <v-dialog v-model="btnQuery.dialog">
+      <v-card>
+        <com_make_query v-bind="item" />
+      </v-card>
+    </v-dialog>
 </template>
 
 <script>
 export default {
+props: {
+    item: Object,
+},
 data() {return {
     btnQuery: {
         label: "문의하기",
         click: this.onClickQuery,
+        dialog: false,
     },
 
     comments: [
@@ -66,6 +76,7 @@ data() {return {
 methods: {
     onClickQuery() {
         console.log("click onClickQuery");
+        this.btnQuery.dialog = true;
     },
 },
 }

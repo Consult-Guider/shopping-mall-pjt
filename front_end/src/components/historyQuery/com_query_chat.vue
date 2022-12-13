@@ -19,6 +19,8 @@
 export default {
     props: {
         qid: Number,
+
+        update: Number,
     },
     data() {return {
         chats: [
@@ -66,6 +68,11 @@ export default {
                 this.fetchQueryChat(val);
             }
         },
+
+        update() {
+            console.log("update this component");
+            this.fetchQueryChat(this.qid);
+        }
     },
 }
 </script>

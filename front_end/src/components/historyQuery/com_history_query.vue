@@ -26,7 +26,8 @@
                 elevation="5" 
                 class="outer-shell overflow-auto"
                 >
-                    <com_query_chat :qid="qid" />
+                    <com_query_chat :qid="qid" :update="update_component.com_query_chat" />
+                    <com_input_comment @post="postingEventHandler" />
                 </v-card>
             </v-col>
         </v-row>
@@ -40,11 +41,21 @@ export default {
     },
     data() {return {
         qid: null,
+
+        update_component: {
+            com_query_chat: 0,
+        },
     }},
     methods: {
         onChangeChat(qid) {
             console.log("call onChangeChat" + ` ${qid}`);
             this.qid = qid;
+        },
+
+        postingEventHandler(text) {
+            console.log("call postingEventHandler: " + text);
+            if(text) this.update_component.com_query_chat++;
+            // TODO: text 데이터값을 받은 후 이를 문의 내역에 반영.
         },
     },
 }

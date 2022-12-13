@@ -13,6 +13,7 @@ export default {
     "exchange": "/exchange",
 
     "historyQuery": "/historyQuery",
+    "historyReview": "/historyReview",
 
     "updateAccount": "/updateAccount",
 

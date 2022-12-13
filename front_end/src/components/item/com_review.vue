@@ -20,6 +20,9 @@
 
         <v-spacer class="my-3" />
 
+        <!-- 상품평 작성 -->
+        <com_review_posting @update="updateReviewPosting"/>
+
         <!-- 상품평 검색 -->
         <v-card 
             variant="plain" class="bg-grey"
@@ -102,6 +105,11 @@ methods: {
     onClickSearch() {
         console.log("click onClickSearch");
     },
+
+    updateReviewPosting() {
+        console.log("update ReviewPosting");
+        // TODO: 리뷰 작성 시, 일어나야 하는 변화에 대해 작성하기.
+    }
 },
 }
 </script>

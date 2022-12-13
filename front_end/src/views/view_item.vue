@@ -29,15 +29,15 @@
         <v-card-text>                    
             <v-window v-model="tab">
                 <v-window-item value="desc">
-                    <com_desc />
+                    <com_desc :item="item" />
                 </v-window-item>
 
                 <v-window-item value="review">
-                    <com_review />
+                    <com_review :item="item" />
                 </v-window-item>
 
                 <v-window-item value="query">
-                    <com_query />
+                    <com_query :item="item" />
                 </v-window-item>
 
                 <v-window-item value="exchange">
@@ -58,6 +58,17 @@ computed: {
 },
 data() {return {
     tab: "desc",
+
+    item: {
+        imgPath: "mock imgPath",
+        name: "mock name",
+        price: "mock price",
+        options: [],
+
+        descriptions: [],
+        reviews: [],
+        queries: [],
+    },
 }},
 }
 </script>

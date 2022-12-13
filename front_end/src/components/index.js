@@ -28,6 +28,7 @@ import com_query from '@/components/item/com_query'
 import com_exchange from '@/components/item/com_exchange'
 import com_review_unit from '@/components/item/com_review_unit'
 import com_query_unit from '@/components/item/com_query_unit'
+import com_review_posting from '@/components/item/com_review_posting'
 
 import com_bucket from '@/components/bucket/com_bucket'
 
@@ -40,6 +41,9 @@ import com_exchanges from '@/components/exchange/com_exchanges'
 import com_exchanges_unit from '@/components/exchange/com_exchanges_unit'
 
 import com_history_query from '@/components/historyQuery/com_history_query'
+import com_input_comment from '@/components/historyQuery/com_input_comment'
+import com_make_query from '@/components/historyQuery/com_make_query'
+
 import com_query_chat from '@/components/historyQuery/com_query_chat'
 import com_query_chat_unit from '@/components/historyQuery/com_query_chat_unit'
 import com_query_state from '@/components/historyQuery/com_query_state.vue'
@@ -55,6 +59,8 @@ import com_updateAccount from '@/components/updateAccount/com_updateAccount.vue'
 import com_item_info_create from '@/components/createItem/com_item_info_create'
 import com_desc_create from '@/components/createItem/com_desc_create'
 import com_img_create from '@/components/createItem/com_img_create'
+
+import com_history_review from '@/components/historyReview/com_history_review'
 
 const components = {
     "com_header": com_header,
@@ -87,6 +93,7 @@ const components = {
     "com_exchange": com_exchange,
     "com_review_unit": com_review_unit,
     "com_query_unit": com_query_unit,
+    "com_review_posting": com_review_posting,
 
     "com_bucket": com_bucket,
 
@@ -99,6 +106,9 @@ const components = {
     "com_exchanges_unit": com_exchanges_unit,
 
     "com_history_query": com_history_query,
+    "com_input_comment": com_input_comment,
+    "com_make_query": com_make_query,
+
     "com_query_chat": com_query_chat,
     "com_query_chat_unit": com_query_chat_unit,
     "com_query_state": com_query_state,
@@ -114,6 +124,8 @@ const components = {
     "com_item_info_create": com_item_info_create,
     "com_desc_create": com_desc_create,
     "com_img_create": com_img_create,
+
+    "com_history_review": com_history_review,
 };
 
 export default {

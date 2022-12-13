@@ -59,6 +59,7 @@ import com_updateAccount from '@/components/updateAccount/com_updateAccount.vue'
 import com_item_info_create from '@/components/createItem/com_item_info_create'
 import com_desc_create from '@/components/createItem/com_desc_create'
 import com_img_create from '@/components/createItem/com_img_create'
+import com_tag_create from '@/components/createItem/com_tag_create'
 
 import com_history_review from '@/components/historyReview/com_history_review'
 
@@ -124,6 +125,7 @@ const components = {
     "com_item_info_create": com_item_info_create,
     "com_desc_create": com_desc_create,
     "com_img_create": com_img_create,
+    "com_tag_create": com_tag_create,
 
     "com_history_review": com_history_review,
 };

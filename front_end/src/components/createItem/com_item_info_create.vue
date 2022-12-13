@@ -62,6 +62,7 @@
 export default {
 props: {
     imgList: Array,
+    tagList: Array,
 },
 data() {return {
     item: {
@@ -94,6 +95,7 @@ data() {return {
 methods: {
     onClickUpdate() {
         console.log("click onClickPurchase");
+        // TODO: 상품 등록시, axios를 이용해서 쿼리날리기.
     },
 
     onEnterOption() {

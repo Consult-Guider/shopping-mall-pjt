@@ -2,7 +2,20 @@
 <v-container>
 <v-row>
 <v-col>
-    <com_item_info_create :imgList="imgList" />
+    <com_item_info_create :imgList="imgList" :tagList="tagList" />
+</v-col>
+</v-row>
+
+<v-row>
+    <v-col>
+        <v-divider class="my-2" />
+        <div class="px-4">
+            <h1>태그 추가</h1>
+            <p>- 해당 태그는 검색결과에 반영될 수 있습니다.</p>
+            <p>- 지나친 태그 남용은 운영진에 의해 제제당할 수 있다는 점 양해바랍니다.</p>
+        </div>
+        <com_tag_create @update="updateTagList" />
+        <v-divider class="my-2" />
 </v-col>
 </v-row>
 
@@ -23,7 +36,7 @@
         <v-card-text>                    
             <v-window v-model="tab">
                 <v-window-item value="desc">
-                    <com_desc_create @updateImg="(imgList=>this.imgList=imgList)" />
+                    <com_desc_create @updateImg="updateImgList" />
                 </v-window-item>
 
                 <v-window-item value="review">
@@ -51,7 +64,16 @@ data() {return {
     tab: "desc",
 
     imgList: [],
+    tagList: [],
 }},
+methods: {
+    updateImgList(imgList) {
+        this.imgList=imgList;
+    },
+    updateTagList(tagList) {
+        this.tagList=tagList;
+    },
+},
 }
 </script>
 

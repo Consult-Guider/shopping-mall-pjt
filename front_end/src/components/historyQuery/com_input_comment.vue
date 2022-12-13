@@ -29,7 +29,11 @@ data() {
 },
 methods: {
     onClickPost() {
+        if(!this.text) {
+            return ;
+        }
         this.$emit("post", this.text);
+        this.text = null;
     },
 },
 }

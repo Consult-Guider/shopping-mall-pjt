@@ -12,10 +12,10 @@
 
         <div class="t2b pa-4">
             <h2 class="mb-4">MY 활동</h2>
-            <p class="clickable link" @click="$router.push($endPoint.query);"
-            >문의하기</p>
             <p class="clickable link" @click="$router.push($endPoint.historyQuery);"
             >문의내역 확인</p>
+            <p class="clickable link" @click="$router.push($endPoint.historyReview);"
+            >리뷰내역 확인</p>
 
             <v-divider class="my-3" />
         </div>
@@ -24,6 +24,14 @@
             <h2 class="mb-4">MY 정보</h2>
             <p class="clickable link" @click="$router.push($endPoint.updateAccount);"
             >개인정보확인/수정</p>
+
+            <v-divider class="my-3" />
+        </div>
+
+        <div class="t2b pa-4">
+            <h2 class="mb-4">MY 운영</h2>
+            <p class="clickable link" @click="$router.push($endPoint.manageCategory);"
+            >카테고리 관리</p>
 
             <v-divider class="my-3" />
         </div>

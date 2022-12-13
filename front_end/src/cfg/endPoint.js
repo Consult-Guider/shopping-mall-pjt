@@ -12,7 +12,6 @@ export default {
     "myPage": "/account",
     "exchange": "/exchange",
 
-    "query": "/query",
     "historyQuery": "/historyQuery",
 
     "updateAccount": "/updateAccount",

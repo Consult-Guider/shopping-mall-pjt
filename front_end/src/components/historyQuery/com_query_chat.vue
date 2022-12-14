@@ -2,7 +2,7 @@
     <v-container v-if="(chats.length)">
         <v-row v-for="chat in chats" :key="chat">
             <v-col>
-                <com_query_chat_unit v-bind="chat" />
+                <com_query_unit v-bind="chat" />
             </v-col>
         </v-row>
     </v-container>
@@ -25,32 +25,38 @@ export default {
     data() {return {
         chats: [
             // {
-            //     state: "Qusetion",
+            //     user: {name: "이선영", option: "데스크탑"},
+            //     kind: "Q",
             //     content: "문의 관련 내용 쏼라 쏼라",
             //     createdAt: 20220105,
             // },
             // {
-            //     state: "Answer",
+            //     user: {name: "이선영", option: "데스크탑"},
+            //     kind: "A",
             //     content: "문의 관련 내용 답변 쏼라 쏼라",
             //     createdAt: 20220106,
             // },
             // {
-            //     state: "Qusetion",
+            //     user: {name: "이선영", option: "데스크탑"},
+            //     kind: "Q",
             //     content: "문의 관련 내용 쏼라 쏼라",
             //     createdAt: 20220105,
             // },
             // {
-            //     state: "Answer",
+            //     user: {name: "이선영", option: "데스크탑"},
+            //     kind: "A",
             //     content: "문의 관련 내용 답변 쏼라 쏼라",
             //     createdAt: 20220106,
             // },
             // {
-            //     state: "Qusetion",
+            //     user: {name: "이선영", option: "데스크탑"},
+            //     kind: "Q",
             //     content: "문의 관련 내용 쏼라 쏼라",
             //     createdAt: 20220105,
             // },
             // {
-            //     state: "Answer",
+            //     user: {name: "이선영", option: "데스크탑"},
+            //     kind: "A",
             //     content: "문의 관련 내용 답변 쏼라 쏼라",
             //     createdAt: 20220106,
             // },

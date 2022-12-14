@@ -2,14 +2,6 @@
     <v-container>
         <v-row>
             <v-col>
-                <com_account_header v-bind="state" />
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col cols="auto">
-                <com_account_nav />
-            </v-col>
-            <v-col>
                 <com_updateAccount :value="data" @update="x=>{tray=x;}"/>
             </v-col>
         </v-row>
@@ -19,11 +11,6 @@
 <script>
 export default {
     data() {return {
-        state: {
-            numReady: 1,
-            numIng: 2,
-            numDone: 3,
-        },
         data: {
             uid: 1234,
             email: "asdf@gmail.com",

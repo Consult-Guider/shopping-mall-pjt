@@ -64,5 +64,7 @@ export default {
 <style scoped>
     .outer-shell {
         max-height: 500px;
+
+        margin: -12px;
     }
 </style>

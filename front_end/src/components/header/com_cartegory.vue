@@ -5,7 +5,6 @@
             class="text-center text-white clickable"
         >
             <v-icon>{{btn.icon}}</v-icon>
-            <h3>{{btn.label}}</h3>
         </div>
     </div>
 </template>
@@ -15,7 +14,6 @@ export default {
 data() {return {
     btn: {
         icon: "mdi-menu",
-        label: "카테고리",
         click: this.onClickBtn,
     },
 }},
@@ -31,11 +29,13 @@ methods: {
 <style scoped>
 .cartegory {
     padding: 5px;
+    height: 60px;
+    width: 60px;
 
     background-color: cornflowerblue;
 }
 div > * {
     margin: auto;
-    font-size: 0.75rem;
+    font-size: 2.0rem;
 }
 </style>

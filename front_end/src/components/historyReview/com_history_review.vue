@@ -11,8 +11,7 @@
                 <!-- 상품평 -->
                 <v-card height="500" class="overflow-y-auto">
                     <div v-for="review of reviews" :key="review">
-                        <com_review_header_unit v-bind="review"/>
-                        <com_review_unit v-bind="review" />
+                        <com_review_header_unit :review="review" />
                         <v-divider class="my-3" />
                     </div>
                 </v-card>

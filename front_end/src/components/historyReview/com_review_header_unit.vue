@@ -4,20 +4,25 @@
             <v-col class="xgap">
                 <v-btn
                 density="compact"
-                @click="linkTo(iid)"
-                >상품명[{{iname}}]</v-btn>
+                @click="linkTo(review.iid)"
+                >상품명[{{review.iname}}]</v-btn>
             </v-col>
         </v-row>
         <v-row>
             <v-col class="xgap">
                 <v-btn class="update--btn"
                 density="compact"
-                @click="updateReview(rid)"
+                @click="updateReview(review.rid)"
                 >{{labelIsUpdating()}}</v-btn>
                 <v-btn class="delete--btn"
                 density="compact"
-                @click="deleteReview(rid)"
+                @click="deleteReview(review.rid)"
                 >삭제하기</v-btn>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col>
+                <com_review_unit v-bind="review" :readonly="!isUpdating"/>
             </v-col>
         </v-row>
     </v-container>
@@ -26,17 +31,12 @@
 <script>
 export default {
     props: {
-        iid: Number,
-        iname: String,
-        rid: Number,
-        user: Object,
-        rate: Number,
-        createdAt: String,
-        content: String,
-        numRec: Number,
-        numNotRec: Number,
-
-        isUpdating: Boolean,
+        review: Object,
+    },
+    data() {
+        return {
+            isUpdating: false,
+        }
     },
     methods: {
         labelIsUpdating() {
@@ -48,7 +48,7 @@ export default {
         },
         updateReview(rid) {
             console.log("call updateReview: " + rid);
-            this.$emit("updateReview", !this.isUpdating);
+            this.isUpdating = !this.isUpdating;
             // TODO: 해당 기능 axios로 연결하기.
         },
         deleteReview(rid) {

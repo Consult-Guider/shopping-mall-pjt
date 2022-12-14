@@ -6,9 +6,6 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-col cols="auto">
-                <com_account_nav />
-            </v-col>
             <v-col>
                 <com_exchanges :items="items" />
             </v-col>

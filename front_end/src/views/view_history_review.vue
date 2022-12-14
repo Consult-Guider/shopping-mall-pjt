@@ -14,6 +14,7 @@
         reviews: [
             {
                 iid: 1234,
+                iname: "LENOVO",
                 user: {name: "이선한", option: "데스크탑"},
                 rate: 4.5,
                 createdAt: "20220102",
@@ -23,6 +24,7 @@
             },
             {
                 iid: 1234,
+                iname: "LENOVO",
                 user: {name: "저스틴 비버", option: "바지"},
                 rate: 2.5,
                 createdAt: "20221202",

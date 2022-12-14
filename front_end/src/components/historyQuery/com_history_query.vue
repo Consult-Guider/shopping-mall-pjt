@@ -1,6 +1,12 @@
 <template>
     <v-container>
         <v-row>
+            <v-col>
+                <h1>문의 내역 조회</h1>
+                <v-divider thickness="thick" color="black"/>
+            </v-col>
+        </v-row>
+        <v-row>
             <v-col cols="5">
                 <v-card 
                 elevation="5" 
@@ -65,6 +71,7 @@ export default {
     .outer-shell {
         max-height: 500px;
 
-        margin: -12px;
+        margin-left: -12px;
+        margin-right: -12px;
     }
 </style>

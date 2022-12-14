@@ -7,10 +7,18 @@
             </v-avatar>
             <div class="t2b">
                 <p>{{ $util.beAnonymous(user.name) }}</p>
-                <v-rating
-                v-model="rate_model"
-                readonly size="x-small" density="compact"
-                ></v-rating>
+                <div v-if="readonly">
+                    <v-rating
+                    v-model="data_modified.rate"
+                    readonly size="x-small" density="compact"
+                    ></v-rating>
+                </div>
+                <div v-else>
+                    <v-rating
+                    v-model="data_modified.rate"
+                    size="x-small" density="compact"
+                    ></v-rating>
+                </div>
                 <p>{{ $util.str2date(createdAt) }}</p>
             </div>
         </div>
@@ -21,7 +29,15 @@
         
         <!-- 내용 -->
         <v-spacer class="my-3" />
-        <p>{{ content }}</p>
+        <div v-if="readonly">
+            <p>{{ content }}</p>
+        </div>
+        <div v-else>
+            <v-text-field
+            density="compact" variant="outlined"
+            v-model="data_modified.content"
+            ></v-text-field>
+        </div>
 
         <v-spacer class="my-3" />
 
@@ -54,9 +70,18 @@ export default {
         content: String,
         numRec: Number,
         numNotRec: Number,
+
+        readonly: {
+            default: true,
+            type: Boolean,
+        },  
     },
     data() {return {
-        rate_model: 0,
+        data_modified: {
+            rate: this.rate,
+            createdAt: Date.now(),
+            content: this.content,
+        },
 
         btnRec: {
             label: "추천", 
@@ -75,8 +100,14 @@ export default {
             console.log("click onClickNoRec");
         },
     },
-    mounted() {
-        this.rate_model = this.rate;
+    watch: {
+        readonly(val) {
+            if(val) {
+                console.log("emit update");
+                console.log(this.data_modified);
+                this.$emit("update", this.data_modified);
+            }
+        },
     },
 
 }

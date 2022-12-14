@@ -6,9 +6,11 @@
       </v-app-bar>
 
       <v-navigation-drawer 
-        class="bg-grey" permanent
+        permanent class="bg-nav"
         v-model="drawer"
-      ></v-navigation-drawer>
+      >
+        <com_account_nav />
+      </v-navigation-drawer>
   
       <v-main>
         <router-view />
@@ -42,6 +44,9 @@ export default {
 }
 .header {
   max-height: 15vh;
+}
+.bg-nav {
+  background-color: rgb(200, 200, 200);
 }
 
 /* 전역 CSS */

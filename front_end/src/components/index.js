@@ -62,6 +62,7 @@ import com_img_create from '@/components/createItem/com_img_create'
 import com_tag_create from '@/components/createItem/com_tag_create'
 
 import com_history_review from '@/components/historyReview/com_history_review'
+import com_review_header_unit from '@/components/historyReview/com_review_header_unit'
 
 const components = {
     "com_header": com_header,
@@ -128,6 +129,7 @@ const components = {
     "com_tag_create": com_tag_create,
 
     "com_history_review": com_history_review,
+    "com_review_header_unit": com_review_header_unit,
 };
 
 export default {

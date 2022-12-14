@@ -2,16 +2,17 @@
     <v-container>
         <v-row>
             <v-col>
+                <h1>리뷰 내역 조회</h1>
+                <v-divider thickness="thick" color="black"/>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col>
                 <!-- 상품평 -->
                 <v-card height="500" class="overflow-y-auto">
                     <div v-for="review of reviews" :key="review">
-                        <div class="l2r">
-                            <com_review_unit v-bind="review" />
-                            <v-spacer/>
-                            <v-btn
-                            @click="linkTo(review.iid)"
-                            >해당 상품 페이지로</v-btn>
-                        </div>
+                        <com_review_header_unit v-bind="review"/>
+                        <com_review_unit v-bind="review" />
                         <v-divider class="my-3" />
                     </div>
                 </v-card>
@@ -24,11 +25,6 @@
 export default {
 props: {
     reviews: Array,
-},
-methods: {
-    linkTo(iid) {
-        this.$router.push(this.$endPoint.item(iid));
-    },
 },
 }
 </script>

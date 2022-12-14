@@ -2,7 +2,7 @@
     <v-container>
         <v-row>
             <v-col>
-                <h1>리뷰 내역 조회</h1>
+                <h1>문의 내역 조회</h1>
                 <v-divider thickness="thick" color="black"/>
             </v-col>
         </v-row>

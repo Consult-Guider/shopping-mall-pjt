@@ -1,0 +1,6 @@
+cloud.aws:
+  region:
+    static: ap-northeast-2
+  # https://github.com/spring-attic/spring-cloud-aws/issues/531
+  stack:
+    auto: false

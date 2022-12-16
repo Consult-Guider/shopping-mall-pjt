@@ -54,6 +54,9 @@ dependencies {
 //	elasticsearch search 적용
 	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 
+//	amazon S3 적용
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'

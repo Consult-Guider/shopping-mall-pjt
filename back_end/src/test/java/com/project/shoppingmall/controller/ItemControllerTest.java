@@ -1,5 +1,6 @@
 package com.project.shoppingmall.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.shoppingmall.model.request.ItemCreateRequest;
 import com.project.shoppingmall.model.request.ItemUpdateRequest;
@@ -13,13 +14,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
+import org.springframework.util.MultiValueMapAdapter;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.project.shoppingmall.utils.JsonPathUtil.makeBaseJsonPath;
 import static com.project.shoppingmall.utils.JsonPathUtil.makePathJsonPath;
@@ -53,6 +61,15 @@ class ItemControllerTest {
         return String.format("%s/%s/all", prefix, iid);
     }
 
+    private <E> List<String> writeValueAsListOfString(List<E> listOfObject) throws JsonProcessingException {
+        List<String> listOfString = new ArrayList<>();
+        for (E obj : listOfObject) {
+            String value = objectMapper.writeValueAsString(obj);
+            listOfString.add(value);
+        }
+        return listOfString;
+    }
+
     @Test
     @WithAuthenticationPrincipal(role = RoleType.SELLER)
     @DisplayName("[정상 작동][post][/api/v1/item] 상품 생성")
@@ -60,10 +77,23 @@ class ItemControllerTest {
         // given
         ItemCreateRequest createFixture = FixtureFactory.itemCreateRequestFixture();
 
+        Map<String, List<String>> params = new HashMap<>();
+        params.put("name", List.of(createFixture.getName()));
+        params.put("price", List.of(createFixture.getPrice().toString()));
+        params.put("optionList", writeValueAsListOfString(createFixture.getOptionList()));
+        params.put("tagList", writeValueAsListOfString(createFixture.getTagList()));
+
         // when
-        RequestBuilder request = post(prefix)
-                .content(objectMapper.writeValueAsBytes(createFixture))
-                .contentType(MediaType.APPLICATION_JSON);
+        MockMultipartHttpServletRequestBuilder multipart = multipart(HttpMethod.POST, prefix)
+                .file((MockMultipartFile) createFixture.getImage());
+
+        createFixture.getDescriptionList().stream()
+                .map(MockMultipartFile.class::cast)
+                .forEach(multipart::file);
+
+        RequestBuilder request = multipart
+                .params(new MultiValueMapAdapter<>(params))
+                .contentType(MediaType.MULTIPART_FORM_DATA);
 
         // then
         mvc.perform(request)
@@ -120,7 +150,6 @@ class ItemControllerTest {
         actions.andExpect(jsonPath(makeBaseJsonPath("seller.companyName")).hasJsonPath());
         actions.andExpect(jsonPath(makeBaseJsonPath("imagePath")).hasJsonPath());
 
-        actions.andExpect(jsonPath(makeBaseJsonPath("imageList[0].path")).hasJsonPath());
         actions.andExpect(jsonPath(makeBaseJsonPath("optionList[0].name")).hasJsonPath());
         actions.andExpect(jsonPath(makeBaseJsonPath("descriptionList[0].path")).hasJsonPath());
         actions.andExpect(jsonPath(makeBaseJsonPath("reviewList[0].content")).hasJsonPath());

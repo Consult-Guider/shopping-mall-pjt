@@ -21,7 +21,6 @@ public class ItemReadResponse {
     private final SellerWithItemResponse seller;
     private final String imagePath;
 
-    private final List<Image> imageList;
     private final List<Option> optionList;
     private final List<Description> descriptionList;
     private final List<Review> reviewList;
@@ -54,7 +53,6 @@ public class ItemReadResponse {
                 .seller(Optional.ofNullable(sellerEntity).map(SellerWithItemResponse::fromEntity).orElse(null))
                 .imagePath(entity.getImagePath())
 
-                .imageList(entity.getImageList())
                 .optionList(entity.getOptionList())
                 .descriptionList(entity.getDescriptionList())
                 .reviewList(entity.getReviewList())

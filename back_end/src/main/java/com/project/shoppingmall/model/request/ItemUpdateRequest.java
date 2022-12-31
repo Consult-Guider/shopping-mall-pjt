@@ -15,7 +15,6 @@ public class ItemUpdateRequest {
     private Long price;
     private String imagePath;
 
-    private List<Image> imageList;
     private List<Option> optionList;
     private List<Description> descriptionList;
     private List<Review> reviewList;
@@ -27,7 +26,6 @@ public class ItemUpdateRequest {
         Optional.ofNullable(this.getPrice()).ifPresent(entity::setPrice);
         Optional.ofNullable(this.getImagePath()).filter(s -> !s.isBlank()).ifPresent(entity::setImagePath);
 
-        Optional.ofNullable(this.getImageList()).filter(s -> !s.isEmpty()).ifPresent(entity::setImageList);
         Optional.ofNullable(this.getOptionList()).filter(s -> !s.isEmpty()).ifPresent(entity::setOptionList);
         Optional.ofNullable(this.getDescriptionList()).filter(s -> !s.isEmpty()).ifPresent(entity::setDescriptionList);
         Optional.ofNullable(this.getReviewList()).filter(s -> !s.isEmpty()).ifPresent(entity::setReviewList);

@@ -19,7 +19,8 @@ public enum ErrorCode {
     FORBIDDEN(HttpStatus.FORBIDDEN,  "해당 계정은 접근 불가 상태입니다."),
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "로그인 후 사용 가능합니다. "),
     ITEM_NOT_FOUNDED(HttpStatus.NOT_FOUND, "해당 품목은 찾을 수가 없습니다."),
-    NO_OWNERSHIP(HttpStatus.FORBIDDEN, "소유권이 없어서 조작할 수 없습니다.");
+    NO_OWNERSHIP(HttpStatus.FORBIDDEN, "소유권이 없어서 조작할 수 없습니다."),
+    ITEM_IMAGE_IOException(HttpStatus.INTERNAL_SERVER_ERROR, "상품 이미지 업로드 과정 중 문제가 발생함.");
 
     private final HttpStatus status;
     private final String message;

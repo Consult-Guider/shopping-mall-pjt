@@ -11,7 +11,11 @@ import com.project.shoppingmall.model.request.UserCreateRequest;
 import com.project.shoppingmall.model.response.ItemReadResponse;
 import com.project.shoppingmall.model.response.SellerWithItemResponse;
 import org.junit.jupiter.params.provider.Arguments;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Stream;
@@ -235,24 +239,22 @@ public class FixtureFactory {
         ));
     }
 
-    public static ItemCreateRequest itemCreateRequestFixture() {
+    public static ItemCreateRequest itemCreateRequestFixture() throws IOException {
         ItemCreateRequest request = new ItemCreateRequest();
         request.setName("mock Name");
         request.setPrice(10000L);
-        request.setImagePath("mock ImagePath");
+        request.setImage(ImageFixture());
 
-        request.setImageList(List.of(imageFixture()));
         request.setOptionList(List.of(optionFixture()));
-        request.setDescriptionList(List.of(descriptionFixture()));
+        request.setDescriptionList(List.of(descriptionImageFixture()));
         request.setTagList(List.of(tagFixture()));
 
         return request;
     }
 
-    public static Image imageFixture() {
-        Image entity = new Image();
-        entity.setPath("mock Image Path");
-        return entity;
+    public static MultipartFile ImageFixture() throws IOException {
+        URL url = new URL("https://cdn.pixabay.com/photo/2019/04/06/06/44/astronaut-4106766_960_720.jpg");
+        return new MockMultipartFile("image", "astronaut-4106766_960_720.jpg", null, url.openStream());
     }
 
     public static Option optionFixture() {
@@ -265,6 +267,11 @@ public class FixtureFactory {
         Description entity = new Description();
         entity.setPath("mock Description Path");
         return entity;
+    }
+
+    public static MultipartFile descriptionImageFixture() throws IOException {
+        URL url = new URL("https://cdn.pixabay.com/photo/2018/07/09/16/59/clouds-3526558_960_720.jpg");
+        return new MockMultipartFile("descriptionList", "clouds-3526558_960_720.jpg", null, url.openStream());
     }
 
     public static Tag tagFixture() {
@@ -315,7 +322,6 @@ public class FixtureFactory {
                 .seller(sellerWithItemResponseFixture())
                 .imagePath("mock imagePath")
 
-                .imageList(List.of(imageFixture()))
                 .optionList(List.of(optionFixture()))
                 .descriptionList(List.of(descriptionFixture()))
                 .reviewList(List.of(reviewFixture()))

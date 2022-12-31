@@ -20,7 +20,7 @@ public class ItemController {
     private final ItemService itemService;
 
     @PostMapping
-    public Response<Void> createItem(@RequestBody ItemCreateRequest request) {
+    public Response<Void> createItem(@ModelAttribute ItemCreateRequest request) {
         itemService.create(request);
         return Response.success();
     }

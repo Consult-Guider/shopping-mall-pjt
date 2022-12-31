@@ -39,8 +39,6 @@ public class Item {
     private String imagePath;
 
     @Field(type = FieldType.Object) @Builder.Default
-    private List<Image> imageList = new ArrayList<>();
-    @Field(type = FieldType.Object) @Builder.Default
     private List<Option> optionList = new ArrayList<>();
     @Field(type = FieldType.Object) @Builder.Default
     private List<Description> descriptionList = new ArrayList<>();
@@ -51,7 +49,6 @@ public class Item {
     @Field(type = FieldType.Object) @Builder.Default
     private List<Tag> tagList = new ArrayList<>();
 
-    public void addImageList(Image obj) { imageList.add(obj); }
     public void addOptionList(Option obj) { optionList.add(obj); }
     public void addDescriptionList(Description obj) { descriptionList.add(obj); }
     public void addReviewList(Review obj) { reviewList.add(obj); }

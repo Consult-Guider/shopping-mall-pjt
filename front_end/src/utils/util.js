@@ -40,6 +40,11 @@ function str2Avatar(str) {
     return str.slice(0, 3).toUpperCase();
 }
 
+function multipart2Str(multifile) {
+    if(multifile == null) { return null; }
+    return URL.createObjectURL(multifile);
+}
+
 export default {
     "range": range,
     "makeFrame": makeFrame,
@@ -49,4 +54,5 @@ export default {
     "beAnonymous": beAnonymous,
     "str2date": str2date,
     "str2Avatar":str2Avatar,
+    "multipart2Str": multipart2Str,
 }

@@ -29,35 +29,35 @@ props: {
         type: String,
         default: undefined,
     },
+    multipartfile: {
+        type: Object,
+        default: undefined,
+    },
     always_empty: {
         type: Boolean,
         default: false,
     },
 },
 data() {return {
-    src: undefined,
-    url: this.img,
+    src: this.multipartfile,
+    url: this.multipartfile ? this.$util.multipart2Str(this.multipartfile) : this.img,
 }},
 methods: {
     onClickDelete() {
-        this.$emit("deleteImg", this.url);
+        this.$emit("deleteImg", this.multipartfile);
         this.src = undefined;
-    },
-
-    transImg(file) {
-        if(file == null) { return; }
-        return URL.createObjectURL(file[0]);
     },
 },
 computed: {
     Src() { return this.url ?? this.$defaults.image; },
+    srcFirst() { return this.src ? this.src[0] : null;},
 },
 watch: {
     src() { 
         const old_one = this.url;
-        const url = this.src ? this.transImg(this.src) : null;
+        const url = this.src ? this.$util.multipart2Str(this.srcFirst) : null;
         this.url = this.always_empty ? null : url
-        this.$emit("updateImg", old_one, url);
+        this.$emit("updateImg", old_one, this.srcFirst);
     },
 },
 }

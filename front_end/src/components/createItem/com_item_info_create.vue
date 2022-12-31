@@ -2,7 +2,7 @@
 <v-container>
 <v-row>
     <v-col>
-        <com_img_create class="fill"  @updateImg="((old_one, img) => old_one, img)" />
+        <com_img_create class="fill" @updateImg="onClickMainImage" />
     </v-col>
     <v-col>
         <v-container id="left-sector">
@@ -68,6 +68,7 @@ data() {return {
     item: {
         name: "", 
         price: 0,
+        image: null,
     },
     option: {
         label: "옵션 생성. 입력 후 엔터.",
@@ -96,6 +97,19 @@ methods: {
     onClickUpdate() {
         console.log("click onClickPurchase");
         // TODO: 상품 등록시, axios를 이용해서 쿼리날리기.
+        const formdata = new FormData();
+        formdata.append("name", this.item.name);
+        formdata.append("price", this.item.price);
+        formdata.append("image", this.item.image);
+        formdata.append("optionList", this.option.list);
+        for(const img of this.imgList) {
+            formdata.append("descriptionList", img);
+        }
+        formdata.append("tagList", this.tagList);
+
+        this.$http.post(`/item`, formdata, {
+            headers: {'Context-Type': 'multipart/form-data'},
+        });
     },
 
     onEnterOption() {
@@ -113,6 +127,9 @@ methods: {
             }
         }
         this.option.value = null;
+    },
+    onClickMainImage(oldone, val) {
+        this.item.image = val;
     },
 },
 computed: {

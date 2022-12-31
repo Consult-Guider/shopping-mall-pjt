@@ -21,6 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("S3FileManager text - AWS S3 Bucket test")
 @EnableProjectAmazonS3Configuration
 @SetProfile
+// 아래는 Configuration들을 테스트에서 사용하기 위한 장치들이다.
 @DataJpaTest
 @EnableProjectQueryDslConfiguration
 class S3FileManagerTest {
@@ -28,6 +29,7 @@ class S3FileManagerTest {
     FileManager<MultipartFile, String> fileManager;
 
     @Test
+    @DisplayName("[정상 작동][saveFile & deleteFile] S3 파일 저장, 삭제 확인")
     public void givenUrlAndTrgPath_whenCallSaveFileAndDeleteFile_thenExistRelatedUrlInS3Bucket() throws IOException {
         // given
         URL url = new URL("https://cdn.pixabay.com/photo/2016/01/18/19/42/fractal-1147253_960_720.jpg");

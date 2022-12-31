@@ -36,7 +36,7 @@
         <v-card-text>                    
             <v-window v-model="tab">
                 <v-window-item value="desc">
-                    <com_desc_create @updateImg="updateImgList" />
+                    <com_desc_create @updateImgList="updateImgList" />
                 </v-window-item>
 
                 <v-window-item value="review">

@@ -2,5 +2,10 @@ jwt:
   secret-key: Ly8gVE9ETzogcGxlYXNlIGRldGVybWluZSB0aGlzIGtleSEhIEJ5IGlrc2FkTm9ydGguIDop
   expired-time-ms: 86400000
 
+cors:
+  allowed-url:
+    http://localhost:8090,
+    http://192.168.25.3:8090
+
 logging.level:
   org.springframework.security: DEBUG

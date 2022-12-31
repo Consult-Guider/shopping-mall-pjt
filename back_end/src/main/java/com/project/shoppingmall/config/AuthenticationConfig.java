@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 import static com.project.shoppingmall.utils.UrlPrefixManager.addPrefix;
 
@@ -26,6 +27,7 @@ public class AuthenticationConfig {
     private final JwtProperties jwtProperties;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final CorsConfigurationSource configurationSource;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -39,6 +41,9 @@ public class AuthenticationConfig {
 
                 // JWT를 사용할 것이기에 세션을 사용하지 않음.
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
+                // CORS 정책 설정.
+                .and().cors().configurationSource(configurationSource)
 
                 // api 접근 권한 제어.
                 .and().authorizeRequests()

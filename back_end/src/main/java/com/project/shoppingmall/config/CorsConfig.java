@@ -4,14 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
-@EnableWebSecurity
 @Configuration
 @RequiredArgsConstructor
 public class CorsConfig {
@@ -19,7 +17,7 @@ public class CorsConfig {
     String[] allowedUrls;
 
     @Bean
-    public CorsConfigurationSource corsConfig() {
+    public CorsConfigurationSource configurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
         Arrays.stream(allowedUrls).forEach(config::addAllowedOrigin);

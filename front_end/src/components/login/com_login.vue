@@ -34,6 +34,7 @@
                 :hint="email.hint"
             ></v-text-field>
         </v-row>
+        <v-spacer class="my-1" />
         <v-row>
             <v-text-field
                 clearable variant="outlined"
@@ -117,7 +118,7 @@ methods: {
             const token = authRes.of(res.data).token;
 
             // store에 적재.
-            this.$store.commit('login', token, isAuto);
+            this.$store.commit('login', {token: token, isAuto: isAuto});
 
             // 전 페이지로 이동.
             window.history.back();

@@ -1,7 +1,21 @@
 import { createStore } from 'vuex';
 import roleType from '@/utils/roleType';
 import util from '@/utils/util';
-import { DelAccessToken, saveAccessToken } from '@/utils/localStorage';
+import { DelAccessToken, loadAccessToken, saveAccessToken } from '@/utils/localStorage';
+
+function baseLogin(state, token, isAuto) {
+	// token Decoding.
+	const decoded = util.JWTDecode(token);
+
+	// 스토어에 저장.
+	state.user = {
+		email: decoded.email,
+		role: roleType.find(decoded.role),
+	};
+
+	// localStorage에 저장.
+	if(isAuto) { saveAccessToken(token); }
+}
 
 export default createStore({
 	state: {
@@ -12,7 +26,11 @@ export default createStore({
 	},
 	getters: {
 		isLogin(state) {
-			return state.user.email != null;
+			const token = loadAccessToken();
+			if (token && !state.user.email) {
+				baseLogin(state, token, false);
+			}
+			return state.user.email;
 		},
 		isUser(state) {
 			return state.user.role == roleType.roles.USER;
@@ -25,18 +43,11 @@ export default createStore({
 		},
 	},
 	mutations: {
-		login(state, token) {
-			// token Decoding.
-			const decoded = util.JWTDecode(token);
+		login(state, payload) {
+			const token = payload.token;
+			const isAuto = payload.isAuto;
 
-			// 스토어에 저장.
-			state.user = {
-				email: decoded.email,
-				role: roleType.find(decoded.role),
-			};
-
-			// localStorage에 저장.
-			saveAccessToken(token);
+			baseLogin(state, token, isAuto);
 		},
 		logout(state) {
 			// 스토어에서 삭제.

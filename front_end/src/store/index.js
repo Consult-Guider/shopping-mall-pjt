@@ -25,7 +25,7 @@ export default createStore({
 		},
 	},
 	mutations: {
-		login(state, token) {
+		login(state, token, isAuto=false) {
 			// token Decoding.
 			const decoded = util.JWTDecode(token);
 
@@ -36,7 +36,7 @@ export default createStore({
 			};
 
 			// localStorage에 저장.
-			saveAccessToken(token);
+			if(isAuto) { saveAccessToken(token); }
 		},
 		logout(state) {
 			// 스토어에서 삭제.

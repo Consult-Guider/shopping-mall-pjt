@@ -108,7 +108,6 @@ computed: {
 },
 methods: {
     fetchLogin(email, password, isAuto) {
-        isAuto
         const data = authReq.of(this.role, email, password);
 
         this.clearHint();
@@ -118,7 +117,7 @@ methods: {
             const token = authRes.of(res.data).token;
 
             // store에 적재.
-            this.$store.commit('login', token);
+            this.$store.commit('login', token, isAuto);
 
             // 전 페이지로 이동.
             window.history.back();
@@ -133,6 +132,9 @@ methods: {
                     break;
                 case "WRONG_PASSWORD":
                     this.password.hint = "잘못된 비밀번호입니다.";
+                    break;
+                case "INVALID_PARAMETER":
+                    this.email.hint = "적절한 이메일 형식이 아닙니다.";
                     break;
                 default:
                     alert(errorCode);

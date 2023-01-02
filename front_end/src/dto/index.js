@@ -48,7 +48,7 @@ export class ErrRes {
     }
 
     getData() {
-        return this.response.data;
+        return this.response.response.data;
     }
 
     get errorCode() {

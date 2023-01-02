@@ -4,50 +4,44 @@
             <img_logo />
         </v-row>
         <v-row>
-            <v-text-field
-                clearable variant="outlined"
-                :prepend-icon="email.icon" persistent-hint
-                v-model="email.value"
-                :label="email.label"
-                :hint="email.hint"
-            ></v-text-field>
+            <v-tabs
+            v-model="role"
+            bg-color="basil" class="mb-3"
+            density="compact" centered stacked grow
+            >
+
+            <v-tab :value="roles.USER">
+                <v-icon>mdi-account</v-icon>
+                소비자
+            </v-tab>
+            <v-tab :value="roles.SELLER">
+                <v-icon>mdi-domain</v-icon>
+                판매자
+            </v-tab>
+            <v-tab :value="roles.ADMIN">
+                <v-icon>mdi-police-badge</v-icon>
+                운영자
+            </v-tab>
+
+            </v-tabs>
         </v-row>
-        <v-row>
-            <v-text-field
-                clearable variant="outlined"
-                :prepend-icon="password.icon" persistent-hint type="password"
-                v-model="password.value"
-                :label="password.label"
-                :hint="password.hint"
-            ></v-text-field>
-        </v-row>
-        <v-row>
-            <v-text-field
-                clearable variant="outlined"
-                :prepend-icon="passwordAgain.icon" persistent-hint  type="password"
-                v-model="passwordAgain.value"
-                :label="passwordAgain.label"
-                :hint="passwordAgain.hint"
-            ></v-text-field>
-        </v-row>
-        <v-row>
-            <v-text-field
-                clearable variant="outlined"
-                :prepend-icon="name.icon" persistent-hint
-                v-model="name.value"
-                :label="name.label"
-                :hint="name.hint"
-            ></v-text-field>
-        </v-row>
-        <v-row>
-            <v-text-field
-                clearable variant="outlined"
-                :prepend-icon="phone.icon" persistent-hint
-                v-model="phone.value"
-                :label="phone.label"
-                :hint="phone.hint"
-            ></v-text-field>
-        </v-row>
+        <v-window v-model="role">
+            <v-window-item
+                v-for="item in roles" :key="item" 
+                :value="item"
+            >
+            <v-container>
+                <v-row v-for="row of roleData[item]" :key="row">
+                    <v-text-field
+                        clearable variant="outlined" class="mb-3" persistent-hint 
+                        :prepend-icon="row.icon" :type="row.type"
+                        :label="row.label" :hint="row.hint"
+                        v-model="row.value"
+                    ></v-text-field>
+                </v-row>
+            </v-container>
+            </v-window-item>
+        </v-window>
         <v-row>
             <v-checkbox
                 v-model="agreeAll.value"
@@ -78,6 +72,8 @@
 </template>
 
 <script>
+import roleType from "@/utils/roleType";
+
 export default {
 data() {return {
     cfg: {
@@ -95,12 +91,14 @@ data() {return {
         value: undefined,
         icon: "mdi-account",
         hint: "",
+        type: null,
     },
     password: {
         label: "비밀번호",
         value: undefined,
         icon: "mdi-lock",
         hint: "",
+        type: "password",
     },
     passwordAgain: {
         label: "비밀번호 확인",
@@ -108,18 +106,21 @@ data() {return {
         icon: "mdi-lock",
         hint: "",
         warn: "비밀 번호가 동일하지 않습니다.",
+        type: "password",
     },
     name: {
         label: "이름",
         value: undefined,
         icon: "mdi-badge-account-horizontal-outline",
         hint: "",
+        type: null,
     },
     phone: {
         label: "전화번호",
         value: undefined,
         icon: "mdi-cellphone-text",
         hint: "",
+        type: null,
     },
 
     agreeAll: {
@@ -142,7 +143,16 @@ data() {return {
         click: this.onClickJoin,
     },
 
+    role: roleType.roles.USER,
+    roleData: {},
 }},
+created() {
+    this.roleData = {
+        USER:   [this.email, this.password, this.passwordAgain, this.name, this.phone,],
+        SELLER: [this.email, this.password, this.passwordAgain, this.name, this.phone,],
+        ADMIN:  [this.email, this.password, this.passwordAgain, this.name, this.phone,],
+    };
+},
 computed: {
     valAgreeAll() {return this.agreeAll.value;},
     valAgreeOptions() {
@@ -150,7 +160,10 @@ computed: {
             if(!option.value) { return false; }
         }
         return true;
-    }
+    },
+    roles() {
+        return roleType.roles;
+    },
 },
 watch: {
     valAgreeAll(val) {

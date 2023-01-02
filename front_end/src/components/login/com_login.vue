@@ -4,6 +4,28 @@
             <img_logo />
         </v-row>
         <v-row>
+            <v-tabs
+            v-model="role"
+            bg-color="basil" class="mb-3"
+            density="compact" centered stacked grow
+            >
+
+            <v-tab :value="roles.USER">
+                <v-icon>mdi-account</v-icon>
+                소비자
+            </v-tab>
+            <v-tab :value="roles.SELLER">
+                <v-icon>mdi-domain</v-icon>
+                판매자
+            </v-tab>
+            <v-tab :value="roles.ADMIN">
+                <v-icon>mdi-police-badge</v-icon>
+                운영자
+            </v-tab>
+
+            </v-tabs>
+        </v-row>
+        <v-row>
             <v-text-field
                 clearable variant="outlined"
                 :prepend-icon="email.icon" persistent-hint
@@ -47,6 +69,7 @@
 
 <script>
 import { authReq, authRes, ErrRes } from "@/dto";
+import roleType from "@/utils/roleType";
 
 export default {
 data() {return {
@@ -76,11 +99,17 @@ data() {return {
         click: this.onClickJoin,
     },
 
+    role: roleType.roles.USER,
 }},
+computed: {
+    roles() {
+        return roleType.roles;
+    },
+},
 methods: {
     fetchLogin(email, password, isAuto) {
         isAuto
-        const data = authReq.of(email, password);
+        const data = authReq.of(this.role, email, password);
 
         this.clearHint();
         this.$http.post('/auth', data.json())

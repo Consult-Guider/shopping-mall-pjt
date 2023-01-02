@@ -1,5 +1,3 @@
-import roleType from "@/utils/roleType";
-
 export class authReq {
     constructor(role, email, password) {
         this.role = role;
@@ -7,8 +5,8 @@ export class authReq {
         this.password = password;
     }
 
-    static of(email, password) {
-        return new this(roleType.roles.USER, email, password);
+    static of(role, email, password) {
+        return new this(role, email, password);
     }
 
     json() {

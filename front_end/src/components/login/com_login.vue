@@ -46,6 +46,8 @@
 </template>
 
 <script>
+import { authReq, authRes, ErrRes } from "@/dto";
+
 export default {
 data() {return {
     email: {
@@ -77,7 +79,37 @@ data() {return {
 }},
 methods: {
     fetchLogin(email, password, isAuto) {
-        email, password, isAuto
+        isAuto
+        const data = authReq.of(email, password);
+
+        this.clearHint();
+        this.$http.post('/auth', data.json())
+        .then(res => {
+            // accessToken parsing.
+            const token = authRes.of(res.data).token;
+
+            // store에 적재.
+            this.$store.commit('login', token);
+
+            // 전 페이지로 이동.
+            window.history.back();
+        })
+        .catch(err => {
+            const errorCode = ErrRes.of(err).errorCode;
+
+            // 에러 메세지 표시.
+            switch(errorCode) {
+                case "ACCOUNT_NOT_FOUNDED":
+                    this.email.hint = "해당 계정은 존재하지 않습니다.";
+                    break;
+                case "WRONG_PASSWORD":
+                    this.password.hint = "잘못된 비밀번호입니다.";
+                    break;
+                default:
+                    alert(errorCode);
+                    break;
+            }
+        });
     },
     clearHint() {
         const nullValue = "";

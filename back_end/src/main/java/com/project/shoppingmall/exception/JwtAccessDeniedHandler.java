@@ -30,7 +30,7 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
             authException.printStackTrace();
         }
         ErrorCode code = ErrorCode.FORBIDDEN;
-        Response<Void> errorResponse = Response.error(code.getMessage());
+        Response<Void> errorResponse = Response.error(code.getMessage(), code);
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(code.getStatus().value());

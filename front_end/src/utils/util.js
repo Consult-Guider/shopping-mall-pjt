@@ -45,6 +45,15 @@ function multipart2Str(multifile) {
     return URL.createObjectURL(multifile);
 }
 
+function JWTDecode(token) {
+    // payload만 취득
+    const base64Payload = token.split('.')[1]; 
+    // Base64 해독
+    const payload = atob(base64Payload); 
+    // Json Parsing
+    return JSON.parse(payload);
+}
+
 export default {
     "range": range,
     "makeFrame": makeFrame,
@@ -55,4 +64,5 @@ export default {
     "str2date": str2date,
     "str2Avatar":str2Avatar,
     "multipart2Str": multipart2Str,
+    "JWTDecode": JWTDecode,
 }

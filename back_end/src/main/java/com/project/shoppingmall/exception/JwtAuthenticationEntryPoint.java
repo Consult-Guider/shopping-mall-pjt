@@ -30,7 +30,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
             authException.printStackTrace();
         }
         ErrorCode code = ErrorCode.UNAUTHORIZED;
-        Response<Void> errorResponse = Response.error(code.getMessage());
+        Response<Void> errorResponse = Response.error(code.getMessage(), code);
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(code.getStatus().value());

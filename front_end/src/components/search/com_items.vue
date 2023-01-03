@@ -1,6 +1,6 @@
 <template>
     <v-sheet class="fill">
-        <v-continer class="fill y-gap">
+        <v-container class="fill y-gap">
             <v-row 
                 v-for="r of $util.range(caluated.rows)" :key="r"
             >
@@ -11,7 +11,7 @@
                     <com_item :data="getItem(1, r, c)" />
                 </v-col>
             </v-row>
-        </v-continer>
+        </v-container>
     </v-sheet>
 </template>
 

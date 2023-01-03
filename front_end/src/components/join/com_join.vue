@@ -33,7 +33,7 @@
             <v-container>
                 <v-row v-for="row of roleData[item]" :key="row">
                     <v-text-field
-                        clearable variant="outlined" class="mb-3" persistent-hint 
+                        clearable variant="outlined" class="my-3" persistent-hint 
                         :prepend-icon="row.icon" :type="row.type"
                         :label="row.label" :hint="row.hint"
                         v-model="row.value"
@@ -73,9 +73,11 @@
 
 <script>
 import roleType from "@/utils/roleType";
+import { SignUpReq, ErrRes } from "@/dto";
 
 export default {
 data() {return {
+    // 환경 설정과 관련된 변수들.
     cfg: {
         option:{
             filled: "[필수]", none: "[선택]",
@@ -86,6 +88,7 @@ data() {return {
         },
     },
 
+    // 사용자가 기입할 항목들에 대한 데이터들.
     email: {
         label: "아이디(이메일)",
         value: undefined,
@@ -122,7 +125,15 @@ data() {return {
         hint: "",
         type: null,
     },
+    companyName: {
+        label: "회사명",
+        value: undefined,
+        icon: "mdi-domain",
+        hint: "",
+        type: null,
+    },
 
+    // 약관 동의에 관한 항목들.
     agreeAll: {
         label: "모두 확인하였으며 동의합니다.",
         value: undefined,
@@ -138,19 +149,49 @@ data() {return {
         {required: false, label: "전자금융거래 이용약관 동의", value: false,},
     ],
 
+    // 기타 요소들에 대한 데이터.
     btnJoin: {
         label: "동의하고 가입하기",
         click: this.onClickJoin,
     },
 
+    // 역할군에 따른 설정 데이터.
+    //// 역할군 초기값.
     role: roleType.roles.USER,
+    //// 각 역할군에 따른 설문 항목.
     roleData: {},
+    //// 각 역할군에 따른 EndPoint.
+    roleEndpoint: {
+        USER:   "/user",
+        SELLER: "/seller",
+        ADMIN:  "/admin",
+    },
 }},
 created() {
+    //// 각 역할군에 따른 설문 항목. 초기값.
     this.roleData = {
-        USER:   [this.email, this.password, this.passwordAgain, this.name, this.phone,],
-        SELLER: [this.email, this.password, this.passwordAgain, this.name, this.phone,],
-        ADMIN:  [this.email, this.password, this.passwordAgain, this.name, this.phone,],
+        USER: {
+            email: this.email, 
+            password: this.password, 
+            passwordAgain: this.passwordAgain, 
+            name: this.name, 
+            phone: this.phone,
+        },
+        SELLER: {
+            email: this.email, 
+            password: this.password, 
+            passwordAgain: this.passwordAgain, 
+            name: this.name, 
+            phone: this.phone,
+            companyName: this.companyName,
+        },
+        ADMIN: {
+            email: this.email, 
+            password: this.password, 
+            passwordAgain: this.passwordAgain, 
+            name: this.name, 
+            phone: this.phone,
+        },
     };
 },
 computed: {
@@ -183,8 +224,32 @@ methods: {
 
         return `${prefix}  ${label}`;
     },
-    fetchJoin(email, password, name, phone) {
-        email, password, name, phone
+    fetchJoin() {
+        const data = SignUpReq.of(this.role, this.roleData[this.role]);
+        const endpoint = this.roleEndpoint[this.role];
+
+        this.clearHint();
+        this.$http.post(endpoint, data.json())
+        .then(() => {
+            // 전 페이지로 이동.
+            this.$router.push(this.$endPoint.login);
+        })
+        .catch(err => {
+            const errorCode = ErrRes.of(err).errorCode;
+
+            // 에러 메세지 표시.
+            switch(errorCode) {
+                case "ACCOUNT_ALREADY_EXISTED":
+                    this.email.hint = "해당 이메일이 이미 존재합니다.";
+                    break;
+                case "INVALID_PARAMETER":
+                    alert("적절한 형식이 아닙니다.");
+                    break;
+                default:
+                    alert(errorCode);
+                    break;
+            }
+        });
     },
     clearHint() {
         const nullValue = "";
@@ -221,8 +286,7 @@ methods: {
         if(!this.verifyOptions()) {
             return ;
         }
-        this.fetchJoin(this.email.value, this.password.value, this.name.value, this.phone.value);
-        this.$router.push(this.$endPoint.home);
+        this.fetchJoin();
     },
 },
 }

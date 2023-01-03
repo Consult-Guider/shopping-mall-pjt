@@ -21,7 +21,11 @@ public class JpaConfig {
                 .map(SecurityContext::getAuthentication)
                 .filter(Authentication::isAuthenticated)
                 .map(Authentication::getPrincipal)
+                .filter(JpaConfig::filterAnonymousUser)
                 .map(LoginDto.class::cast)
                 .map(LoginDto::getId);
+    }
+    private static Boolean filterAnonymousUser(Object o) {
+        return !o.equals("anonymousUser");
     }
 }

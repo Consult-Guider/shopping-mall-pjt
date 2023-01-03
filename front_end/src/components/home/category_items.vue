@@ -9,7 +9,7 @@
             v-for="p of $util.range(caluated.pages)" :key="p"
         >
             <v-sheet class="fill">
-                <v-continer class="fill y-gap">
+                <v-container class="fill y-gap">
                     <v-row 
                         v-for="r of $util.range(rows)" :key="r"
                     >
@@ -20,7 +20,7 @@
                             <com_item :data="getItem(p, r, c)" />
                         </v-col>
                     </v-row>
-                </v-continer>
+                </v-container>
             </v-sheet>
         </v-carousel-item>
     </v-carousel>

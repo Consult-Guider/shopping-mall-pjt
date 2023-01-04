@@ -160,12 +160,6 @@ data() {return {
     role: roleType.roles.USER,
     //// 각 역할군에 따른 설문 항목.
     roleData: {},
-    //// 각 역할군에 따른 EndPoint.
-    roleEndpoint: {
-        USER:   "/user",
-        SELLER: "/seller",
-        ADMIN:  "/admin",
-    },
 }},
 created() {
     //// 각 역할군에 따른 설문 항목. 초기값.
@@ -226,7 +220,7 @@ methods: {
     },
     fetchJoin() {
         const data = SignUpReq.of(this.role, this.roleData[this.role]);
-        const endpoint = this.roleEndpoint[this.role];
+        const endpoint = this.$endPoint.backend[this.role];
 
         this.clearHint();
         this.$http.post(endpoint, data.json())

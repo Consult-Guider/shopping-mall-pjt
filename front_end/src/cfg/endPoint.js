@@ -20,4 +20,11 @@ export default {
     "payment": "/payment",
 
     "createItem": "/createItem",
+
+    "backend": {
+        // 각 역할군에 따른 EndPoint.",
+        "USER":   "/user",
+        "SELLER": "/seller",
+        "ADMIN":  "/admin",
+    },
 }

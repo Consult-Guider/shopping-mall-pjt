@@ -15,6 +15,7 @@ const routes = [
   { path: endPoint.payment, component: () => import("@/views/view_payment.vue")},
   { path: endPoint.updateAccount, component: () => import("@/views/view_updateAccount.vue")},
   { path: endPoint.createItem, component: () => import("@/views/view_create_item.vue")},
+  { path: endPoint.adManage, component: () => import("@/views/view_ad_manage.vue")},
 ];
 
 export default createRouter({

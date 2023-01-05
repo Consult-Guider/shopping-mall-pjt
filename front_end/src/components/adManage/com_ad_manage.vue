@@ -67,6 +67,8 @@
 </template>
 
 <script>
+import { ErrRes, AdImgReq } from '@/dto';
+
 export default {
     props: {
         data: Array,
@@ -126,10 +128,49 @@ export default {
         },
 
         onClickUpdate() {
-            console.log("call onClickUpdate");
+            const id = this.IdSelected;
+            const formData = new FormData();
+            formData.append(AdImgReq.params.img, this.input.img.multipart);
+            formData.append(AdImgReq.params.itemName, this.input.itemName.value);
+            formData.append(AdImgReq.params.companyName, this.input.companyName.value);
+            formData.append(AdImgReq.params.startAt, this.input.startAt.value);
+            formData.append(AdImgReq.params.endAt, this.input.endAt.value);
+
+            // 아이디가 존재하면 post 방식으로, 아이디가 존재하지 않으면 put 방식으로.
+            const promise = id ? this.$auth.put(`/adimg/${id}`, formData) : this.$auth.post(`/adimg`, formData);
+
+            promise.then(() => {
+                // 데이터 새로고침.
+                this.$emit('fetchAdData');
+            }).catch(err => {
+                const errorCode = ErrRes.of(err).errorCode;
+
+                // 에러 메세지 표시.
+                switch(errorCode) {
+                    default:
+                        alert(errorCode);
+                        break;
+                }
+            });
         },
         onClickDelete() {
-            console.log("call onClickDelete");
+            const id = this.IdSelected;
+
+            this.$auth.delete(`/adimg/${id}`)
+            .then(() => {
+                // 데이터 새로고침.
+                this.$emit('fetchAdData');
+            })
+            .catch(err => {
+                const errorCode = ErrRes.of(err).errorCode;
+
+                // 에러 메세지 표시.
+                switch(errorCode) {
+                    default:
+                        alert(errorCode);
+                        break;
+                }
+            });
         },
         onClickItem(item) {
             if(this.IdSelected == item.id) {

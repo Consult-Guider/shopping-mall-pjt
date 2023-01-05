@@ -149,6 +149,16 @@ export class PageReq {
     }
 }
 
+export class AdImgReq {
+    static params = {
+        img: 'img',
+        itemName: 'itemName',
+        companyName: 'companyName',
+        startAt: 'startAt',
+        endAt: 'endAt',
+    };
+}
+
 // Response
 
 export class BaseResponse {

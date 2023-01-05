@@ -46,7 +46,7 @@
                     <v-col class="th-inner">바꿀 비밀 번호</v-col>
                     <v-col>
                         <v-text-field
-                        v-model="password.changedOne" type="password"
+                        v-model="model.password" type="password"
                         variant="outlined" density="compact" hide-details
                         ></v-text-field>
                     </v-col>
@@ -91,6 +91,8 @@
 </template>
 
 <script>
+import { UserUpdateReq, ErrRes } from "@/dto";
+
 export default {
     props: {
         value: Object,
@@ -108,21 +110,20 @@ export default {
         error: "",
 
         password: {
-            changedOne: null,
             again: null,
         },
     }},
     watch: {
-        model(val) {
-            this.$emit("update", val);
-        }
+        value() {
+            this.onClickReset();
+        },
     },
     methods: {
         setError(message) {
             this.error = message;
         },
         verifyPasswordEqual() {
-            return this.password.changedOne == this.password.again;
+            return this.model.password == this.password.again;
         },
 
         onClickReset() {
@@ -136,7 +137,6 @@ export default {
                 address: this.value.address,
             };
             this.password = {
-                changedOne: null,
                 again: null,
             },
             this.setError("");
@@ -152,6 +152,30 @@ export default {
                 this.error = "";
             }
             // TODO: axios를 이용해서 업데이트 쿼리 날리기.
+            const role = this.$store.state.user.role;
+            const data = UserUpdateReq.of(role, this.model);
+            const endpoint = this.$endPoint.backend[role];
+
+            this.$auth.put(`${endpoint}/principal`, data.json())
+            .then(() => {
+                this.setError("수정 완료")
+            })
+            .catch(err => {
+                const errorCode = ErrRes.of(err).errorCode;
+
+                // 에러 메세지 표시.
+                switch(errorCode) {
+                    case "ACCOUNT_ALREADY_EXISTED":
+                        this.email.hint = "해당 이메일이 이미 존재합니다.";
+                        break;
+                    case "INVALID_PARAMETER":
+                        this.setError("적절한 형식이 아닙니다.")
+                        break;
+                    default:
+                        alert(errorCode);
+                        break;
+                }
+            });
         },
     },
 }

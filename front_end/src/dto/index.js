@@ -118,6 +118,37 @@ export class UserUpdateReq {
     }
 }
 
+export class PageReq {
+    constructor(page, size) {
+        this.page = page;
+        this.size = size;
+    }
+
+    static of(page, size) {
+        return new this(page, size);
+    }
+
+    sort(obj, asc=true) {
+        this.sortObj = obj;
+        this.sortAsc = asc;
+        return this;
+    }
+
+    params() {
+        const params = {
+            page: this.page,
+            size: this.size,
+        };
+
+        if(this.sortObj) {
+            const direction = this.sortAsc ? 'asc' : 'desc';
+            params.sort = `${this.sortObj},${direction}`;
+        }
+
+        return params;
+    }
+}
+
 // Response
 
 export class BaseResponse {
@@ -161,4 +192,14 @@ export class LoginRes extends PageResponse {
     get phoneNum() { return this.getData().phoneNum; }
     get companyName() { return this.getData().companyName; }
     get address() { return this.getData().address; }
+}
+
+export class AdImgRes extends PageResponse {
+    pages() {
+        return [
+            {id: 1, createdAt: 20150101, termDay: 30, name: "맥심 모카 골드", companyName: "Maxim", path: "https://cdn.pixabay.com/photo/2022/11/15/04/54/automotive-7593064_960_720.jpg"},
+            {id: 2, createdAt: 20150133, termDay: 10, name: "맥심 모카 레드", companyName: "Midim", path: "https://cdn.pixabay.com/photo/2022/11/15/04/54/automotive-7593064_960_720.jpg"},
+            {id: 3, createdAt: 20150122, termDay: 20, name: "맥심 모카 블루", companyName: "Mimim", path: "https://cdn.pixabay.com/photo/2022/11/15/04/54/automotive-7593064_960_720.jpg"},
+        ];
+    }
 }

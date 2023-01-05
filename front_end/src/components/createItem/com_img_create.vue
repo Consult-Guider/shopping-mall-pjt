@@ -59,6 +59,9 @@ watch: {
         this.url = this.always_empty ? null : url
         this.$emit("updateImg", old_one, this.srcFirst);
     },
+    img(val) {
+        this.url = this.multipartfile ? this.$util.multipart2Str(this.multipartfile) : val;
+    },
 },
 }
 </script>

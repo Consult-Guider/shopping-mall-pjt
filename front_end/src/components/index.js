@@ -65,6 +65,7 @@ import com_history_review from '@/components/historyReview/com_history_review'
 import com_review_header_unit from '@/components/historyReview/com_review_header_unit'
 
 import com_ad_manage from '@/components/adManage/com_ad_manage'
+import com_unit_timeline from '@/components/adManage/com_unit_timeline'
 
 const components = {
     "com_header": com_header,
@@ -134,6 +135,7 @@ const components = {
     "com_review_header_unit": com_review_header_unit,
 
     "com_ad_manage": com_ad_manage,
+    "com_unit_timeline": com_unit_timeline,
 };
 
 export default {

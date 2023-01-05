@@ -46,9 +46,13 @@
                     :label="input.companyName.label"
                     variant="outlined" v-model="input.companyName.value"
                     />
-                    <v-text-field
-                    :label="input.termDay.label" 
-                    variant="outlined" v-model="input.termDay.value"
+                    <com_select_date 
+                    :title="input.startAt.label" 
+                    :data="input.startAt.value" @update="x => {input.startAt.value=x}"
+                    />
+                    <com_select_date 
+                    :title="input.endAt.label" 
+                    :data="input.endAt.value" @update="x => {input.endAt.value=x}"
                     />
 
                     <v-btn @click="btn.update.click" :color="btn.update.color"
@@ -74,7 +78,8 @@ export default {
                 img: {value: null, multipart: null},
                 itemName: {value: null, label: "광고 상품명"},
                 companyName: {value: null, label: "회사명"},
-                termDay: {value: null, label: "광고기한"},
+                startAt: {value: null, label: "광고 시작일"},
+                endAt: {value: null, label: "광고 만료일"},
             },
             btn: {
                 update: {value: null, label: "생성하기", click: this.onClickUpdate, color: "green"},
@@ -102,23 +107,20 @@ export default {
         colorMarker(isStarted) {
             return isStarted ? "teal-lighten-3" : "pink";
         },
-        addDate(createdAt, termDay) {
-            return createdAt + termDay
-        },
         sortByDate(data) {
             const obj = [];
             for(const item of data) {
                 obj.push(Object.assign({}, item, {
                     isStarted: true,
-                    date: item.createdAt,
+                    date: item.startAt,
                 }));
                 obj.push(Object.assign({}, item, {
                     isStarted: false,
-                    date: this.addDate(item.createdAt, item.termDay),
+                    date: item.endAt,
                 }));
             }
             obj.sort((a,b) => {
-                return a.date - b.date;
+                return Date.parse(a.date) - Date.parse(b.date);
             });
             return obj;
         },
@@ -137,7 +139,8 @@ export default {
                 this.input.img.value = item.path;
                 this.input.itemName.value = item.name;
                 this.input.companyName.value = item.companyName;
-                this.input.termDay.value = item.termDay;
+                this.input.startAt.value = item.startAt;
+                this.input.endAt.value = item.endAt;
             }
         },
 
@@ -161,10 +164,6 @@ export default {
 </script>
 
 <style scoped>
-    .card * {
-        margin-left: 4px;
-        margin-right: 4px;
-    }
     .size-limit {
         height: 80vh;
         overflow-x: auto;

@@ -46,6 +46,10 @@
                     :label="input.companyName.label"
                     variant="outlined" v-model="input.companyName.value"
                     />
+                    <v-text-field
+                    :label="input.link.label"
+                    variant="outlined" v-model="input.link.value"
+                    />
                     <com_select_date 
                     :title="input.startAt.label" 
                     :data="input.startAt.value" @update="x => {input.startAt.value=x}"
@@ -80,6 +84,7 @@ export default {
                 img: {value: null, multipart: null},
                 itemName: {value: null, label: "광고 상품명"},
                 companyName: {value: null, label: "회사명"},
+                link: {value: null, label: "링크 URL"},
                 startAt: {value: null, label: "광고 시작일"},
                 endAt: {value: null, label: "광고 만료일"},
             },
@@ -133,6 +138,7 @@ export default {
             formData.append(AdImgReq.params.img, this.input.img.multipart);
             formData.append(AdImgReq.params.itemName, this.input.itemName.value);
             formData.append(AdImgReq.params.companyName, this.input.companyName.value);
+            formData.append(AdImgReq.params.link, this.input.link.value);
             formData.append(AdImgReq.params.startAt, this.input.startAt.value);
             formData.append(AdImgReq.params.endAt, this.input.endAt.value);
 
@@ -180,6 +186,7 @@ export default {
                 this.input.img.value = item.path;
                 this.input.itemName.value = item.name;
                 this.input.companyName.value = item.companyName;
+                this.input.link.value = item.link;
                 this.input.startAt.value = item.startAt;
                 this.input.endAt.value = item.endAt;
             }

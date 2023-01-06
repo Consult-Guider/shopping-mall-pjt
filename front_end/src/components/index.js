@@ -64,6 +64,10 @@ import com_tag_create from '@/components/createItem/com_tag_create'
 import com_history_review from '@/components/historyReview/com_history_review'
 import com_review_header_unit from '@/components/historyReview/com_review_header_unit'
 
+import com_ad_manage from '@/components/adManage/com_ad_manage'
+import com_unit_timeline from '@/components/adManage/com_unit_timeline'
+import com_select_date from '@/components/adManage/com_select_date'
+
 const components = {
     "com_header": com_header,
     "com_footer": com_footer,
@@ -130,6 +134,10 @@ const components = {
 
     "com_history_review": com_history_review,
     "com_review_header_unit": com_review_header_unit,
+
+    "com_ad_manage": com_ad_manage,
+    "com_unit_timeline": com_unit_timeline,
+    "com_select_date": com_select_date,
 };
 
 export default {

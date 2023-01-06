@@ -21,6 +21,8 @@ export default {
 
     "createItem": "/createItem",
 
+    "adManage": "/ad",
+
     "backend": {
         // 각 역할군에 따른 EndPoint.",
         "USER":   "/user",

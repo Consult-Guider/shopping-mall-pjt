@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @ToString
 // 위는 테스트 편의를 위한 어노테이션
@@ -22,7 +23,10 @@ import javax.persistence.Table;
 @AllArgsConstructor @Builder
 // 위는 JPA Entity 사용을 위한 어노테이션
 public class AdImg extends BaseEntity {
-    private Long termDay;
+    private String itemName;
+    private String companyName;
     private String path;
     private String link;
+    private LocalDateTime startAt;
+    private LocalDateTime endAt;
 }

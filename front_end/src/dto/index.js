@@ -118,6 +118,48 @@ export class UserUpdateReq {
     }
 }
 
+export class PageReq {
+    constructor(page, size) {
+        this.page = page;
+        this.size = size;
+    }
+
+    static of(page, size) {
+        return new this(page, size);
+    }
+
+    sort(obj, asc=true) {
+        this.sortObj = obj;
+        this.sortAsc = asc;
+        return this;
+    }
+
+    params() {
+        const params = {
+            page: this.page,
+            size: this.size,
+        };
+
+        if(this.sortObj) {
+            const direction = this.sortAsc ? 'asc' : 'desc';
+            params.sort = `${this.sortObj},${direction}`;
+        }
+
+        return params;
+    }
+}
+
+export class AdImgReq {
+    static params = {
+        img: 'img',
+        itemName: 'itemName',
+        companyName: 'companyName',
+        link: 'link',
+        startAt: 'startAt',
+        endAt: 'endAt',
+    };
+}
+
 // Response
 
 export class BaseResponse {
@@ -161,4 +203,14 @@ export class LoginRes extends PageResponse {
     get phoneNum() { return this.getData().phoneNum; }
     get companyName() { return this.getData().companyName; }
     get address() { return this.getData().address; }
+}
+
+export class AdImgRes extends PageResponse {
+    pages() {
+        return [
+            {id: 1, startAt: "2015/01/01", endAt: "2015/01/10", name: "맥심 모카 골드", companyName: "Maxim", path: "https://cdn.pixabay.com/photo/2022/11/15/04/54/automotive-7593064_960_720.jpg", link: "https://www.coupang.com/vp/products/4550236145?itemId=9821768243&vendorItemId=71030128009&pickType=COU_PICK"},
+            {id: 2, startAt: "2015/01/26", endAt: "2015/01/31", name: "맥심 모카 레드", companyName: "Midim", path: "https://cdn.pixabay.com/photo/2022/11/15/04/54/automotive-7593064_960_720.jpg", link: "https://www.coupang.com/vp/products/4550236145?itemId=9821768243&vendorItemId=71030128009&pickType=COU_PICK"},
+            {id: 3, startAt: "2015/01/22", endAt: "2015/01/29", name: "맥심 모카 블루", companyName: "Mimim", path: "https://cdn.pixabay.com/photo/2022/11/15/04/54/automotive-7593064_960_720.jpg", link: "https://www.coupang.com/vp/products/4550236145?itemId=9821768243&vendorItemId=71030128009&pickType=COU_PICK"},
+        ];
+    }
 }

@@ -21,7 +21,9 @@ public enum ErrorCode {
     ITEM_NOT_FOUNDED(HttpStatus.NOT_FOUND, "해당 품목은 찾을 수가 없습니다."),
     NO_OWNERSHIP(HttpStatus.FORBIDDEN, "소유권이 없어서 조작할 수 없습니다."),
     ITEM_IMAGE_IOException(HttpStatus.INTERNAL_SERVER_ERROR, "상품 이미지 업로드 과정 중 문제가 발생함."),
-    INVALID_PARAMETER(HttpStatus.BAD_REQUEST, "유효하지 않은 파라미터를 입력함.");
+    INVALID_PARAMETER(HttpStatus.BAD_REQUEST, "유효하지 않은 파라미터를 입력함."),
+    AD_BANNER_IOException(HttpStatus.INTERNAL_SERVER_ERROR, "광고 배너 이미지 업로드 과정 중 문제가 발생함."),
+    AD_BANNER_NOT_FOUNDED(HttpStatus.NOT_FOUND, "해당 광고 배너는 찾을 수가 없습니다.");
 
     private final HttpStatus status;
     private final String message;

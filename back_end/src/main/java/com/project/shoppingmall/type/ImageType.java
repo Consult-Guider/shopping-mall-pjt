@@ -6,7 +6,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor @Getter
 public enum ImageType {
     MAIN("main"),
-    DESC("desc");
+    DESC("desc"),
+    AD_BANNER("banner");
 
     private final String name;
 

@@ -4,11 +4,8 @@ import com.project.shoppingmall.domain.nested.*;
 import com.project.shoppingmall.model.AdminDto;
 import com.project.shoppingmall.model.SellerDto;
 import com.project.shoppingmall.model.UserDto;
-import com.project.shoppingmall.model.request.AdminCreateRequest;
-import com.project.shoppingmall.model.request.ItemCreateRequest;
-import com.project.shoppingmall.model.request.SellerCreateRequest;
-import com.project.shoppingmall.model.request.UserCreateRequest;
 import com.project.shoppingmall.model.response.ItemReadResponse;
+import com.project.shoppingmall.model.request.*;
 import com.project.shoppingmall.model.response.SellerWithItemResponse;
 import org.junit.jupiter.params.provider.Arguments;
 import org.springframework.mock.web.MockMultipartFile;
@@ -299,6 +296,28 @@ public class FixtureFactory {
                 .name("mock SellerWithItemResponse Name")
                 .companyName("mock SellerWithItemResponse CompanyName")
                 .build();
+    }
+
+    public static AdImgCreateRequest adImgCreateRequestFixture() throws IOException {
+        AdImgCreateRequest dto = new AdImgCreateRequest();
+        dto.setItemName("mock itemName");
+        dto.setCompanyName("mock companyName");
+        dto.setPath(descriptionImageFixture());
+        dto.setLink("https://school.programmers.co.kr/learn/challenges");
+        dto.setStartAt(LocalDateTime.of(2022, 1, 6, 0, 0, 0));
+        dto.setEndAt(LocalDateTime.now());
+        return dto;
+    }
+
+    public static AdImgUpdateRequest adImgUpdateRequestFixture() throws IOException {
+        AdImgUpdateRequest dto = new AdImgUpdateRequest();
+        dto.setItemName("mock itemName");
+        dto.setCompanyName("mock companyName");
+        dto.setPath(descriptionImageFixture());
+        dto.setLink("https://school.programmers.co.kr/learn/challenges");
+        dto.setStartAt(LocalDateTime.of(2022, 1, 6, 0, 0, 0));
+        dto.setEndAt(LocalDateTime.now());
+        return dto;
     }
 
 

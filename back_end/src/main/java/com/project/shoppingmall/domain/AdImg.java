@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Table(name = "ad_img")
 @Entity
 @NoArgsConstructor @Getter @Setter
-@AllArgsConstructor @Builder
+@AllArgsConstructor @Builder(toBuilder = true)
 // 위는 JPA Entity 사용을 위한 어노테이션
 public class AdImg extends BaseEntity {
     private String itemName;
@@ -29,4 +29,8 @@ public class AdImg extends BaseEntity {
     private String link;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
+
+    public static AdImg of(AdImg trg) {
+        return trg.toBuilder().build();
+    }
 }

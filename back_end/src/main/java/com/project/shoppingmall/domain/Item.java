@@ -20,7 +20,7 @@ import java.util.List;
 @NoArgsConstructor @Getter @Setter
 // 위는 JPA Entity 사용을 위한 어노테이션
 // TODO: 해당 엔티티는 JPA를 통해 delete가 이뤄지는 것이 아니기 때문에 Soft Delete를 직접 구현해서 사용해야 함.
-@AllArgsConstructor @Builder
+@AllArgsConstructor @Builder(toBuilder = true)
 public class Item {
     @Id @Field(type = FieldType.Auto)
     private String id;
@@ -54,4 +54,14 @@ public class Item {
     public void addReviewList(Review obj) { reviewList.add(obj); }
     public void addQuestionList(Question obj) { questionList.add(obj); }
     public void addTagList(Tag obj) { tagList.add(obj); }
+
+    public static Item of(Item trg) {
+        return trg.toBuilder()
+                .optionList(trg.optionList.stream().map(Option::of).toList())
+                .descriptionList(trg.descriptionList.stream().map(Description::of).toList())
+                .reviewList(trg.reviewList.stream().map(Review::of).toList())
+                .questionList(trg.questionList.stream().map(Question::of).toList())
+                .tagList(trg.tagList.stream().map(Tag::of).toList())
+                .build();
+    }
 }

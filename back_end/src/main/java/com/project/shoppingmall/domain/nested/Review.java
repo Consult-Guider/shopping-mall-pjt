@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor @Getter @Setter
-@AllArgsConstructor @Builder
+@AllArgsConstructor @Builder(toBuilder = true)
 public class Review {
     @Field(type = FieldType.Integer)
     private Integer rating;
@@ -27,4 +27,8 @@ public class Review {
     private List<Like> likes = new ArrayList<>();
     @Field(type = FieldType.Object) @Builder.Default
     private List<Dislike> dislikes = new ArrayList<>();
+
+    public static Review of(Review trg) {
+        return trg.toBuilder().build();
+    }
 }

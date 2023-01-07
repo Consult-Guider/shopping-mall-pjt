@@ -18,9 +18,11 @@ public class AdminUpdateRequest {
     private String phoneNum;
 
     public Admin overwrite(
-            Admin entity,
+            Admin trg,
             PasswordEncoder passwordEncoder
     ) {
+        Admin entity = Admin.of(trg);
+
         Optional.ofNullable(this.getPassword())
                 .filter(s -> !s.isBlank()).map(passwordEncoder::encode).ifPresent(entity::setPassword);
 

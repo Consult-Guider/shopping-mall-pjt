@@ -23,7 +23,9 @@ public class AdImgUpdateRequest {
     @AdImgDateTimeFormat
     private LocalDateTime endAt;
 
-    public AdImg overwrite(AdImg entity) {
+    public AdImg overwrite(AdImg trg) {
+        AdImg entity = AdImg.of(trg);
+
         Optional.ofNullable(this.getItemName())
                 .filter(s -> !s.isBlank()).ifPresent(entity::setItemName);
         Optional.ofNullable(this.getCompanyName())

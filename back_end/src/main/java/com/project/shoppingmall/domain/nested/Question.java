@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor @Getter @Setter
-@AllArgsConstructor @Builder
+@AllArgsConstructor @Builder(toBuilder = true)
 public class Question {
     @Id @Field(type = FieldType.Auto)
     private String id;
@@ -24,4 +24,8 @@ public class Question {
     private String content;
     @Field(type = FieldType.Date, format = DateFormat.date_hour_minute_second_millis) @CreatedDate
     private LocalDateTime createdAt;
+
+    public static Question of(Question trg) {
+        return trg.toBuilder().build();
+    }
 }

@@ -5,8 +5,12 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 @NoArgsConstructor @Getter @Setter
-@AllArgsConstructor @Builder
+@AllArgsConstructor @Builder(toBuilder = true)
 public class Option {
     @Field(type = FieldType.Text)
     private String name;
+
+    public static Option of(Option trg) {
+        return trg.toBuilder().build();
+    }
 }

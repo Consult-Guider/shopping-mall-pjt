@@ -21,7 +21,9 @@ public class ItemUpdateRequest {
     private List<Question> questionList;
     private List<Tag> tagList;
 
-    public Item overwrite(Item entity) {
+    public Item overwrite(Item trg) {
+        Item entity = Item.of(trg);
+
         Optional.ofNullable(this.getName()).filter(s -> !s.isBlank()).ifPresent(entity::setName);
         Optional.ofNullable(this.getPrice()).ifPresent(entity::setPrice);
         Optional.ofNullable(this.getImagePath()).filter(s -> !s.isBlank()).ifPresent(entity::setImagePath);

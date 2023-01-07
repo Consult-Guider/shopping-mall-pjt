@@ -28,9 +28,11 @@ public class UserUpdateRequest {
     }
 
     public User overwrite(
-            User entity,
+            User trg,
             PasswordEncoder passwordEncoder
     ) {
+        User entity = User.of(trg);
+
         Optional.ofNullable(this.getPassword())
                 .filter(s -> !s.isBlank()).map(passwordEncoder::encode).ifPresent(entity::setPassword);
 

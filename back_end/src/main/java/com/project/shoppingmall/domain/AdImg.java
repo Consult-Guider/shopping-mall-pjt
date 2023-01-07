@@ -1,6 +1,7 @@
 package com.project.shoppingmall.domain;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -20,7 +21,7 @@ import java.time.LocalDateTime;
 @Table(name = "ad_img")
 @Entity
 @NoArgsConstructor @Getter @Setter
-@AllArgsConstructor @Builder
+@AllArgsConstructor @SuperBuilder(toBuilder = true)
 // 위는 JPA Entity 사용을 위한 어노테이션
 public class AdImg extends BaseEntity {
     private String itemName;
@@ -29,4 +30,8 @@ public class AdImg extends BaseEntity {
     private String link;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
+
+    public static AdImg of(AdImg trg) {
+        return trg.toBuilder().build();
+    }
 }

@@ -20,9 +20,11 @@ public class SellerUpdateRequest {
     private String address;
 
     public Seller overwrite(
-            Seller entity,
+            Seller trg,
             PasswordEncoder passwordEncoder
     ) {
+        Seller entity = Seller.of(trg);
+
         Optional.ofNullable(this.getPassword())
                 .filter(s -> !s.isBlank()).map(passwordEncoder::encode).ifPresent(entity::setPassword);
 

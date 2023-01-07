@@ -2,6 +2,7 @@ package com.project.shoppingmall.domain;
 
 import com.project.shoppingmall.domain.nested.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.elasticsearch.annotations.DateFormat;
@@ -20,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor @Getter @Setter
 // 위는 JPA Entity 사용을 위한 어노테이션
 // TODO: 해당 엔티티는 JPA를 통해 delete가 이뤄지는 것이 아니기 때문에 Soft Delete를 직접 구현해서 사용해야 함.
-@AllArgsConstructor @Builder(toBuilder = true)
+@AllArgsConstructor @SuperBuilder(toBuilder = true)
 public class Item {
     @Id @Field(type = FieldType.Auto)
     private String id;

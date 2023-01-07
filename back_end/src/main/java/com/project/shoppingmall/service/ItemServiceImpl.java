@@ -80,7 +80,7 @@ public class ItemServiceImpl implements ItemService {
 
         // 상품 대표 이미지 저장.
         if (isThereMainImage) {
-            String trgPath = makeFileName(request.getImage(), iid, ImageType.MAIN.getName());
+            String trgPath = makeFileName(request.getImage(), Item.class, iid, ImageType.MAIN.getName());
             entity.setImagePath(saveFile(request.getImage(), trgPath));
         }
 
@@ -89,7 +89,7 @@ public class ItemServiceImpl implements ItemService {
             List<MultipartFile> descriptionList = request.getDescriptionList();
             for(int i = 0; i < descriptionList.size(); i++) {
                 MultipartFile descriptionFile = descriptionList.get(i);
-                String imgPath = makeFileName(descriptionFile, iid, ImageType.DESC.getName(i));
+                String imgPath = makeFileName(descriptionFile, Item.class, iid, ImageType.DESC.getName(i));
                 Description description = Description.builder().path(saveFile(descriptionFile, imgPath)).build();
                 entity.addDescriptionList(description);
             }

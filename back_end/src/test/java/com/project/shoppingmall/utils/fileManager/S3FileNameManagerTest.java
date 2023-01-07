@@ -48,17 +48,18 @@ class S3FileNameManagerTest {
         String extensionExpected = "jpg";
         String originalFilename = String.join(".", originalFilenameWithoutExtension, extensionExpected);
 
+        Class<Object> clazz = Object.class;
         String fileDir1 = "one";
         String fileDir2 = "two";
 
         String root = S3FileNameManager.ROOT_DIR;
-        String fileNameExpected = String.join("/", root, fileDir1, fileDir2) + "." + extensionExpected;
+        String fileNameExpected = String.join("/", root, clazz.getSimpleName(), fileDir1, fileDir2) + "." + extensionExpected;
         String fileNameCalculated;
 
         //  when
         try (InputStream inputStream = url.openStream()) {
             MockMultipartFile image = new MockMultipartFile("mock name", originalFilename, null, inputStream);
-            fileNameCalculated = S3FileNameManager.makeFileName(image, fileDir1, fileDir2);
+            fileNameCalculated = S3FileNameManager.makeFileName(image, clazz, fileDir1, fileDir2);
         }
 
         //  then

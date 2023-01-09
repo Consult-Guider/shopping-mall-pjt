@@ -1,6 +1,7 @@
 package com.project.shoppingmall.controller;
 
 import com.project.shoppingmall.model.request.AdImgCreateRequest;
+import com.project.shoppingmall.model.response.AdImgRecommendReadResponse;
 import com.project.shoppingmall.model.request.AdImgUpdateRequest;
 import com.project.shoppingmall.model.response.AdImgReadResponse;
 import com.project.shoppingmall.model.response.Response;
@@ -50,5 +51,11 @@ public class AdImgController {
     public Response<Void> delete(@PathVariable Long aid) {
         adImgService.delete(aid);
         return Response.success();
+    }
+
+    @GetMapping("/recommend")
+    public Response<AdImgRecommendReadResponse> read() {
+        AdImgRecommendReadResponse dto = adImgService.readRecommend();
+        return Response.success(dto);
     }
 }

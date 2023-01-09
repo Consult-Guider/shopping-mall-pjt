@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.shoppingmall.model.request.AdImgCreateRequest;
 import com.project.shoppingmall.model.request.AdImgUpdateRequest;
 import com.project.shoppingmall.model.response.AdImgReadResponse;
+import com.project.shoppingmall.model.response.AdImgRecommendReadResponse;
 import com.project.shoppingmall.service.AdImgService;
 import com.project.shoppingmall.utils.EnableProjectSecurityConfiguration;
 import com.project.shoppingmall.utils.FixtureFactory;
@@ -277,5 +278,25 @@ class AdImgControllerTest {
         mvc.perform(request)
                 .andDo(print())
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("[정상 작동][get][/api/v1/adimg/recommend] 임의의 광고 배너 호출")
+    public void givenNothing_whenCallReadRecommend_thenReturnAdImgRecommendResponse() throws Exception {
+        // given
+        AdImgRecommendReadResponse response = new AdImgRecommendReadResponse();
+
+        given(adImgService.readRecommend()).willReturn(response);
+
+        // when
+        RequestBuilder request = get(prefix + "/recommend");
+
+        // then
+        ResultActions actions = mvc.perform(request)
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        actions.andExpect(jsonPath(makeBaseJsonPath("path")).hasJsonPath());
+        actions.andExpect(jsonPath(makeBaseJsonPath("link")).hasJsonPath());
     }
 }

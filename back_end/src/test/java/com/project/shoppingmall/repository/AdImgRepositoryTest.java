@@ -12,6 +12,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
@@ -35,6 +40,32 @@ class AdImgRepositoryTest {
         // then
         assertThat(entity.getTotalElements()).isNotZero();
         entity.map(Object::toString).forEach(log::debug);
+    }
+
+    @Test
+    @DisplayName("[랜덤 객체 조회][findOneRandomly] 광고 유효 기간 내의 임의의 엔티티 호출.")
+    void givenNothing_whenCallFindOneRandomly_thenReturnEntity() {
+        // given
+        List<AdImg> entities = new ArrayList<>();
+        boolean result = true;
+
+        // when
+        Optional<AdImg> entity = adImgRepository.findOneRandomly();
+
+        entities.add(adImgRepository.findOneRandomly().orElse(null));
+        entities.add(adImgRepository.findOneRandomly().orElse(null));
+        entities.add(adImgRepository.findOneRandomly().orElse(null));
+        entities.add(adImgRepository.findOneRandomly().orElse(null));
+        entities.add(adImgRepository.findOneRandomly().orElse(null));
+
+        for(AdImg adImg : entities) {
+            result &= entity.map(adImg::equals).orElse(false);
+        }
+
+        // then
+        assertThat(result).isFalse();
+        entity.map(Object::toString).ifPresent(log::debug);
+        entities.stream().map(Objects::toString).forEach(log::debug);
     }
 
 }

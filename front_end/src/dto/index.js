@@ -172,7 +172,7 @@ export class BaseResponse {
     }
 
     getData() {
-        return this.response.data;
+        return this.response.data.data;
     }
 }
 
@@ -195,16 +195,15 @@ export class ErrRes extends BaseResponse {
 }
 
 export class authRes extends BaseResponse {
+    getData() {
+        return this.response.data;
+    }
     get token() {
         return this.getData().token;
     }
 }
 
 export class LoginRes extends BaseResponse {
-    getData() {
-        return this.response.data.data;
-    }
-
     get id() { return this.getData().id; }
     get email() { return this.getData().email; }
     get name() { return this.getData().name; }
@@ -228,5 +227,18 @@ export class AdImgRes extends PageResponse {
 
     pages() {
         return this.getData().map(this.transform);
+    }
+}
+
+export class AdImgRecommendRes extends BaseResponse {
+    transform(unit) {
+        return {
+            "src": unit.path,
+            "link": unit.link,
+        };
+    }
+
+    json() {
+        return this.transform(this.getData());
     }
 }

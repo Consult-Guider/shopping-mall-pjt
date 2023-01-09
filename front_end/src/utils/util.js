@@ -33,7 +33,31 @@ function beAnonymous(name) {
 }
 
 function str2date(date) {
-    return date;
+    const json = str2date2json(date);
+
+    const year = json.year;
+    const month = json.month < 10 ? `0${json.month}` : json.month;
+    const day = json.day < 10 ? `0${json.day}` : json.day;
+    return `${year}-${month}-${day}`;
+}
+
+function str2date2json(date) {
+    const strDate = Date.parse(date);
+    const objDate = new Date(strDate);
+    return {
+        year: objDate.getFullYear(),
+        month: objDate.getMonth() + 1,
+        day: objDate.getDate(),
+
+        // 요일
+        dayOfWeek: objDate.getDay(),
+
+        hour: objDate.getHours(),
+        minute: objDate.getMinutes(),
+        second: objDate.getSeconds(),
+
+        milliSecond: objDate.getMilliseconds(),
+    };
 }
 
 function str2Avatar(str) {
@@ -62,6 +86,7 @@ export default {
     "transPrice": transPrice,
     "beAnonymous": beAnonymous,
     "str2date": str2date,
+    "str2date2json": str2date2json,
     "str2Avatar":str2Avatar,
     "multipart2Str": multipart2Str,
     "JWTDecode": JWTDecode,

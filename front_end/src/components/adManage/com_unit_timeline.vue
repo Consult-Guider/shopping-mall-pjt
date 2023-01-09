@@ -14,7 +14,7 @@
 export default {
     props: {
         id: Number,
-        date: Number,
+        date: String,
         name: String,
         companyName: String,
     },

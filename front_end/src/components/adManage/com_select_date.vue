@@ -36,10 +36,6 @@ export default {
     props: {
         title: String,
         data: String,
-        delimiter: {
-            default: "/",
-            type: String,
-        },
     },
     data() {
         return {
@@ -48,7 +44,6 @@ export default {
                 month: {value: null, label: "월"},
                 day: {value: null, label: "일"},
             },
-            delimiters: this.delimiter,
         }
     },
     computed: {
@@ -56,7 +51,7 @@ export default {
             const year = this.input.year.value;
             const month = this.input.month.value;
             const day = this.input.day.value;
-            return `${year}${this.delimiters}${month}${this.delimiters}${day}`;
+            return new Date(`${year}-${month}-${day}`).toISOString();
         },
     },
     watch: {
@@ -80,7 +75,10 @@ export default {
             this.$emit("update", this.valueEmitted);
         },
         split(date) {
-            return date.split(this.delimiters).map(Number);
+            // decode Date String.
+            const json = this.$util.str2date2json(date);
+            const result = [json.year, json.month, json.day];
+            return result.map(Number);
         },
         setToday() {
             const today = new Date();

@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})
-@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
+@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 public @interface AdImgDateTimeFormat {
 }

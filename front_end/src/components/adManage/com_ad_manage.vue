@@ -143,7 +143,8 @@ export default {
             formData.append(AdImgReq.params.endAt, this.input.endAt.value);
 
             // 아이디가 존재하면 post 방식으로, 아이디가 존재하지 않으면 put 방식으로.
-            const promise = id ? this.$auth.put(`/adimg/${id}`, formData) : this.$auth.post(`/adimg`, formData);
+            const endPoint = id ? `/adimg/${id}` : `/adimg`
+            const promise = this.$auth.post(endPoint, formData, {headers: {'Context-Type': 'multipart/form-data'}})
 
             promise.then(() => {
                 // 데이터 새로고침.

@@ -20,25 +20,25 @@ public class AdImgController {
     private final AdImgService adImgService;
 
     @PostMapping
-    public Response<Void> createUser( @ModelAttribute @Valid AdImgCreateRequest request) {
+    public Response<Void> create( @ModelAttribute @Valid AdImgCreateRequest request) {
         adImgService.create(request);
         return Response.success();
     }
 
     @GetMapping
-    public Response<Page<AdImgReadResponse>> readUser(@PageableDefault Pageable pageable) {
+    public Response<Page<AdImgReadResponse>> read(@PageableDefault Pageable pageable) {
         Page<AdImgReadResponse> pages = adImgService.read(pageable);
         return Response.success(pages);
     }
 
     @GetMapping("/{aid}")
-    public Response<AdImgReadResponse> readUser(@PathVariable Long aid) {
+    public Response<AdImgReadResponse> read(@PathVariable Long aid) {
         AdImgReadResponse dto = adImgService.read(aid);
         return Response.success(dto);
     }
 
-    @PutMapping("/{aid}")
-    public Response<Void> updateUser(
+    @PostMapping("/{aid}")
+    public Response<Void> update(
             @PathVariable Long aid,
             @ModelAttribute @Valid AdImgUpdateRequest request
     ) {
@@ -47,7 +47,7 @@ public class AdImgController {
     }
 
     @DeleteMapping("/{aid}")
-    public Response<Void> deleteUser(@PathVariable Long aid) {
+    public Response<Void> delete(@PathVariable Long aid) {
         adImgService.delete(aid);
         return Response.success();
     }

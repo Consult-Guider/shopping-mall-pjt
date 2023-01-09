@@ -4,6 +4,10 @@ import com.project.shoppingmall.domain.AdImg;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface ExceptOverdueAdImgRepository {
+import java.util.Optional;
+
+public interface CustomAdImgRepository {
     Page<AdImg> findAllValid(Pageable pageable);
+
+    Optional<AdImg> findOneRandomly();
 }

@@ -57,7 +57,7 @@ public class AdImgServiceImpl implements AdImgService {
         MultipartFile path = request.getPath();
 
         // 배너 이미지가 존재한다면, 이미지 저장 후, 이미지 링크를 DB에 저장.
-        if (!path.isEmpty()) {
+        if (path != null && !path.isEmpty()) {
             String fileName = makeFileName(path, AdImg.class, id, ImageType.AD_BANNER.getName());
             entity.setPath(saveFile(path, fileName));
         }

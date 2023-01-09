@@ -5,6 +5,7 @@ import com.project.shoppingmall.exception.CrudException;
 import com.project.shoppingmall.model.request.AdImgCreateRequest;
 import com.project.shoppingmall.model.request.AdImgUpdateRequest;
 import com.project.shoppingmall.model.response.AdImgReadResponse;
+import com.project.shoppingmall.model.response.AdImgRecommendReadResponse;
 import com.project.shoppingmall.repository.AdImgRepository;
 import com.project.shoppingmall.type.ErrorCode;
 import com.project.shoppingmall.type.ImageType;
@@ -48,6 +49,15 @@ public class AdImgServiceImpl implements AdImgService {
     @Transactional(readOnly = true)
     public Page<AdImgReadResponse> read(Pageable pageable) {
         return adImgRepository.findAllValid(pageable).map(AdImgReadResponse::fromEntity);
+    }
+
+    @Override
+    public AdImgRecommendReadResponse readRecommend() {
+        return adImgRepository.findOneRandomly()
+                .map(AdImgRecommendReadResponse::fromEntity)
+                .orElseThrow(() ->
+                        new CrudException(ErrorCode.AD_BANNER_NOT_FOUNDED)
+                );
     }
 
     @Override

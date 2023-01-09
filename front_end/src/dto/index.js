@@ -85,30 +85,30 @@ export class UserUpdateReq {
         switch (this.role) {
             case roleType.roles.USER:
                 return {
-                    uid: this.data("id"),
+                    id: this.data("uid"),
                     email: this.data("email"),
                     password: this.data("password"),
                     name: this.data("name"),
-                    phoneNum: this.data("phone"),
+                    phoneNum: this.data("phoneNum"),
                     address: this.data("address"),
                 };
             case roleType.roles.SELLER:
                 return {
-                    uid: this.data("id"),
+                    id: this.data("uid"),
                     email: this.data("email"),
                     password: this.data("password"),
                     name: this.data("name"),
-                    phone: this.data("phone"),
+                    phoneNum: this.data("phoneNum"),
                     companyName: this.data("companyName"),
                     address: this.data("address"),
                 };
             case roleType.roles.ADMIN:
                 return {
-                    uid: this.data("id"),
+                    id: this.data("uid"),
                     email: this.data("email"),
                     password: this.data("password"),
                     name: this.data("name"),
-                    phone: this.data("phone"),
+                    phoneNum: this.data("phoneNum"),
                     address: this.data("address"),
                 };
         

@@ -64,8 +64,8 @@ class AdImgControllerTest {
         params.put("itemName", List.of(createFixture.getItemName()));
         params.put("companyName", List.of(createFixture.getCompanyName()));
         params.put("link", List.of(createFixture.getLink()));
-        params.put("startAt", List.of(createFixture.getStartAt().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"))));
-        params.put("endAt", List.of(createFixture.getEndAt().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"))));
+        params.put("startAt", List.of(createFixture.getStartAt().format(DateTimeFormatter.ISO_DATE_TIME)));
+        params.put("endAt", List.of(createFixture.getEndAt().format(DateTimeFormatter.ISO_DATE_TIME)));
         return params;
     }
 
@@ -74,8 +74,8 @@ class AdImgControllerTest {
         params.put("itemName", List.of(updateFixture.getItemName()));
         params.put("companyName", List.of(updateFixture.getCompanyName()));
         params.put("link", List.of(updateFixture.getLink()));
-        params.put("startAt", List.of(updateFixture.getStartAt().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"))));
-        params.put("endAt", List.of(updateFixture.getEndAt().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"))));
+        params.put("startAt", List.of(updateFixture.getStartAt().format(DateTimeFormatter.ISO_DATE_TIME)));
+        params.put("endAt", List.of(updateFixture.getEndAt().format(DateTimeFormatter.ISO_DATE_TIME)));
         return params;
     }
 

@@ -111,6 +111,14 @@ export default {
         },
     },
     methods: {
+        calibrate(date, days) {
+            const json = this.$util.str2date2json(date);
+
+            const year = json.year;
+            const month = json.month < 10 ? `0${json.month}` : json.month;
+            const day = json.day+days < 10 ? `0${json.day+days}` : json.day+days;
+            return new Date(`${year}-${month}-${day}`).toISOString();
+        },
         colorMarker(isStarted) {
             return isStarted ? "teal-lighten-3" : "pink";
         },
@@ -135,12 +143,18 @@ export default {
         onClickUpdate() {
             const id = this.IdSelected;
             const formData = new FormData();
-            formData.append(AdImgReq.params.img, this.input.img.multipart);
-            formData.append(AdImgReq.params.itemName, this.input.itemName.value);
-            formData.append(AdImgReq.params.companyName, this.input.companyName.value);
-            formData.append(AdImgReq.params.link, this.input.link.value);
-            formData.append(AdImgReq.params.startAt, this.input.startAt.value);
-            formData.append(AdImgReq.params.endAt, this.input.endAt.value);
+            const addFormData = (key, value) => {
+                if(value) {
+                    formData.append(key, value);
+                }
+            };
+
+            addFormData(AdImgReq.params.img, this.input.img.multipart)
+            addFormData(AdImgReq.params.itemName, this.input.itemName.value);
+            addFormData(AdImgReq.params.companyName, this.input.companyName.value);
+            addFormData(AdImgReq.params.link, this.input.link.value);
+            addFormData(AdImgReq.params.startAt, this.calibrate(this.input.startAt.value, 0));
+            addFormData(AdImgReq.params.endAt, this.calibrate(this.input.endAt.value, 0));
 
             // 아이디가 존재하면 post 방식으로, 아이디가 존재하지 않으면 put 방식으로.
             const endPoint = id ? `/adimg/${id}` : `/adimg`

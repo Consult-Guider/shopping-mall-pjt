@@ -41,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@DisplayName("AdminController Controller Test")
+@DisplayName("AdImgController Controller Test")
 @EnableProjectSecurityConfiguration
 @SetProfile
 @WithAnonymousUser
@@ -177,7 +177,7 @@ class AdImgControllerTest {
     }
 
     @Test
-    @DisplayName("[정상 작동][put][/api/v1/adimg/:id] 광고 배너 수정")
+    @DisplayName("[정상 작동][post][/api/v1/adimg/:id] 광고 배너 수정")
     public void givenAidAndRequest_whenCallUpdate_thenUpdate() throws Exception {
         // given
         Long aid = 1L;
@@ -185,7 +185,7 @@ class AdImgControllerTest {
         Map<String, List<String>> params = makeParams(updateFixture);
 
         // when
-        MockMultipartHttpServletRequestBuilder multipart = multipart(HttpMethod.PUT, addAid(aid))
+        MockMultipartHttpServletRequestBuilder multipart = multipart(HttpMethod.POST, addAid(aid))
                 .file((MockMultipartFile) updateFixture.getPath());
 
         RequestBuilder request = multipart
@@ -200,7 +200,7 @@ class AdImgControllerTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"mock wrong link", "http://school.programmers.co.kr/learn/challenges"})
-    @DisplayName("[비정상 작동][put][/api/v1/adimg/:id] 광고 배너 수정 시, 잘못된 link 형식.")
+    @DisplayName("[비정상 작동][post][/api/v1/adimg/:id] 광고 배너 수정 시, 잘못된 link 형식.")
     public void givenAidAndRequestWithWrongLink_whenCallUpdate_thenThrow400(String link) throws Exception {
         // given
         Long aid = 1L;
@@ -209,7 +209,7 @@ class AdImgControllerTest {
         params.put("link", List.of(link));
 
         // when
-        MockMultipartHttpServletRequestBuilder multipart = multipart(HttpMethod.PUT, addAid(aid))
+        MockMultipartHttpServletRequestBuilder multipart = multipart(HttpMethod.POST, addAid(aid))
                 .file((MockMultipartFile) updateFixture.getPath());
 
         RequestBuilder request = multipart
@@ -224,7 +224,7 @@ class AdImgControllerTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"2023/01/01", "2023-01-01 00:00:00"})
-    @DisplayName("[비정상 작동][put][/api/v1/adimg/:id] 광고 배너 수정 시, 잘못된 날짜 형식.")
+    @DisplayName("[비정상 작동][post][/api/v1/adimg/:id] 광고 배너 수정 시, 잘못된 날짜 형식.")
     public void givenAidAndRequestWithWrongDateTimeFormat_whenCallUpdate_thenThrow400(String datetime) throws Exception {
         // given
         Long aid = 1L;
@@ -234,7 +234,7 @@ class AdImgControllerTest {
         params.put("endAt", List.of(datetime));
 
         // when
-        MockMultipartHttpServletRequestBuilder multipart = multipart(HttpMethod.PUT, addAid(aid))
+        MockMultipartHttpServletRequestBuilder multipart = multipart(HttpMethod.POST, addAid(aid))
                 .file((MockMultipartFile) updateFixture.getPath());
 
         RequestBuilder request = multipart

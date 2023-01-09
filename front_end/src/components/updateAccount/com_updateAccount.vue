@@ -151,14 +151,15 @@ export default {
             } else {
                 this.error = "";
             }
-            // TODO: axios를 이용해서 업데이트 쿼리 날리기.
+            // axios를 이용해서 업데이트 쿼리 날리기.
             const role = this.$store.state.user.role;
             const data = UserUpdateReq.of(role, this.model);
             const endpoint = this.$endPoint.backend[role];
 
             this.$auth.put(`${endpoint}/principal`, data.json())
             .then(() => {
-                this.setError("수정 완료")
+                this.setError("수정 완료");
+                this.$emit('fetchProfile');
             })
             .catch(err => {
                 const errorCode = ErrRes.of(err).errorCode;

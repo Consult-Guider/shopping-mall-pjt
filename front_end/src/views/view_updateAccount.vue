@@ -2,7 +2,7 @@
     <v-container>
         <v-row>
             <v-col>
-                <com_updateAccount :value="data" />
+                <com_updateAccount :value="data" @fetchProfile="fetchProfile" />
             </v-col>
         </v-row>
     </v-container>

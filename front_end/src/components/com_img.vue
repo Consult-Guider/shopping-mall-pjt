@@ -24,7 +24,7 @@ methods: {
     onClickAD() {
         console.log(`click onClickAD. ${this.Link}`);
         if(!this.no_link) {
-            this.$router.push(this.Link);
+            location.href = this.Link;
         }
     },
 },
@@ -34,5 +34,7 @@ methods: {
 <style scoped>
     img {
         object-fit: contain;
+
+        max-height: 400px;
     }
 </style>

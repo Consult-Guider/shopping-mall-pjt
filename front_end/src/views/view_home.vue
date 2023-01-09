@@ -3,7 +3,7 @@
     <v-row justify="center">
         <v-col id="AD">
             <!-- 배너 광고 -->
-            <com_img />
+            <com_img :src="bannerSrc" :link="bannerLink"/>
         </v-col>
     </v-row>
     <v-row justify="center">
@@ -28,17 +28,40 @@
 </template>
 
 <script>
+import { ErrRes, AdImgRecommendRes } from '@/dto';
+
 export default {
     data() {return {
-        
+        trayAdBanner: null,
     }},
+    computed: {
+        bannerSrc() {
+            return this.trayAdBanner ? this.trayAdBanner.src : null;
+        },
+        bannerLink() {
+            return this.trayAdBanner ? this.trayAdBanner.link : null;
+        },
+    },
     methods: {
-        loadData() {
-            console.log("load home");
+        loadAdBanner: async function() {
+            this.$http.get(`/adimg/recommend`).then(res => {
+                const response = AdImgRecommendRes.of(res);
+
+                this.trayAdBanner = response.json();
+            }).catch(err => {
+                const errorCode = ErrRes.of(err).errorCode;
+
+                // 에러 메세지 표시.
+                switch(errorCode) {
+                    default:
+                        alert(errorCode);
+                        break;
+                }
+            });
         },
     },
     mounted() {
-        this.loadData();
+        this.loadAdBanner();
     }
 }
 </script>

@@ -95,19 +95,23 @@ data() {return {
 }},
 methods: {
     onClickUpdate() {
-        console.log("click onClickPurchase");
-        // TODO: 상품 등록시, axios를 이용해서 쿼리날리기.
+        // 상품 등록시, axios를 이용해서 쿼리날리기.
         const formdata = new FormData();
-        formdata.append("name", this.item.name);
-        formdata.append("price", this.item.price);
-        formdata.append("image", this.item.image);
-        formdata.append("optionList", this.option.list);
+        const addFormData = (key, value) => {
+                if(value) {
+                    formdata.append(key, value);
+                }
+            };
+        addFormData("name", this.item.name);
+        addFormData("price", this.item.price);
+        addFormData("image", this.item.image);
+        addFormData("optionList", this.option.list);
         for(const img of this.imgList) {
-            formdata.append("descriptionList", img);
+            addFormData("descriptionList", img);
         }
-        formdata.append("tagList", this.tagList);
+        addFormData("tagList", this.tagList);
 
-        this.$http.post(`/item`, formdata, {
+        this.$auth.post(`/item`, formdata, {
             headers: {'Context-Type': 'multipart/form-data'},
         });
     },

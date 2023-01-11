@@ -68,29 +68,20 @@
 
 <script>
 export default {
+props: {
+    item: Object,
+},
+watch: {
+    item(val) {
+        this.reviews = val.reviews.map(this.transform);
+    },
+},
 data() {return {
     sort: "rec-desc",
 
     rate: 3.5,
     numRate: 17,
-    reviews: [
-        {
-            user: {name: "이선한", option: "데스크탑"},
-            rate: 4.5,
-            createdAt: "20220102",
-            content: "무난히 쓸만했습니당~",
-            numRec: 24,
-            numNotRec: 5,
-        },
-        {
-            user: {name: "저스틴 비버", option: "바지"},
-            rate: 2.5,
-            createdAt: "20221202",
-            content: "별루임.",
-            numRec: 2,
-            numNotRec: 8,
-        },
-    ],
+    reviews: [],
 
     search: {
         value: "",
@@ -109,7 +100,18 @@ methods: {
     updateReviewPosting() {
         console.log("update ReviewPosting");
         // TODO: 리뷰 작성 시, 일어나야 하는 변화에 대해 작성하기.
-    }
+    },
+
+    transform(unit) {
+        return {
+            user: {name: unit.userName, option: unit.option},
+            rate: unit.rating,
+            createdAt: unit.createdAt,
+            content: unit.content,
+            numRec: unit.likes.length,
+            numNotRec: unit.dislikes.length,
+        };
+    },
 },
 }
 </script>

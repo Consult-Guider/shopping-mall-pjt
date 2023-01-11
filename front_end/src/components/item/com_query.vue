@@ -48,6 +48,11 @@ export default {
 props: {
     item: Object,
 },
+watch: {
+    item(val) {
+        this.comments = val.comments.map(this.transform);
+    },
+},
 data() {return {
     btnQuery: {
         label: "문의하기",
@@ -55,20 +60,7 @@ data() {return {
         dialog: false,
     },
 
-    comments: [
-        {
-            user: {name: "이선영", option: "데스크탑"},
-            kind: "Q",
-            createdAt: "20221204",
-            content: "윈도우는 깔려서 오는 건가요?",
-        },
-        {
-            user: {name: "카카오팀", option: " "},
-            kind: "A",
-            createdAt: "20221204",
-            content: "이게 맞나?",
-        },
-    ],
+    comments: [],
 
     page: 1,
     total: 100,
@@ -77,6 +69,15 @@ methods: {
     onClickQuery() {
         console.log("click onClickQuery");
         this.btnQuery.dialog = true;
+    },
+
+    transform(unit) {
+        return {
+            user: {name: unit.userName, option: unit.option},
+            kind: "Q",
+            createdAt: unit.createdAt,
+            content: unit.content,
+        };
     },
 },
 }

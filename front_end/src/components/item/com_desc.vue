@@ -10,13 +10,22 @@
 
 <script>
 export default {
+props: {
+    item: Object,
+},
+watch: {
+    item(val) {
+        this.images = val.descriptions.map(this.transform);
+    },
+},
 data() {return {
-    images: [
-        null,
-        null,
-        null,
-    ],
+    images: [],
 }},
+methods: {
+    transform(unit) {
+        return unit.path;
+    },
+},
 }
 </script>
 

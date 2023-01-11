@@ -38,6 +38,13 @@
             <v-divider class="my-3" />
         </div>
         
+        <div class="t2b pa-4 bg-nav">
+            <h2 class="mb-4">MY 판매</h2>
+            <p class="clickable link" @click="$router.push($endPoint.createItem);"
+            >상품 생성</p>
+
+            <v-divider class="my-3" />
+        </div>
     </v-card>
 </template>
 

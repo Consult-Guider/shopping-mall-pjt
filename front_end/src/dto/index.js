@@ -242,3 +242,23 @@ export class AdImgRecommendRes extends BaseResponse {
         return this.transform(this.getData());
     }
 }
+
+export class ItemRes extends BaseResponse {
+    transform(unit) {
+        return {
+            name: unit.name,
+            price: unit.price,
+            imgPath: unit.imagePath,
+            
+            options: unit.optionList,
+            descriptions: unit.descriptionList,
+            reviews: unit.reviewList,
+            queries: unit.questionList,
+            tags: unit.tagList,
+        };
+    }
+
+    json() {
+        return this.transform(this.getData());
+    }
+}

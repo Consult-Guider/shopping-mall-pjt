@@ -2,7 +2,7 @@
 <v-container>
 <v-row>
     <v-col>
-        <com_img class="fill" />
+        <com_img class="fill" no_link :src="item.img"/>
     </v-col>
     <v-col>
         <v-container id="left-sector">
@@ -46,15 +46,27 @@
 
 <script>
 export default {
+props: {
+    data: Object,
+},
+watch: {
+    data(val) {
+        this.item.img = val.imgPath;
+        this.item.name = val.name;
+        this.item.price = val.price;
+        this.option.list = val.options.map(this.optionMapper);
+    },
+},
 data() {return {
     item: {
-        name: "한성컴퓨터 프리워커 데스크탑 F2300W (i3-10100)", 
-        price: 10000,
+        img: null,
+        name: "{상품명}", 
+        price: "{상품 가격}",
     },
     option: {
         label: "옵션 선택",
         value: null,
-        list: ["양말", "지우개", "마우스"],
+        list: [],
     },
     incredment: {
         max: 100,
@@ -75,6 +87,10 @@ methods: {
     },
     onClickPurchase() {
         console.log("click onClickPurchase");
+    },
+
+    optionMapper(unit) {
+        return unit.name;
     },
 },
 }

@@ -2,7 +2,7 @@
 <v-container>
 <v-row>
 <v-col>
-    <com_item_info />
+    <com_item_info :data="item" />
 </v-col>
 </v-row>
 
@@ -52,6 +52,8 @@
 </template>
 
 <script>
+import { ErrRes, ItemRes } from '@/dto';
+
 export default {
 computed: {
     iid() {return this.$route.params.iid;},
@@ -68,8 +70,30 @@ data() {return {
         descriptions: [],
         reviews: [],
         queries: [],
+        tags: [],
     },
 }},
+methods: {
+    fetchItem: async function() {
+        this.$http.get(`/item/${this.iid}/all`)
+        .then(res => {
+            this.item = ItemRes.of(res).json();
+        })
+        .catch(err => {
+            const errorCode = ErrRes.of(err).errorCode;
+
+            // 에러 메세지 표시.
+            switch(errorCode) {
+                default:
+                    alert(errorCode);
+                    break;
+            }
+        });
+    }
+},
+created() {
+    this.fetchItem();
+},
 }
 </script>
 

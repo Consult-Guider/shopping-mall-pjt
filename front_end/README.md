@@ -24,7 +24,8 @@ npm run lint
 ```
 Vue.Js : 3.2.13
 Vue/cli : 5.0.8
-Node.Js : 8.11.0
+npm : 8.11.0
+npm : v16.16.0
 Vue Router : 4.1.5
 Vuex : 4.0.2
 Vuetify : 3.0.0-beta.0

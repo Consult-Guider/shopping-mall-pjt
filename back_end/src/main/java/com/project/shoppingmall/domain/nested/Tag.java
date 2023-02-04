@@ -7,7 +7,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @NoArgsConstructor @Getter @Setter
 @AllArgsConstructor @Builder(toBuilder = true)
 public class Tag {
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     private String name;
 
     public static Tag of(Tag trg) {

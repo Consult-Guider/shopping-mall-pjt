@@ -2,13 +2,13 @@
 <v-container>
 <v-row class="noGap border-line" align="center">
     <v-col cols="auto">
-        <category_name />
+        <category_name :name="name"/>
     </v-col>
 
     <v-divider vertical />
     
     <v-col>
-        <category_items />
+        <category_items :items="items"/>
     </v-col>
 </v-row>
 </v-container>
@@ -16,7 +16,16 @@
 
 <script>
 export default {
-
+    props: {
+        items: {
+            type: Array,
+            default: new Array(),
+        },
+        name: {
+            type: String,
+            default: "빈 카테고리",
+        },
+    },
 }
 </script>
 

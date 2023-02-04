@@ -37,11 +37,15 @@ export default {
             type: Number,
             default: 3,
         },
+        items: {
+            type: Array,
+            default: new Array(),
+        },
     },
     data() {return {
         page: 0,
         data: {
-            items: [1,2,3,4,5,6,7,8,9,10,11,12,13],
+            items: this.items,
             mockItem: null
         },
         caluated: {
@@ -56,6 +60,12 @@ export default {
         },
         getItem(page, row, col) {
             return this.caluated.items[this.$util.getIdx(page, row, col, this.rows, this.cols)]
+        },
+    },
+    watch: {
+        items(val) {
+            this.data.items = val;
+            this.setPagesNItems();
         },
     },
     mounted() {

@@ -9,9 +9,9 @@
         <v-row>
             <v-col>
                 <!-- 상품평 -->
-                <v-card height="500" class="overflow-y-auto">
+                <v-card class="overflow-y-auto">
                     <div v-for="review of reviews" :key="review">
-                        <com_review_header_unit :review="review" />
+                        <com_review_header_unit :review="review" @reload="reload"/>
                         <v-divider class="my-3" />
                     </div>
                 </v-card>
@@ -24,6 +24,11 @@
 export default {
 props: {
     reviews: Array,
+},
+methods: {
+    reload() {
+        this.$emit("reload");
+    },
 },
 }
 </script>

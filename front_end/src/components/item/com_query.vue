@@ -38,20 +38,29 @@
 
     <v-dialog v-model="btnQuery.dialog">
       <v-card>
-        <com_make_query v-bind="item" />
+        <com_make_query v-bind="item" :chats="chats" @update="fetchQueryChat" />
       </v-card>
     </v-dialog>
 </template>
 
 <script>
+import { ErrRes, QnARes, PageReq, QnAUnitRes } from '@/dto';
+
 export default {
 props: {
     item: Object,
 },
 watch: {
     item(val) {
-        this.comments = val.comments.map(this.transform);
+        this.comments = val.queries;
     },
+    page() {
+        this.fetchQuestionParents();
+    }
+},
+created() {
+    this.fetchQuestionParents();
+    this.fetchQueryChat();
 },
 data() {return {
     btnQuery: {
@@ -63,21 +72,75 @@ data() {return {
     comments: [],
 
     page: 1,
-    total: 100,
+    total: 1,
+
+    chats: [],
 }},
+computed: {
+    iid() {
+        return this.item.iid;
+    },
+},
 methods: {
     onClickQuery() {
-        console.log("click onClickQuery");
         this.btnQuery.dialog = true;
     },
 
-    transform(unit) {
-        return {
-            user: {name: unit.userName, option: unit.option},
-            kind: "Q",
-            createdAt: unit.createdAt,
-            content: unit.content,
-        };
+    fetchQuestionParents: async function() {
+        const page = PageReq.of(this.page-1, 5).sort('createdAt', false);
+
+        this.$http.get(`item/${this.iid}/question`, {params: page.params()}).then(res => {
+            const response = QnARes.of(res);
+            this.comments = response.pages();
+            this.total = response.getTotalPages();
+        }).catch(err => {
+            const errorCode = ErrRes.of(err).errorCode;
+
+            // 에러 메세지 표시.
+            switch(errorCode) {
+                default:
+                    alert(errorCode);
+                    break;
+            }
+        });
+    },
+
+    fetchQueryChat: async function() {
+        if(!this.$store.getters.isLogin) {
+            alert("로그인 먼저 해주세요!!");
+            return ;
+        }
+
+        this.$auth.get(`user/principal/item/${this.iid}/question`).then(res => {
+            const firstChat = QnAUnitRes.of(res).json();
+            this.chats = [firstChat];
+            this.fetchQueryChatChildren(firstChat.qid);
+        }).catch(err => {
+            const errorCode = ErrRes.of(err).errorCode;
+
+            // 에러 메세지 표시.
+            switch(errorCode) {
+                default:
+                    alert(errorCode);
+                    break;
+            }
+        });
+    },
+
+    fetchQueryChatChildren: async function(qid) {
+        this.$auth.get(`/question/${qid}/children`).then(res => {
+            const children = QnARes.of(res).pages()
+            this.chats.push(...children);
+        }).catch(err => {
+            const errorCode = ErrRes.of(err).errorCode;
+
+            // 에러 메세지 표시.
+            switch(errorCode) {
+                default:
+                    alert(errorCode);
+                    break;
+            }
+        });
     },
 },
 }

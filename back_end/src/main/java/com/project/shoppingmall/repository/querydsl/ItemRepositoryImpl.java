@@ -24,16 +24,19 @@ public class ItemRepositoryImpl implements KeywordRepository<Item> {
     @Override
     public Page<Item> findByKeyword(String keyword, Pageable pageable) {
         QueryBuilder query = boolQuery()
-                .should(QueryBuilders.matchQuery("name", keyword))
-                ;
+                .should(matchQuery("name", keyword));
 
         SearchHits<Item> result = elasticsearchClient.search(
-                new NativeSearchQueryBuilder().withQuery(query).build(), Item.class
+                new NativeSearchQueryBuilder()
+                        .withQuery(query)
+                        .withPageable(pageable)
+                        .build(),
+                Item.class
         );
 
         List<Item> items = result.getSearchHits().stream()
                 .map(SearchHit::getContent)
                 .toList();
-        return new PageImpl<>(items, pageable, items.size());
+        return new PageImpl<>(items, pageable, result.getTotalHits());
     }
 }

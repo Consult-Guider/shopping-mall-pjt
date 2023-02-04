@@ -52,7 +52,7 @@ public class ItemController {
     }
 
     @GetMapping
-    public Page<ItemReadResponse> searchItem(@RequestParam String keyword, @PageableDefault Pageable pageable) {
-        return itemService.searchItem(keyword, pageable);
+    public Response<Page<ItemReadResponse>> searchItem(@RequestParam String keyword, @PageableDefault Pageable pageable) {
+        return Response.success(itemService.searchItem(keyword, pageable));
     }
 }

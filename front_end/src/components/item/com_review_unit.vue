@@ -58,12 +58,31 @@
             >{{ btnNoRec.label }}</v-btn>
         </div>
 
+        <v-spacer class="my-3" v-if="isThisYours"/>
+
+        <div class="l2r" v-if="isThisYours">
+            <v-btn
+                density="compact"
+                :color="btnUpdate.color"
+                @click="btnUpdate.click"
+                class="text-white"
+            >{{ btnUpdate.label }}</v-btn>
+            <v-btn
+                density="compact"
+                :color="btnDelete.color"
+                @click="btnDelete.click"
+                class="text-white"
+            >{{ btnDelete.label }}</v-btn>
+        </div>
     </div>
 </template>
 
 <script>
+import { ReviewSelected } from '@/dto/util';
+
 export default {
     props: {
+        rid: String,
         user: Object,
         rate: Number,
         createdAt: String,
@@ -79,7 +98,7 @@ export default {
     data() {return {
         data_modified: {
             rate: this.rate,
-            createdAt: Date.now(),
+            createdAt: this.createdAt,
             content: this.content,
         },
 
@@ -90,7 +109,19 @@ export default {
         btnNoRec: {
             label: "비추천", 
             click: this.onClickNoRec,
-        }
+        },
+
+        btnUpdate: {
+            label: "수정하기", 
+            click: this.onClickUpdate,
+            color: "blue",
+            value: false,
+        },
+        btnDelete: {
+            label: "삭제하기", 
+            click: this.onClickDelete,
+            color: "red",
+        },
     }},
     methods: {
         onClickRec() {
@@ -99,17 +130,39 @@ export default {
         onClickNoRec() {
             console.log("click onClickNoRec");
         },
+
+        onClickUpdate() {
+            this.btnUpdate.value = !this.btnUpdate.value;
+
+            let data;
+            if(this.btnUpdate.value) {
+                this.btnUpdate.label = "취소하기";
+                this.btnUpdate.color = "grey";
+                data = ReviewSelected.of(this.rid, this.data_modified.rate, this.data_modified.content).json();
+            } else {
+                this.btnUpdate.label = "수정하기";
+                this.btnUpdate.color = "blue";
+                data = ReviewSelected.empty();
+            }
+            this.$emit('doSelect', data);
+        },
+        onClickDelete() {
+            this.$emit('delete', this.rid);
+        },
     },
     watch: {
         readonly(val) {
             if(val) {
                 console.log("emit update");
-                console.log(this.data_modified);
                 this.$emit("update", this.data_modified);
             }
         },
     },
-
+    computed: {
+        isThisYours() {
+            return this.$store.getters.isUser && this.user.id == this.$store.state.user.id;
+        },
+    },
 }
 </script>
 

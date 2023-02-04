@@ -31,9 +31,8 @@ public class AuthServiceImpl implements AuthService {
         String email = request.getEmail();
         String password = request.getPassword();
 
-        // 조회 후, 비밀번호 추출. 존재하지 않는 계정이면 에러 발생.
-        String passwordLoaded = repositoryFactory.getFinderByEmail(role, email)
-                .map(LoginEntity::getPassword)
+        // 조회 후, 존재하지 않는 계정이면 에러 발생.
+        LoginEntity entity = repositoryFactory.getFinderByEmail(role, email)
                 .orElseThrow(() ->
                         new AuthenticationException(
                                 ErrorCode.ACCOUNT_NOT_FOUNDED,
@@ -42,13 +41,13 @@ public class AuthServiceImpl implements AuthService {
                 );
 
         // 추춮한 비밀번호와 입력한 비밀번호가 일치하지 않으면 에러 발생.
-        if(!passwordEncoder.matches(password, passwordLoaded)) {
+        if(!passwordEncoder.matches(password, entity.getPassword())) {
             throw new AuthenticationException(ErrorCode.WRONG_PASSWORD);
         }
 
         // 일치한다면 토큰 발급.
         String token = generateAccessToken(
-                email, role,
+                entity, role,
                 jwtProperties.getSecretKey(), jwtProperties.getExpiredTimeMs()
         );
 

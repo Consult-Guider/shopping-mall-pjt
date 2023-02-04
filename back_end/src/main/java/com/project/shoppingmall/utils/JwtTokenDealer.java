@@ -1,5 +1,6 @@
 package com.project.shoppingmall.utils;
 
+import com.project.shoppingmall.domain.LoginEntity;
 import com.project.shoppingmall.exception.AuthenticationException;
 import com.project.shoppingmall.type.ErrorCode;
 import com.project.shoppingmall.type.RoleType;
@@ -78,13 +79,14 @@ public class JwtTokenDealer {
     }
 
     public static String generateAccessToken(
-            String email,
+            LoginEntity entity,
             RoleType role,
             String secretKey,
             Long expiredTimeMs
     ) {
         ClaimsAdapter claimsAdapter = ClaimsAdapter.of(Jwts.claims());
-        claimsAdapter.setIdentifier(email);
+        claimsAdapter.setId(entity.getId());
+        claimsAdapter.setIdentifier(entity.getEmail());
         claimsAdapter.setRole(role);
 
         long now = System.currentTimeMillis();

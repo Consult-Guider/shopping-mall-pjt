@@ -11,6 +11,7 @@ export default {
 props: {
     src: String,
     link: String,
+    iid: String,
     no_link: {
         type: Boolean,
         default: false,
@@ -18,7 +19,7 @@ props: {
 },
 computed: {
     Src() {return this.src ?? this.$defaults.image;},
-    Link() {return this.link ?? this.$defaults.link;},
+    Link() {return this.iid ? this.$endPoint.item(this.iid) : (this.link ?? this.$defaults.link);},
 },
 methods: {
     onClickAD() {

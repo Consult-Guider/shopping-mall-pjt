@@ -3,15 +3,37 @@ import roleType from '@/utils/roleType';
 import util from '@/utils/util';
 import { DelAccessToken, loadAccessToken, saveAccessToken } from '@/utils/localStorage';
 
+class Claim {
+	constructor(id, email, role) {
+		this.id = id;
+		this.email = email;
+		this.role = role;
+	}
+
+	static of(id, email, role) {
+		return new Claim(id, email, role);
+	}
+
+	json() {
+		return {
+			id: this.id,
+			email: this.email,
+			role: roleType.find(this.role),
+		};
+	}
+
+	static empty() {
+		const obj = Claim.of(null, null, "NULL");
+		return obj.json()
+	}
+}
+
 function baseLogin(state, token, isAuto) {
 	// token Decoding.
 	const decoded = util.JWTDecode(token);
 
 	// 스토어에 저장.
-	state.user = {
-		email: decoded.email,
-		role: roleType.find(decoded.role),
-	};
+	state.user = Claim.of(decoded.id, decoded.email, decoded.role).json();
 
 	// localStorage에 저장.
 	if(isAuto) { saveAccessToken(token); }
@@ -19,10 +41,7 @@ function baseLogin(state, token, isAuto) {
 
 export default createStore({
 	state: {
-		user: {
-			email: null,
-			role: roleType.roles.NULL,
-		},
+		user: Claim.empty(),
 	},
 	getters: {
 		isLogin(state) {
@@ -51,10 +70,7 @@ export default createStore({
 		},
 		logout(state) {
 			// 스토어에서 삭제.
-			state.user = {
-				email: null,
-				role: roleType.roles.NULL,
-			};
+			state.user = Claim.empty();
 
 			// localStorage에서 삭제.
 			DelAccessToken();

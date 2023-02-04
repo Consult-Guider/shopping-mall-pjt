@@ -8,7 +8,7 @@
                     v-for="c of $util.range(cols)" :key="c"
                     class="y-gap"
                 >
-                    <com_item :data="getItem(1, r, c)" />
+                    <com_item :data="getItem(0, r, c)" />
                 </v-col>
             </v-row>
         </v-container>
@@ -22,28 +22,30 @@ export default {
             type: Number,
             default: 5,
         },
+        data: {
+            type: Array,
+        },
     },
     data() {return {
-        data: {
-            items: [1,2,3,4,5,6,7,8,9,10,11,12,13],
-            mockItem: null
-        },
+        mockItem: null,
         caluated: {
-            rows: [],
+            rows: 1,
             items: [],
         }
     }},
     methods: {
         setPagesNItems() {
-            this.caluated.rows = this.$util.getPages(1, this.cols, this.data.items);
-            this.caluated.items = this.$util.makeFrame(this.cols, this.data.items, this.data.mockItem);
+            this.caluated.rows = this.$util.getPages(1, this.cols, this.data);
+            this.caluated.items = this.$util.makeFrame(this.cols, this.data, this.mockItem);
         },
         getItem(page, row, col) {
-            return this.caluated.items[this.$util.getIdx(page, row, col, this.rows, this.cols)]
+            return this.caluated.items[this.$util.getIdx(page, row, col, this.caluated.rows, this.cols)]
         },
     },
-    mounted() {
-        this.setPagesNItems();
+    watch: {
+        data() {
+            this.setPagesNItems();
+        },
     },
 }
 </script>

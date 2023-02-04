@@ -1,5 +1,7 @@
 package com.project.shoppingmall.utils;
 
+import com.project.shoppingmall.domain.Question;
+import com.project.shoppingmall.domain.Review;
 import com.project.shoppingmall.domain.nested.*;
 import com.project.shoppingmall.model.AdminDto;
 import com.project.shoppingmall.model.SellerDto;
@@ -284,9 +286,40 @@ public class FixtureFactory {
         return entity;
     }
 
+    public static Review reviewFixture(long userId, String itemId) {
+        return reviewFixture(userId, itemId, null);
+    }
+
+    public static Review reviewFixture(long userId, String itemId, String keyword) {
+        Review entity = reviewFixture();
+        entity.setUserId(userId);
+        entity.setItemId(itemId);
+        entity.setContent(keyword);
+        return entity;
+    }
+
+    public static Review reviewFixture(String itemId, int rating) {
+        Review entity = reviewFixture();
+        entity.setItemId(itemId);
+        entity.setRating(rating);
+        return entity;
+    }
+
     public static Question questionFixture() {
         Question entity = new Question();
         entity.setContent("mock Question Content");
+        return entity;
+    }
+
+    public static Question questionFixture(long userId, String itemId) {
+        return questionFixture(userId, itemId, null);
+    }
+
+    public static Question questionFixture(long userId, String itemId, String keyword) {
+        Question entity = questionFixture();
+        entity.setUserId(userId);
+        entity.setItemId(itemId);
+        entity.setContent(keyword);
         return entity;
     }
 

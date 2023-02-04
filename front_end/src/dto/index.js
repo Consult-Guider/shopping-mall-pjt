@@ -160,6 +160,40 @@ export class AdImgReq {
     };
 }
 
+export class ReviewReq {
+    constructor(rating, content) {
+        this.rating = rating;
+        this.content = content;
+    }
+
+    static of(rating, content) {
+        return new this(rating, content);
+    }
+
+    json() {
+        return {
+            rating: this.rating,
+            content: this.content,
+        };
+    }
+}
+
+export class QnAReq {
+    constructor(content) {
+        this.content = content;
+    }
+
+    static of(content) {
+        return new this(content);
+    }
+
+    json() {
+        return {
+            content: this.content,
+        };
+    }
+}
+
 // Response
 
 export class BaseResponse {
@@ -173,6 +207,14 @@ export class BaseResponse {
 
     getData() {
         return this.response.data.data;
+    }
+
+    transform(unit) {
+        return unit;
+    }
+
+    json() {
+        return this.transform(this.getData());
     }
 }
 
@@ -204,7 +246,14 @@ export class PageResponse extends BaseResponse {
 
 export class ErrRes extends BaseResponse {
     getData() {
-        return this.response.response.data;
+        try {
+            return this.response.response.data;
+        } catch {
+            console.log(this.response)
+            return {
+                errorCode: null,
+            };
+        }
     }
 
     get errorCode() { return this.getData().errorCode; }
@@ -262,6 +311,7 @@ export class AdImgRecommendRes extends BaseResponse {
 export class ItemRes extends BaseResponse {
     transform(unit) {
         return {
+            iid: unit.id,
             name: unit.name,
             price: unit.price,
             imgPath: unit.imagePath,
@@ -276,5 +326,155 @@ export class ItemRes extends BaseResponse {
 
     json() {
         return this.transform(this.getData());
+    }
+}
+
+export class ItemSearchedRes extends PageResponse {
+    transform(unit) {
+        return {
+            "iid": unit.id,
+            "src": unit.imagePath,
+            "name": unit.name,
+            "price": unit.price,
+        };
+    }
+
+    pages() {
+        return this.getData().map(this.transform);
+    }
+}
+
+export class QnASearchedRes extends PageResponse {
+    transform(unit) {
+        return {
+            "iid": unit.itemId,
+            "src": unit.imagePath,
+            "name": unit.itemName,
+            "price": unit?.price ?? 0,
+        };
+    }
+
+    pages() {
+        return this.getData().map(this.transform);
+    }
+}
+
+export class ReviewRes extends PageResponse {
+    transform(unit) {
+        return {
+            "rid": unit.id,
+            "createdAt": unit.createdAt,
+
+            "rating": unit.rating,
+            "content": unit.content,
+
+            "userId": unit.userId,
+            "userName": unit.userName,
+
+            "itemId": unit.itemId,
+            "itemName": unit.itemName,
+            "option": unit.option,
+
+            "likes": [],
+            "dislikes": [],
+        };
+    }
+
+    pages() {
+        return this.getData().map(this.transform);
+    }
+}
+
+export class ReviewStatRes extends BaseResponse {
+    transform(unit) {
+        return {
+            avg: unit.average,
+        };
+    }
+
+    json() {
+        return this.transform(this.getData());
+    }
+}
+
+export class QnARes extends PageResponse {
+    static isQuestion(unit) {
+        return unit.userId;
+    }
+
+    transform(unit) {
+        return {
+            "qid": unit.id,
+            "createdAt": unit.createdAt,
+
+            "content": unit.content,
+
+            "userId": unit.userId,
+            "userName": unit.userName,
+
+            "sellerId": unit.sellerId,
+            "sellerName": unit.sellerName,
+            "companyName": "",
+
+            "itemId": unit.itemId,
+            "itemName": unit.itemName,
+
+            "user": {
+                id: unit.userId, 
+                name: unit.userName, 
+                option: "",
+            },
+
+            "kind": QnARes.isQuestion(unit) ? "Q" : "A",
+        };
+    }
+
+    pages() {
+        return this.getData().map(this.transform);
+    }
+}
+
+export class QnAUnitRes extends BaseResponse {
+    static isQuestion(unit) {
+        return unit.userId;
+    }
+
+    transform(unit) {
+        return {
+            "qid": unit.id,
+            "createdAt": unit.createdAt,
+
+            "content": unit.content,
+
+            "userId": unit.userId,
+            "userName": unit.userName,
+
+            "sellerId": unit.sellerId,
+            "sellerName": unit.sellerName,
+            "companyName": "",
+
+            "itemId": unit.itemId,
+            "itemName": unit.itemName,
+
+            "user": {
+                id: unit.userId, 
+                name: unit.userName, 
+                option: "",
+            },
+
+            "kind": QnAUnitRes.isQuestion(unit) ? "Q" : "A",
+        };
+    }
+
+    json() {
+        return this.transform(this.getData());
+    }
+}
+
+export class TagRes extends PageResponse {
+    transform(unit) {
+        return {
+            "name": unit.name,
+        };
     }
 }

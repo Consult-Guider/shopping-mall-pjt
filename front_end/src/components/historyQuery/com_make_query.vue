@@ -11,7 +11,7 @@
                 elevation="5" 
                 class="outer-shell overflow-auto"
                 >
-                    <com_query_chat :qid="qid" :update="update_component.com_query_chat" />
+                    <com_query_chat :chats="chats" />
                     <com_input_comment @post="postingEventHandler" />
                 </v-card>
             </v-col>
@@ -20,34 +20,65 @@
 </template>
 
 <script>
+import { ErrRes, QnAReq } from '@/dto';
+
 export default {
 props: {
     iid: String,
-
+    chats: Array,
     name: String,
 },
-data() {return {
-    qid: null,
-
-    update_component: {
-        com_query_chat: 0,
+computed: {
+    qid() {
+        const firstChat = this.chats[0];
+        return firstChat.qid;
     },
-}},
+},
 methods: {
     postingEventHandler(text) {
-        console.log("call postingEventHandler: " + text);
-        // 만약 qid가 NULL이면 새로 qid를 만든 후에 넣어주기.
-        if(!this.qid) this.createQueryDomain();
-
-        if(text) this.update_component.com_query_chat++;
-        // TODO: text 데이터값을 받은 후 이를 문의 내역에 반영.
+        if(!text) {
+            alert("내용을 작성해주세요!");
+            return ;
+        }
+        
+        if(!this.qid) {
+            this.createQuery(text);
+        } else {
+            this.updateQuery(text);
+        }
     },
 
-    createQueryDomain() {
-        console.log("call createQueryDomain: " + this.iid);
-        // TODO: 아직 문의 도메인의 qid가 존재하지 않으므로 새로 생성 후, qid를 넣어줌.
-        // axios를 이용해서 쿼리 날리기.
-        this.qid = 1;
+    updateQuery(text) {
+        const data = QnAReq.of(text).json();
+
+        this.$auth.post(`/question/${this.qid}/children`, data).then(() => {
+            this.$emit("update");
+        }).catch(err => {
+            const errorCode = ErrRes.of(err).errorCode;
+
+            // 에러 메세지 표시.
+            switch(errorCode) {
+                default:
+                    alert(errorCode);
+                    break;
+            }
+        });
+    },
+    createQuery(text) {
+        const data = QnAReq.of(text).json();
+
+        this.$auth.post(`item/${this.iid}/question`, data).then(() => {
+            this.$emit("update");
+        }).catch(err => {
+            const errorCode = ErrRes.of(err).errorCode;
+
+            // 에러 메세지 표시.
+            switch(errorCode) {
+                default:
+                    alert(errorCode);
+                    break;
+            }
+        });
     },
 },
 }

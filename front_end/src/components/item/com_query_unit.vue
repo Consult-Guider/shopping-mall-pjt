@@ -21,26 +21,72 @@
         <p>{{ content }}</p>
 
         <v-spacer class="my-3" />
+
+        <v-expansion-panels v-if="!isAnswer">
+            <v-expansion-panel>
+                <v-expansion-panel-title>
+                    <template v-slot:default="{ expanded }">
+                        <h5>{{ labelQuery(expanded) }}</h5>
+                        <div class="hidden">{{ eventHandler(expanded) }}</div>
+                    </template>
+                </v-expansion-panel-title>
+                <v-expansion-panel-text class="bg-grey-lighten-3">
+                    <div v-for="unit of children_QnAs" :key="unit">
+                        <com_query_unit v-bind="unit" :user="unit.user" isAnswer />
+                        <v-divider />
+                    </div>
+                </v-expansion-panel-text>
+            </v-expansion-panel>
+        </v-expansion-panels>
     </div>
 </template>
 
 <script>
+import { ErrRes, QnARes } from '@/dto';
+
 export default {
 props: {
+    qid: String,
     user: Object,
     kind: String,
     createdAt: String,
     content: String,
+
+    isAnswer: {
+        type: Boolean,
+        default: false,
+    },
 },
 data() {return {
-    // user: {name: "이선영", option: "데스크탑"},
-    // kind: "Q",
-    // createdAt: "20221204",
-    // content: "윈도우는 깔려서 오는 건가요?",
+    expanded: false,
+
+    children_QnAs: [],
 }},
 methods: {
     isState(kind) {
         return (kind == "Q");
+    },
+    labelQuery(flag) {
+        return flag ? "QnA 내역 닫기" : "QnA 내역 열람";
+    },
+    eventHandler(flag) {
+        if(flag) {
+            this.fetchChildrenQnAs();
+        }
+    },
+    fetchChildrenQnAs() {
+        this.$http.get(`/question/${this.qid}/children`).then(res => {
+            this.children_QnAs = QnARes.of(res).pages();
+        }).catch(err => {
+            const errorCode = ErrRes.of(err).errorCode;
+
+            // 에러 메세지 표시.
+            switch(errorCode) {
+                default:
+                    alert(errorCode);
+                    break;
+            }
+        });
     },
 },computed: {
     style() {
@@ -56,5 +102,7 @@ methods: {
 </script>
 
 <style scoped>
-
+    .hidden {
+        visibility: hidden;
+    }
 </style>

@@ -1,6 +1,8 @@
 package com.project.shoppingmall.model.response;
 
 import com.project.shoppingmall.domain.Item;
+import com.project.shoppingmall.domain.Question;
+import com.project.shoppingmall.domain.Review;
 import com.project.shoppingmall.domain.Seller;
 import com.project.shoppingmall.domain.nested.*;
 import lombok.AllArgsConstructor;
@@ -43,7 +45,9 @@ public class ItemReadResponse {
         return fromEntity(entity, null);
     }
 
-    public static ItemReadResponse allFromEntity(Item entity, Seller sellerEntity) {
+    public static ItemReadResponse allFromEntity(
+            Item entity, Seller sellerEntity
+    ) {
         return ItemReadResponse.builder()
                 .id(entity.getId())
                 .createdAt(entity.getCreatedAt())
@@ -55,8 +59,6 @@ public class ItemReadResponse {
 
                 .optionList(entity.getOptionList())
                 .descriptionList(entity.getDescriptionList())
-                .reviewList(entity.getReviewList())
-                .questionList(entity.getQuestionList())
                 .tagList(entity.getTagList())
                 .build();
     }

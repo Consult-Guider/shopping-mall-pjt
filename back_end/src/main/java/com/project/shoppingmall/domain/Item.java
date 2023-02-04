@@ -44,24 +44,16 @@ public class Item {
     @Field(type = FieldType.Object) @Builder.Default
     private List<Description> descriptionList = new ArrayList<>();
     @Field(type = FieldType.Object) @Builder.Default
-    private List<Review> reviewList = new ArrayList<>();
-    @Field(type = FieldType.Object) @Builder.Default
-    private List<Question> questionList = new ArrayList<>();
-    @Field(type = FieldType.Object) @Builder.Default
     private List<Tag> tagList = new ArrayList<>();
 
     public void addOptionList(Option obj) { optionList.add(obj); }
     public void addDescriptionList(Description obj) { descriptionList.add(obj); }
-    public void addReviewList(Review obj) { reviewList.add(obj); }
-    public void addQuestionList(Question obj) { questionList.add(obj); }
     public void addTagList(Tag obj) { tagList.add(obj); }
 
     public static Item of(Item trg) {
         return trg.toBuilder()
                 .optionList(trg.optionList.stream().map(Option::of).toList())
                 .descriptionList(trg.descriptionList.stream().map(Description::of).toList())
-                .reviewList(trg.reviewList.stream().map(Review::of).toList())
-                .questionList(trg.questionList.stream().map(Question::of).toList())
                 .tagList(trg.tagList.stream().map(Tag::of).toList())
                 .build();
     }

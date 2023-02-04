@@ -6,33 +6,24 @@
             <com_img :src="bannerSrc" :link="bannerLink"/>
         </v-col>
     </v-row>
-    <v-row justify="center">
+    <v-row justify="center"
+        v-for="(val, key) in tags" :key="key"
+    >
         <v-col>
-            전체 고객에 대한 추천 섹션
-            <com_display />
-        </v-col>
-    </v-row>
-    <v-row justify="center">
-        <v-col>
-            카테고리별 추천 섹션
-            <com_display />
-        </v-col>
-    </v-row>
-    <v-row justify="center">
-        <v-col>
-            고객별 맞춤 추천 섹션
-            <com_display />
+            <com_display :name="key" :items="val" />
         </v-col>
     </v-row>
 </v-container>
 </template>
 
 <script>
-import { ErrRes, AdImgRecommendRes } from '@/dto';
+import { ErrRes, AdImgRecommendRes, PageReq, TagRes, ItemSearchedRes } from '@/dto';
 
 export default {
     data() {return {
         trayAdBanner: null,
+
+        tags: {},
     }},
     computed: {
         bannerSrc() {
@@ -59,9 +50,45 @@ export default {
                 }
             });
         },
+        fetchRandomTags() {
+            const page = PageReq.of(0, 3);
+            this.$http.get(`/tag`, {params: page.params()}).then(res => {
+                const response = TagRes.of(res);
+                for(const tag of response.pages()) {
+                    const tagName = tag.name;
+                    this.fetchItemsByTag(tagName);
+                }
+            }).catch(err => {
+                const errorCode = ErrRes.of(err).errorCode;
+
+                // 에러 메세지 표시.
+                switch(errorCode) {
+                    default:
+                        alert(errorCode);
+                        break;
+                }
+            });
+        },
+        fetchItemsByTag(tagName) {
+            const page = PageReq.of(0, 18);
+            this.$http.get(`/tag/${tagName}/item`, {params: page.params()}).then(res => {
+                const response = ItemSearchedRes.of(res);
+                this.tags[tagName] = response.pages();
+            }).catch(err => {
+                const errorCode = ErrRes.of(err).errorCode;
+
+                // 에러 메세지 표시.
+                switch(errorCode) {
+                    default:
+                        alert(errorCode);
+                        break;
+                }
+            });
+        },
     },
     mounted() {
         this.loadAdBanner();
+        this.fetchRandomTags();
     }
 }
 </script>

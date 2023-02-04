@@ -1,33 +1,31 @@
 <template>  
     <v-container class="y-gap">
         <v-row class="t2b">
-            <h1>{{ data.category.name ?? $defaults.category }}</h1>
+            <h1>태그명:</h1>
             <br>
-            <h6
-                class="clickable"
-                @click="onClickLink(data.category.link)"
-            >바로가기 ></h6>
-        </v-row>
-        <v-row class="t2b">
-            <h3>HOT 키워드</h3>
+            <h2>{{ data.category.name ?? $defaults.category }}</h2>
         </v-row>
     </v-container>
 </template>
 
 <script>
 export default {
+props: {
+    name: {
+        type: String,
+        default: null,
+    },
+},
 data() {return {
     data: {
         category: {
-            name: null,
-            link: null,
-
+            name: this.name,
         }
     },
 }},
-methods: {
-    onClickLink(link) {
-        this.$router.push(link ?? this.$defaults.link);
+watch: {
+    name(val) {
+        this.data.category.name = val;
     },
 },
 }

@@ -2,7 +2,7 @@
     <v-container v-if="(chats.length)">
         <v-row v-for="chat in chats" :key="chat">
             <v-col>
-                <com_query_unit v-bind="chat" />
+                <com_query_unit v-bind="chat" isAnswer />
             </v-col>
         </v-row>
     </v-container>
@@ -18,67 +18,7 @@
 <script>
 export default {
     props: {
-        qid: Number,
-
-        update: Number,
-    },
-    data() {return {
-        chats: [
-            // {
-            //     user: {name: "이선영", option: "데스크탑"},
-            //     kind: "Q",
-            //     content: "문의 관련 내용 쏼라 쏼라",
-            //     createdAt: 20220105,
-            // },
-            // {
-            //     user: {name: "이선영", option: "데스크탑"},
-            //     kind: "A",
-            //     content: "문의 관련 내용 답변 쏼라 쏼라",
-            //     createdAt: 20220106,
-            // },
-            // {
-            //     user: {name: "이선영", option: "데스크탑"},
-            //     kind: "Q",
-            //     content: "문의 관련 내용 쏼라 쏼라",
-            //     createdAt: 20220105,
-            // },
-            // {
-            //     user: {name: "이선영", option: "데스크탑"},
-            //     kind: "A",
-            //     content: "문의 관련 내용 답변 쏼라 쏼라",
-            //     createdAt: 20220106,
-            // },
-            // {
-            //     user: {name: "이선영", option: "데스크탑"},
-            //     kind: "Q",
-            //     content: "문의 관련 내용 쏼라 쏼라",
-            //     createdAt: 20220105,
-            // },
-            // {
-            //     user: {name: "이선영", option: "데스크탑"},
-            //     kind: "A",
-            //     content: "문의 관련 내용 답변 쏼라 쏼라",
-            //     createdAt: 20220106,
-            // },
-        ],
-    }},
-    methods: {
-        fetchQueryChat: function(qid) {
-            console.log("call fetchQueryChat: " + qid);
-            // TODO: 여기에 qid를 이용해서 axios로 백엔드에 챗팅 내역을 요구함. 나중에 구현하기.
-        },
-    },
-    watch: {
-        qid(val) {
-            if(val) {
-                this.fetchQueryChat(val);
-            }
-        },
-
-        update() {
-            console.log("update this component");
-            this.fetchQueryChat(this.qid);
-        }
+        chats: Array,
     },
 }
 </script>

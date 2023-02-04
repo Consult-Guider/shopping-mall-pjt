@@ -10,9 +10,8 @@
             <v-col cols="5">
                 <v-card 
                 elevation="5" 
-                class="outer-shell overflow-auto"
                 >
-                    <v-item-group>
+                    <v-item-group class="outer-left-shell overflow-auto">
                         <v-item 
                         v-for="item in items" :key="item"
                         v-slot="{ isSelected, toggle }"
@@ -21,18 +20,23 @@
                             :color="isSelected ? 'grey-lighten-2' : ''" @click="toggle"
                             class="d-flex align-center pa-3" 
                             >
-                                <com_query_state v-bind=item :isSelected=isSelected @changeChat="onChangeChat" />
+                                <com_query_state :item=item :isSelected=isSelected @changeChat="onChangeChat" />
                             </v-card>
                         </v-item>
                     </v-item-group>
+
+                    <v-pagination
+                    v-model="page"
+                    :length="total"
+                    ></v-pagination>
                 </v-card>
             </v-col>
             <v-col>
                 <v-card 
                 elevation="5" 
-                class="outer-shell overflow-auto"
+                class="overflow-auto"
                 >
-                    <com_query_chat :qid="qid" :update="update_component.com_query_chat" />
+                    <com_query_chat class="outer-right-card" :chats="chats" />
                     <com_input_comment @post="postingEventHandler" />
                 </v-card>
             </v-col>
@@ -41,37 +45,85 @@
 </template>
 
 <script>
+import { ErrRes, QnARes, QnAReq } from '@/dto';
+
 export default {
     props: {
         items: Array,
+
+        totalPages: Number,
     },
     data() {return {
-        qid: null,
+        dataSelected: null,
 
-        update_component: {
-            com_query_chat: 0,
-        },
+        chats: [],
+
+        page: 1,
+        total: 1,
     }},
+    watch: {
+        page(val) {
+            this.$emit("updatePage", val);
+        },
+    },
     methods: {
-        onChangeChat(qid) {
-            console.log("call onChangeChat" + ` ${qid}`);
-            this.qid = qid;
+        onChangeChat(data) {
+            console.log(data.qid)
+            if(data) {
+                this.dataSelected = data;
+                this.fetchQuestion();
+            }
         },
 
-        postingEventHandler(text) {
-            console.log("call postingEventHandler: " + text);
-            if(text) this.update_component.com_query_chat++;
-            // TODO: text 데이터값을 받은 후 이를 문의 내역에 반영.
+        fetchQuestion() {
+            if(!this.dataSelected.qid) {
+                return ;
+            }
+
+            this.$http.get(`/question/${this.dataSelected.qid}/children`).then(res => {
+                const arrayChats = [this.dataSelected];
+                
+                const pages= QnARes.of(res).pages();
+                arrayChats.push(...pages);
+
+                this.chats = arrayChats;
+            }).catch(err => {
+                const errorCode = ErrRes.of(err).errorCode;
+
+                // 에러 메세지 표시.
+                switch(errorCode) {
+                    default:
+                        alert(errorCode);
+                        break;
+                }
+            });
+        },
+
+        postingEventHandler(text) {            
+            const data = QnAReq.of(text).json();
+
+            this.$auth.post(`/question/${this.dataSelected.qid}/children`, data).then(() => {
+                this.fetchQuestion();
+            }).catch(err => {
+                const errorCode = ErrRes.of(err).errorCode;
+
+                // 에러 메세지 표시.
+                switch(errorCode) {
+                    default:
+                        alert(errorCode);
+                        break;
+                }
+            });
         },
     },
 }
 </script>
 
 <style scoped>
-    .outer-shell {
-        max-height: 500px;
-
-        margin-left: -12px;
-        margin-right: -12px;
+    .outer-left-shell {
+        height: 555px;
+    }
+    .outer-right-card {
+        min-height: 500px;
     }
 </style>

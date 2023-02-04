@@ -184,6 +184,22 @@ export class PageResponse extends BaseResponse {
     getMeta() {
         return this.response.data.data.pageable;
     }
+
+    getTotalPages() {
+        return this.response.data.data.totalPages;
+    }
+
+    getTotalElements() {
+        return this.response.data.data.totalElements;
+    }
+
+    transform(unit) {
+        return unit;
+    }
+
+    pages() {
+        return this.getData().map(this.transform);
+    }
 }
 
 export class ErrRes extends BaseResponse {

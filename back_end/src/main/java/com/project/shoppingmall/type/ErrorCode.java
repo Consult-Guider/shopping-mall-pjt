@@ -23,7 +23,10 @@ public enum ErrorCode {
     ITEM_IMAGE_IOException(HttpStatus.INTERNAL_SERVER_ERROR, "상품 이미지 업로드 과정 중 문제가 발생함."),
     INVALID_PARAMETER(HttpStatus.BAD_REQUEST, "유효하지 않은 파라미터를 입력함."),
     AD_BANNER_IOException(HttpStatus.INTERNAL_SERVER_ERROR, "광고 배너 이미지 업로드 과정 중 문제가 발생함."),
-    AD_BANNER_NOT_FOUNDED(HttpStatus.NOT_FOUND, "해당 광고 배너는 찾을 수가 없습니다.");
+    AD_BANNER_NOT_FOUNDED(HttpStatus.NOT_FOUND, "해당 광고 배너는 찾을 수가 없습니다."),
+    ONLY_USER_CAN_ACCESS(HttpStatus.FORBIDDEN, "오직 소비자만 접근 가능한 기능입니다."),
+    REVIEW_NOT_FOUNDED(HttpStatus.NOT_FOUND, "해당 리뷰는 찾을 수가 없습니다."),
+    QUESTION_NOT_FOUNDED(HttpStatus.NOT_FOUND, "해당 QnA는 찾을 수가 없습니다.");
 
     private final HttpStatus status;
     private final String message;

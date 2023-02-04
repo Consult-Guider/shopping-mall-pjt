@@ -22,6 +22,17 @@
 
 <script>
 export default {
+props: {
+    content: String,
+},
+watch: {
+    content(val) {
+        this.text = val;
+    },
+},
+created() {
+    this.text = this.content;
+},
 data() {
     return {
         text: "",

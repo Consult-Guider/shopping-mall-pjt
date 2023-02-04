@@ -1,7 +1,9 @@
 package com.project.shoppingmall.model.request;
 
 import com.project.shoppingmall.domain.Item;
-import com.project.shoppingmall.domain.nested.*;
+import com.project.shoppingmall.domain.nested.Description;
+import com.project.shoppingmall.domain.nested.Option;
+import com.project.shoppingmall.domain.nested.Tag;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,8 +19,6 @@ public class ItemUpdateRequest {
 
     private List<Option> optionList;
     private List<Description> descriptionList;
-    private List<Review> reviewList;
-    private List<Question> questionList;
     private List<Tag> tagList;
 
     public Item overwrite(Item trg) {
@@ -30,8 +30,6 @@ public class ItemUpdateRequest {
 
         Optional.ofNullable(this.getOptionList()).filter(s -> !s.isEmpty()).ifPresent(entity::setOptionList);
         Optional.ofNullable(this.getDescriptionList()).filter(s -> !s.isEmpty()).ifPresent(entity::setDescriptionList);
-        Optional.ofNullable(this.getReviewList()).filter(s -> !s.isEmpty()).ifPresent(entity::setReviewList);
-        Optional.ofNullable(this.getQuestionList()).filter(s -> !s.isEmpty()).ifPresent(entity::setQuestionList);
         Optional.ofNullable(this.getTagList()).filter(s -> !s.isEmpty()).ifPresent(entity::setTagList);
         return entity;
     }

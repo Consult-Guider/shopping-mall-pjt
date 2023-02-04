@@ -33,11 +33,11 @@
                 </v-window-item>
 
                 <v-window-item value="review">
-                    <com_review :item="item" />
+                    <com_review :item="item" @update="fetchItem" @set="setReview" />
                 </v-window-item>
 
                 <v-window-item value="query">
-                    <com_query :item="item" />
+                    <com_query :item="item" @update="fetchItem" @set="setQuestion" />
                 </v-window-item>
 
                 <v-window-item value="exchange">
@@ -89,7 +89,13 @@ methods: {
                     break;
             }
         });
-    }
+    },
+    setReview: function(payload) {
+        this.item.reviews = payload;
+    },
+    setQuestion: function(payload) {
+        this.item.queries = payload;
+    },
 },
 created() {
     this.fetchItem();

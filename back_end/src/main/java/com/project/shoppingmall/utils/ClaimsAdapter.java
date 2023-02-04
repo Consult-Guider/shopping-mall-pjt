@@ -8,11 +8,20 @@ import lombok.RequiredArgsConstructor;
 public class ClaimsAdapter {
     private final Claims claims;
 
+    public static final String ID = "id";
     public static final String IDENTIFIER = "email";
     public static final String ROLE = "role";
 
     public static ClaimsAdapter of(Claims claims) { return new ClaimsAdapter(claims); }
     public Claims getClaims() { return claims; }
+
+    public Long getId() {
+        return claims.get(ID, Long.class);
+    }
+
+    public void setId(Long id) {
+        claims.put(ID, id);
+    }
 
     public String getIdentifier() {
         return claims.get(IDENTIFIER, String.class);

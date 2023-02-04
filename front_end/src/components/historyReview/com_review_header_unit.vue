@@ -9,26 +9,22 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-col class="xgap">
-                <v-btn class="update--btn"
-                density="compact"
-                @click="updateReview(review.rid)"
-                >{{labelIsUpdating()}}</v-btn>
-                <v-btn class="delete--btn"
-                density="compact"
-                @click="deleteReview(review.rid)"
-                >삭제하기</v-btn>
+            <v-col>
+                <com_review_unit v-bind="review" @doSelect="setReviewSelected" @delete="deleteReview"/>
             </v-col>
         </v-row>
-        <v-row>
+        <v-row v-if="isUpdating">
             <v-col>
-                <com_review_unit v-bind="review" :readonly="!isUpdating"/>
+                <com_review_posting v-bind="reviewSelected" @update="updateReview"/>
             </v-col>
         </v-row>
     </v-container>
 </template>
 
 <script>
+import { ErrRes, ReviewReq } from '@/dto';
+import { ReviewSelected } from '@/dto/util';
+
 export default {
     props: {
         review: Object,
@@ -36,24 +32,59 @@ export default {
     data() {
         return {
             isUpdating: false,
+
+            reviewSelected: ReviewSelected.of(this.review.rid, this.review.rate, this.review.content),
         }
     },
     methods: {
-        labelIsUpdating() {
-            return this.isUpdating ? "수정완료" : "수정하기"
+        setReviewSelected(val) {
+            this.isUpdating = val.rid;
         },
 
         linkTo(iid) {
             this.$router.push(this.$endPoint.item(iid));
         },
-        updateReview(rid) {
-            console.log("call updateReview: " + rid);
-            this.isUpdating = !this.isUpdating;
-            // TODO: 해당 기능 axios로 연결하기.
+
+        updateReview(payload) {
+            const rid = this.reviewSelected.rid;
+            const text = payload.text;
+            const rating = payload.rating;
+            
+            if(!text) {
+                alert("리뷰내용을 작성해주세요!!");
+                return ;
+            }
+            
+            const data = ReviewReq.of(rating, text).json();
+            this.$auth.put(`/review/${rid}`, data).then(() => {
+                this.$emit("reload");
+            }).catch(err => {
+                const errorCode = ErrRes.of(err).errorCode;
+
+                // 에러 메세지 표시.
+                switch(errorCode) {
+                    default:
+                        alert(errorCode);
+                        break;
+                }
+            });
         },
         deleteReview(rid) {
-            console.log("call deleteReview: " + rid);
-            // TODO: 해당 기능 axios로 연결하기.
+            this.$auth.delete(`/review/${rid}`)
+            .then(() => {
+                // 변경된 데이터에 맞춰 데이터 재로드.
+                this.$emit("reload");
+            })
+            .catch(err => {
+                const errorCode = ErrRes.of(err).errorCode;
+
+                // 에러 메세지 표시.
+                switch(errorCode) {
+                    default:
+                        alert(errorCode);
+                        break;
+                }
+            })
         },
     },
 }

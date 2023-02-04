@@ -6,7 +6,7 @@
                 v-model="combobox.model"
                 :items="combobox.items"
                 :label="combobox.label"
-                class="overflow-y-hidden" clearable
+                class="overflow-y-hidden" 
                 density="compact" variant="plain" hide-details
             />
         </v-col>
@@ -16,6 +16,7 @@
                 :label="text.label"
                 :append-inner-icon="text.icon"
                 @click:appendInner="text.appendInner"
+                @keydown.enter="text.appendInner"
                 density="compact" variant="plain" hide-details
             />
         </v-col>
@@ -27,10 +28,12 @@
 <script>
 export default {
     data() {return {
+        methods: this.$env.queryMethods,
+
         combobox: {
-            model: undefined, 
-            label: "전체",
-            items: ["카테고리1", "카테고리2",],
+            model: this.$env.queryMethods.name.label, 
+            label: null,
+            items: [],
         },
         text: {
             model: undefined, 
@@ -39,10 +42,19 @@ export default {
             appendInner: this.onClickIcon,
         },
     }},
+    created() {
+        this.combobox.items = Object.keys(this.methods).map(item => this.methods[item].label);
+    },
     methods: {
         onClickIcon: function() {
             console.log("onClickIcon");
-            this.$router.push(this.$endPoint.search);
+            this.$router.push({path: this.$endPoint.search, query: {keyword: this.text.model, method: this.find(this.combobox.model)},});
+        },
+
+        find(label) {
+            const key = Object.keys(this.methods).find(key => this.methods[key].label == label);
+
+            return this.methods[key].value;
         },
     }
 }

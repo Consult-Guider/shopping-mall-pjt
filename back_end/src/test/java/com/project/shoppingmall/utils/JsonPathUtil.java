@@ -6,10 +6,10 @@ public class JsonPathUtil {
     }
 
     public static String makePathJsonPath(Integer index, String attr) {
-        return String.format("$.content[%s].%s", index, attr);
+        return String.format("$.data.content[%s].%s", index, attr);
     }
 
     public static String makePathJsonPath(String attr) {
-        return String.format("$.content[%s].%s", 0, attr);
+        return makePathJsonPath(0, attr);
     }
 }

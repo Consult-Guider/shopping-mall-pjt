@@ -1,6 +1,8 @@
 package com.project.shoppingmall.model.response;
 
+import com.project.shoppingmall.domain.Item;
 import com.project.shoppingmall.domain.Review;
+import com.project.shoppingmall.domain.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,6 +25,9 @@ public class ReviewReadResponse {
     private String option;
 
     public static ReviewReadResponse fromEntity(Review entity) {
+        User user = entity.getUser();
+        Item item = entity.getItem();
+
         ReviewReadResponse dto = new ReviewReadResponse();
         dto.setId(entity.getId());
         dto.setCreatedAt(entity.getCreatedAt());
@@ -30,11 +35,12 @@ public class ReviewReadResponse {
         dto.setRating(entity.getRating());
         dto.setContent(entity.getContent());
 
-        dto.setUserId(entity.getUserId());
-        dto.setUserName(entity.getUserName());
+        dto.setUserId(user.getId());
+        dto.setUserName(user.getName());
 
-        dto.setItemId(entity.getItemId());
-        dto.setItemName(entity.getItemName());
+        dto.setItemId(item.getId());
+        dto.setItemName(item.getName());
+
         dto.setOption(entity.getOption());
         return dto;
     }

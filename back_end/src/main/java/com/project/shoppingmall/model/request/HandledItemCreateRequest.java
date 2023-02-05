@@ -1,6 +1,5 @@
 package com.project.shoppingmall.model.request;
 
-import com.project.shoppingmall.domain.HandledItem;
 import com.project.shoppingmall.domain.Item;
 import com.project.shoppingmall.domain.nested.Option;
 import lombok.Getter;
@@ -30,14 +29,14 @@ public class HandledItemCreateRequest {
 
     //TODO: 혹시 태그 및 이미지관련 자료가 구매/반품 과정에 필요한지? 일단은 지움, 태그는 검색기능에 쓰이는 것으로 알고 있으니
 
-    public HandledItem toEntity() {
-        HandledItem entity = new HandledItem();
-        entity.setItemId(itemId);
-        entity.setItemType(itemType);
-        entity.setItemProcessType(itemProcessType);
-        entity.setCount(count);
-
-        entity.setOptionList(optionList);
-        return entity;
-    }
+//    public HandledItem toEntity() {
+//        HandledItem entity = new HandledItem();
+//        entity.set(itemId);
+//        entity.setItemType(itemType);
+//        entity.setItemProcessType(itemProcessType);
+//        entity.setCount(count);
+//
+//        entity.setOptionList(optionList);
+//        return entity;
+//    }
 }

@@ -164,6 +164,72 @@ class ReviewRepositoryTest {
     }
 
     @Test
+    @DisplayName("[정상 구동][findReviewBySellerId] 특정 판매자와 관련된 리뷰 로드.")
+    void givenSellerId_whenCallFindReviewBySellerId_thenReturnReviews() {
+        // given
+        List<Review> reviewList = new ArrayList<>();
+        reviewList.add(FixtureFactory.reviewFixture(1L));
+        reviewList.add(FixtureFactory.reviewFixture(2L));
+        reviewList.add(FixtureFactory.reviewFixture(3L));
+        reviewList.add(FixtureFactory.reviewFixture(1L));
+        reviewList.add(FixtureFactory.reviewFixture(2L));
+        reviewList.add(FixtureFactory.reviewFixture(3L));
+        Iterable<Review> reviewListSaved = reviewRepository.saveAll(reviewList);
+
+        Pageable pageable = PageRequest.of(0, 10);
+
+        // when
+        Page<Review> page = reviewRepository.findReviewBySellerId(1L, pageable);
+        reviewRepository.deleteAll(reviewListSaved);
+
+        // then
+        page.map(Review::toString).forEach(log::debug);
+        page.forEach(review -> assertThat(review.getItemSellerId()).isEqualTo(1L));
+    }
+
+    @Test
+    @DisplayName("[정상 구동][findReviewBySellerId] 특정 판매자와 관련된 리뷰 로드 시, 정렬 기능 및 페이징 기능 정상 작동.")
+    void givenSellerIdAndSort_whenCallFindReviewBySellerId_thenReturnReviews() {
+        // given
+        List<Review> reviewList = new ArrayList<>();
+        reviewList.add(FixtureFactory.reviewFixture(1L));
+        reviewList.add(FixtureFactory.reviewFixture(1L));
+        reviewList.add(FixtureFactory.reviewFixture(1L));
+        reviewList.add(FixtureFactory.reviewFixture(1L));
+        reviewList.add(FixtureFactory.reviewFixture(1L));
+        reviewList.add(FixtureFactory.reviewFixture(1L));
+        Iterable<Review> reviewListSaved = reviewRepository.saveAll(reviewList);
+
+        int size = 4;
+        PageRequest pageAsc = PageRequest.of(0, size, Sort.by(Sort.Direction.ASC, "createdAt"));
+        PageRequest pageDesc = PageRequest.of(0, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+
+        // when
+        Page<Review> hitsAsc = reviewRepository.findReviewBySellerId(1L, pageAsc);
+        Page<Review> hitsDesc = reviewRepository.findReviewBySellerId(1L, pageDesc);
+
+        reviewRepository.deleteAll(reviewListSaved);
+
+        // then
+        log.debug("생성일자 기준 오름차순");
+        hitsAsc.map(Review::toString).forEach(log::debug);
+
+        log.debug("생성일자 기준 내림차순");
+        hitsDesc.map(Review::toString).forEach(log::debug);
+
+        List<LocalDateTime> listAsc = hitsAsc.stream().map(Review::getCreatedAt).toList();
+        List<LocalDateTime> listDesc = hitsDesc.stream().map(Review::getCreatedAt).toList();
+
+        int firstIdx = 0;
+        int lastIdx = listAsc.size() - 1;
+        assertThat(listAsc.get(firstIdx).isBefore(listAsc.get(lastIdx)) || listAsc.get(firstIdx).isEqual(listAsc.get(lastIdx))).isTrue();
+        assertThat(listDesc.get(firstIdx).isAfter(listDesc.get(lastIdx)) || listDesc.get(firstIdx).isEqual(listDesc.get(lastIdx))).isTrue();
+
+        assertThat(listAsc.size()).isEqualTo(size);
+        assertThat(listDesc.size()).isEqualTo(size);
+    }
+
+    @Test
     @DisplayName("[정상 구동][searchReviewByKeyword] keyword를 이용해서 검색을 시도할 때")
     void givenKeyword_whenCallSearchReviewByKeyword_thenReturnReviews() {
         // given

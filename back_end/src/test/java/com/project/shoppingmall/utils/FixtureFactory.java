@@ -305,6 +305,12 @@ public class FixtureFactory {
         return entity;
     }
 
+    public static Review reviewFixture(long itemSellerId) {
+        Review entity = reviewFixture();
+        entity.setItemSellerId(itemSellerId);
+        return entity;
+    }
+
     public static Question questionFixture() {
         Question entity = new Question();
         entity.setContent("mock Question Content");

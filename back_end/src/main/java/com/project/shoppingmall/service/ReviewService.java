@@ -14,7 +14,7 @@ public interface ReviewService {
 
     Page<ReviewReadResponse> readByIid(String iid, Pageable pageable);
 
-    Page<ReviewReadResponse> readByUid(Long id, Pageable pageable);
+    Page<ReviewReadResponse> readByUid(LoginDto loginDto, Pageable pageable);
 
     Page<ReviewSearchResponse> searchByKeyword(String keyword, Pageable pageable);
 

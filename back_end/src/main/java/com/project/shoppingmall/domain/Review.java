@@ -34,6 +34,8 @@ public class Review {
     private String itemId;
     @Field(type = FieldType.Text)
     private String itemName;
+    @Field(type = FieldType.Long)
+    private Long itemSellerId;
     @Field(type = FieldType.Text)
     private String option;
 

@@ -25,17 +25,12 @@ public class Review {
     @Field(type = FieldType.Text)
     private String content;
 
-    @Field(type = FieldType.Long)
-    private Long userId;
-    @Field(type = FieldType.Text)
-    private String userName;
+    @Field(type = FieldType.Object)
+    private User user;
 
-    @Field(type = FieldType.Text)
-    private String itemId;
-    @Field(type = FieldType.Text)
-    private String itemName;
-    @Field(type = FieldType.Long)
-    private Long itemSellerId;
+    @Field(type = FieldType.Object)
+    private Item item;
+
     @Field(type = FieldType.Text)
     private String option;
 

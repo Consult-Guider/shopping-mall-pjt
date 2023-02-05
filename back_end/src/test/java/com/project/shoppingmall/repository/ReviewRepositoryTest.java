@@ -52,7 +52,7 @@ class ReviewRepositoryTest {
 
         // then
         page.map(Review::toString).forEach(log::debug);
-        page.forEach(review -> assertThat(review.getItemId()).isEqualTo("item1"));
+        page.forEach(review -> assertThat(review.getItem().getId()).isEqualTo("item1"));
     }
 
     @Test
@@ -118,7 +118,7 @@ class ReviewRepositoryTest {
 
         // then
         page.map(Review::toString).forEach(log::debug);
-        page.forEach(review -> assertThat(review.getUserId()).isEqualTo(1L));
+        page.forEach(review -> assertThat(review.getUser().getId()).isEqualTo(1L));
     }
 
     @Test
@@ -184,7 +184,7 @@ class ReviewRepositoryTest {
 
         // then
         page.map(Review::toString).forEach(log::debug);
-        page.forEach(review -> assertThat(review.getItemSellerId()).isEqualTo(1L));
+        page.forEach(review -> assertThat(review.getItem().getSeller()).isEqualTo(1L));
     }
 
     @Test

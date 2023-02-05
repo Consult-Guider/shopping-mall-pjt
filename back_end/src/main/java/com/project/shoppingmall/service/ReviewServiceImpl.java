@@ -65,10 +65,10 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     private void isReviewYours(LoginDto loginDto, Review entity) {
-        if(!loginDto.getId().equals(entity.getUserId())) {
+        if(!loginDto.getId().equals(entity.getUser().getId())) {
             throw new CrudException(
                     ErrorCode.NO_OWNERSHIP,
-                    String.format("로그인된 유저 아이디: %s\n리뷰의 작성자 아이디: %s", loginDto.getId(), entity.getUserId())
+                    String.format("로그인된 유저 아이디: %s\n리뷰의 작성자 아이디: %s", loginDto.getId(), entity.getUser().getId())
             );
         }
     }
@@ -83,12 +83,10 @@ public class ReviewServiceImpl implements ReviewService {
                 .rating(request.getRating())
                 .content(request.getContent())
 
-                .userId(userDto.getId())
-                .userName(userDto.getName())
+                .user(userDto.toEntity())
 
-                .itemId(iid)
-                .itemName(item.getName())
-                .itemSellerId(item.getSeller())
+                .item(item)
+
 //                .option(transaction.getOption)
                 .build();
 

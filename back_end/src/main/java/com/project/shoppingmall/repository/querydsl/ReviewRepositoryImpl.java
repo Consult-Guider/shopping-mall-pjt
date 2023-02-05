@@ -28,13 +28,13 @@ public class ReviewRepositoryImpl implements CustomReviewRepository {
     private final ElasticsearchOperations elasticsearchClient;
 
     private MatchQueryBuilder queryForFindWithItemId(String iid) {
-        return matchQuery("itemId", iid);
+        return matchQuery("item.id", iid);
     }
     private MatchQueryBuilder queryForFindWithUserId(Long uid) {
-        return matchQuery("userId", uid);
+        return matchQuery("user.id", uid);
     }
     private MatchQueryBuilder queryForFindWithSellerId(Long uid) {
-        return matchQuery("itemSellerId", uid);
+        return matchQuery("item.seller", uid);
     }
 
     @Override

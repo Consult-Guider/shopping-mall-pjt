@@ -28,10 +28,13 @@ public class ReviewRepositoryImpl implements CustomReviewRepository {
     private final ElasticsearchOperations elasticsearchClient;
 
     private MatchQueryBuilder queryForFindWithItemId(String iid) {
-        return matchQuery("itemId", iid);
+        return matchQuery("item.id", iid);
     }
-    private MatchQueryBuilder queryForFindWithUserId(Long iid) {
-        return matchQuery("userId", iid);
+    private MatchQueryBuilder queryForFindWithUserId(Long uid) {
+        return matchQuery("user.id", uid);
+    }
+    private MatchQueryBuilder queryForFindWithSellerId(Long uid) {
+        return matchQuery("item.seller", uid);
     }
 
     @Override
@@ -55,6 +58,24 @@ public class ReviewRepositoryImpl implements CustomReviewRepository {
     @Override
     public Page<Review> findReviewByUserId(Long uid, Pageable pageable) {
         QueryBuilder query = queryForFindWithUserId(uid);
+
+        SearchHits<Review> result = elasticsearchClient.search(
+                new NativeSearchQueryBuilder()
+                        .withQuery(query)
+                        .withPageable(pageable)
+                        .build(),
+                Review.class
+        );
+
+        List<Review> items = result.getSearchHits().stream()
+                .map(SearchHit::getContent)
+                .toList();
+        return new PageImpl<>(items, pageable, result.getTotalHits());
+    }
+
+    @Override
+    public Page<Review> findReviewBySellerId(Long uid, Pageable pageable) {
+        QueryBuilder query = queryForFindWithSellerId(uid);
 
         SearchHits<Review> result = elasticsearchClient.search(
                 new NativeSearchQueryBuilder()

@@ -45,7 +45,7 @@ public class ReviewController {
             @AuthenticationPrincipal LoginDto loginDto,
             @PageableDefault Pageable pageable
     ) {
-        Page<ReviewReadResponse> pages = reviewService.readByUid(loginDto.getId(), pageable);
+        Page<ReviewReadResponse> pages = reviewService.readByUid(loginDto, pageable);
         return Response.success(pages);
     }
 

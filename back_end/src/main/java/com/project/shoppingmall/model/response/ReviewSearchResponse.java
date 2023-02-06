@@ -1,5 +1,6 @@
 package com.project.shoppingmall.model.response;
 
+import com.project.shoppingmall.domain.Item;
 import com.project.shoppingmall.domain.Review;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,14 +18,17 @@ public class ReviewSearchResponse {
     private String option;
 
     public static ReviewSearchResponse fromEntity(Review entity) {
+        Item item = entity.getItem();
+
         ReviewSearchResponse dto = new ReviewSearchResponse();
         dto.setId(entity.getId());
 
         dto.setRating(entity.getRating());
         dto.setContent(entity.getContent());
 
-        dto.setItemId(entity.getItemId());
-        dto.setItemName(entity.getItemName());
+        dto.setItemId(item.getId());
+        dto.setItemName(item.getName());
+
         dto.setOption(entity.getOption());
         return dto;
     }

@@ -155,9 +155,12 @@ class ItemRepositoryTest {
         List<Tag> hits = itemRepository.findDistinctTag();
 
         // then
+        List<String> tagList = hits.stream().map(Tag::getName).toList();
         hits.forEach(tag -> {
             log.debug("검색된 태그명: {}", tag.getName());
-            assertThat(tag.getName()).isIn(tableTagNames);
+        });
+        tableTagNames.forEach(tag -> {
+            assertThat(tag).isIn(tagList);
         });
     }
 

@@ -12,4 +12,6 @@ public interface CustomReviewRepository {
     Double getAverageByItemId(String iid);
 
     Page<Review> findReviewByUserId(Long uid, Pageable pageable);
+
+    Page<Review> findReviewBySellerId(Long uid, Pageable pageable);
 }

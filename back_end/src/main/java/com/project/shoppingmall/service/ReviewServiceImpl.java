@@ -2,6 +2,7 @@ package com.project.shoppingmall.service;
 
 import com.project.shoppingmall.domain.Item;
 import com.project.shoppingmall.domain.Review;
+import com.project.shoppingmall.exception.AuthenticationException;
 import com.project.shoppingmall.exception.CrudException;
 import com.project.shoppingmall.model.LoginDto;
 import com.project.shoppingmall.model.UserDto;
@@ -13,11 +14,15 @@ import com.project.shoppingmall.model.response.ReviewStatisticsResponse;
 import com.project.shoppingmall.repository.ItemRepository;
 import com.project.shoppingmall.repository.ReviewRepository;
 import com.project.shoppingmall.type.ErrorCode;
+import com.project.shoppingmall.type.RoleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -60,10 +65,10 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     private void isReviewYours(LoginDto loginDto, Review entity) {
-        if(!loginDto.getId().equals(entity.getUserId())) {
+        if(!loginDto.getId().equals(entity.getUser().getId())) {
             throw new CrudException(
                     ErrorCode.NO_OWNERSHIP,
-                    String.format("로그인된 유저 아이디: %s\n리뷰의 작성자 아이디: %s", loginDto.getId(), entity.getUserId())
+                    String.format("로그인된 유저 아이디: %s\n리뷰의 작성자 아이디: %s", loginDto.getId(), entity.getUser().getId())
             );
         }
     }
@@ -72,16 +77,16 @@ public class ReviewServiceImpl implements ReviewService {
     public void create(String iid, ReviewCreateRequest request, LoginDto loginDto) {
 //        Transaction transaction = loadTransactionByIdAndUid(iid, loginDto.getId());
         UserDto userDto = castToUserDto(loginDto);
+        Item item = loadItemById(iid);
 
         Review entity = Review.builder()
                 .rating(request.getRating())
                 .content(request.getContent())
 
-                .userId(userDto.getId())
-                .userName(userDto.getName())
+                .user(userDto.toEntity())
 
-                .itemId(iid)
-                .itemName(loadItemById(iid).getName())
+                .item(item)
+
 //                .option(transaction.getOption)
                 .build();
 
@@ -95,9 +100,22 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Page<ReviewReadResponse> readByUid(Long uid, Pageable pageable) {
-        return reviewRepository.findReviewByUserId(uid, pageable)
-                .map(ReviewReadResponse::fromEntity);
+    public Page<ReviewReadResponse> readByUid(LoginDto loginDto, Pageable pageable) {
+        Page<Review> entities;
+        Long uid = loginDto.getId();
+        List<RoleType> roleTypes = loginDto.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .map(RoleType::findByName)
+                .toList();
+
+        if(roleTypes.contains(RoleType.USER)) {
+            entities = reviewRepository.findReviewByUserId(uid, pageable);
+        } else if(roleTypes.contains(RoleType.SELLER)) {
+            entities = reviewRepository.findReviewBySellerId(uid, pageable);
+        } else {
+            throw new AuthenticationException(ErrorCode.INVALID_ROLETYPE);
+        }
+        return entities.map(ReviewReadResponse::fromEntity);
     }
 
     @Override

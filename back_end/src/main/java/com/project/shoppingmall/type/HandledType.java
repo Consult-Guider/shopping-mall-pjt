@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor @Getter
 public enum HandledType {
-    PURCHASE("PURCHASE"), RECALL("RECALL");
+    PAYMENT("PAYMENT"), DELIVERY("DELIVERY");
 
     private final String name;
 }

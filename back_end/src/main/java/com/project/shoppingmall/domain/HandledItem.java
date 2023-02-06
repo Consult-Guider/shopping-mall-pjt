@@ -34,8 +34,8 @@ public class HandledItem {
     private Item item;
 
     // 해당 상품의 사용자Id(User 도메인에서)
-    @Field(type = FieldType.Long)
-    private Long userId;
+    @Field(type = FieldType.Object)
+    private User user;
 
     @Field(type = FieldType.Date, format = DateFormat.date_hour_minute_second_millis) @CreatedDate
     private LocalDateTime createdAt;
@@ -59,8 +59,4 @@ public class HandledItem {
     //옵션
     @Field(type = FieldType.Object) @Builder.Default
     private List<Option> optionList = new ArrayList<>();
-
-
-    public void addOptionList(Option obj) { optionList.add(obj); }
-
 }

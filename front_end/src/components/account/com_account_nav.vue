@@ -32,8 +32,6 @@
             <h2 class="mb-4">MY 운영</h2>
             <p class="clickable link" @click="$router.push($endPoint.manageCategory);"
             >카테고리 관리</p>
-            <p class="clickable link" @click="$router.push($endPoint.adManage);"
-            >광고 배너 관리</p>
 
             <v-divider class="my-3" />
         </div>

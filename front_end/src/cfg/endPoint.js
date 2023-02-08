@@ -10,7 +10,6 @@ export default {
     "bucket": "/bucket",
     
     "myPage": "/account",
-    "exchange": "/exchange",
 
     "historyQuery": "/historyQuery",
     "historyReview": "/historyReview",

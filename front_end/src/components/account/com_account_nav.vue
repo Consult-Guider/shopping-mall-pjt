@@ -4,8 +4,6 @@
             <h2 class="mb-4">MY 쇼핑</h2>
             <p class="clickable link" @click="$router.push($endPoint.myPage);"
             >주문목록/배송조회</p>
-            <p class="clickable link" @click="$router.push($endPoint.exchange);"
-            >취소/반품/교환/환불 내역</p>
 
             <v-divider class="my-3" />
         </div>

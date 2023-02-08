@@ -37,9 +37,6 @@ import com_account_nav from '@/components/account/com_account_nav'
 import com_orders from '@/components/account/com_orders'
 import com_orders_unit from '@/components/account/com_orders_unit'
 
-import com_exchanges from '@/components/exchange/com_exchanges'
-import com_exchanges_unit from '@/components/exchange/com_exchanges_unit'
-
 import com_history_query from '@/components/historyQuery/com_history_query'
 import com_input_comment from '@/components/historyQuery/com_input_comment'
 import com_make_query from '@/components/historyQuery/com_make_query'
@@ -103,9 +100,6 @@ const components = {
     "com_account_nav": com_account_nav,
     "com_orders": com_orders,
     "com_orders_unit": com_orders_unit,
-
-    "com_exchanges": com_exchanges,
-    "com_exchanges_unit": com_exchanges_unit,
 
     "com_history_query": com_history_query,
     "com_input_comment": com_input_comment,

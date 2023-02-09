@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.Table;
 
+//TODO: 어드민 제거 생각
 @ToString
 // 위는 테스트 편의를 위한 어노테이션
 @EntityListeners(AuditingEntityListener.class)

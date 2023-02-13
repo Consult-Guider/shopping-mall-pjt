@@ -43,7 +43,7 @@ public class QuestionRepositoryImpl implements CustomQuestionRepository {
     @Override
     public Page<Question> readChildrenByQid(String qid) {
         FieldSortBuilder sortBuilder = new FieldSortBuilder("createdAt");
-        sortBuilder.order(SortOrder.DESC);
+        sortBuilder.order(SortOrder.ASC);
 
         QueryBuilder query = matchQuery("parentId", qid);
 

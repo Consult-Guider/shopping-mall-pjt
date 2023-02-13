@@ -1,6 +1,8 @@
 package com.project.shoppingmall.controller;
 
 import com.project.shoppingmall.model.LoginDto;
+import com.project.shoppingmall.model.request.HandledItemDeleteRequest;
+import com.project.shoppingmall.model.request.PaymentCancelCreateRequest;
 import com.project.shoppingmall.model.request.PaymentDoneCreateRequest;
 import com.project.shoppingmall.model.request.PaymentReadyCreateRequest;
 import com.project.shoppingmall.model.response.HandledItemReadResponse;
@@ -38,39 +40,51 @@ public class HandledItemController {
         return Response.success();
     }
 
+    @PostMapping("/payment/DONE/{pid}")
+    public Response<Void> createPaymentAsDone(
+            @PathVariable String pid,
+            @AuthenticationPrincipal LoginDto loginDto
+    ) {
+        handledItemService.createPaymentAsDoneWithId(pid, loginDto);
+        return Response.success();
+    }
+
+    @PostMapping("/payment/CANCEL")
+    public Response<Void> createPaymentAsCancel(
+            @RequestBody PaymentCancelCreateRequest request,
+            @AuthenticationPrincipal LoginDto loginDto
+    ) {
+        handledItemService.createPaymentAsCancel(request, loginDto);
+        return Response.success();
+    }
+
     @GetMapping("/payment/READY")
     public Response<Page<HandledItemReadResponse>> readPaymentAsReady(@PageableDefault Pageable pageable) {
         Page<HandledItemReadResponse> pages = handledItemService.readPaymentAsReady(pageable);
         return Response.success(pages);
     }
 
-    @GetMapping("/delivery/statistic")
-    public Response<HandledItemReadStatisticResponse> readDeliveryAsStatistic() {
-        HandledItemReadStatisticResponse dto = handledItemService.readDeliveryAsStatistic();
+    @GetMapping("/payment/statistic")
+    public Response<HandledItemReadStatisticResponse> readPaymentAsStatistic() {
+        HandledItemReadStatisticResponse dto = handledItemService.readPaymentAsStatistic();
         return Response.success(dto);
     }
 
-    @GetMapping("/delivery")
-    public Response<Page<HandledItemReadResponse>> readDelivery(@PageableDefault Pageable pageable) {
-        Page<HandledItemReadResponse> pages = handledItemService.readDelivery(pageable);
+    @DeleteMapping("/payment/READY")
+    public Response<Void> deletePaymentAsReady(@ModelAttribute HandledItemDeleteRequest request) {
+        handledItemService.deletePaymentAsReady(request);
+        return Response.success();
+    }
+
+    @GetMapping("/payment/DONE")
+    public Response<Page<HandledItemReadResponse>> readPaymentAsDone(@PageableDefault Pageable pageable) {
+        Page<HandledItemReadResponse> pages = handledItemService.readPaymentAsDone(pageable);
         return Response.success(pages);
     }
 
-    @GetMapping("/delivery/READY")
-    public Response<Page<HandledItemReadResponse>> readDeliveryAsReady(@PageableDefault Pageable pageable) {
-        Page<HandledItemReadResponse> pages = handledItemService.readDeliveryAsReady(pageable);
-        return Response.success(pages);
-    }
-
-    @GetMapping("/delivery/ONGOING")
-    public Response<Page<HandledItemReadResponse>> readDeliveryAsOngoing(@PageableDefault Pageable pageable) {
-        Page<HandledItemReadResponse> pages = handledItemService.readDeliveryAsOngoing(pageable);
-        return Response.success(pages);
-    }
-
-    @GetMapping("/delivery/DONE")
-    public Response<Page<HandledItemReadResponse>> readDeliveryAsDone(@PageableDefault Pageable pageable) {
-        Page<HandledItemReadResponse> pages = handledItemService.readDeliveryAsDone(pageable);
+    @GetMapping("/payment/CANCEL")
+    public Response<Page<HandledItemReadResponse>> readPaymentAsCancel(@PageableDefault Pageable pageable) {
+        Page<HandledItemReadResponse> pages = handledItemService.readPaymentAsCancel(pageable);
         return Response.success(pages);
     }
 }

@@ -10,18 +10,13 @@ export default {
     "bucket": "/bucket",
     
     "myPage": "/account",
-    "exchange": "/exchange",
 
     "historyQuery": "/historyQuery",
     "historyReview": "/historyReview",
 
     "updateAccount": "/updateAccount",
 
-    "payment": "/payment",
-
     "createItem": "/createItem",
-
-    "adManage": "/ad",
 
     "backend": {
         // 각 역할군에 따른 EndPoint.",

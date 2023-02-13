@@ -1,5 +1,6 @@
 import com_header from '@/components/com_header.vue'
 import com_footer from '@/components/com_footer.vue'
+import com_account_nav from '@/components/com_account_nav'
 
 import search_window from '@/components/header/search_window'
 import img_logo from '@/components/header/img_logo'
@@ -15,7 +16,6 @@ import com_item from '@/components/home/com_item'
 import com_login from '@/components/login/com_login'
 import com_join from '@/components/join/com_join'
 
-import com_filter from '@/components/search/com_filter'
 import group_checkbox from '@/components/search/group_checkbox'
 import com_items from '@/components/search/com_items'
 import com_sort from '@/components/search/com_sort'
@@ -33,12 +33,8 @@ import com_review_posting from '@/components/item/com_review_posting'
 import com_bucket from '@/components/bucket/com_bucket'
 
 import com_account_header from '@/components/account/com_account_header'
-import com_account_nav from '@/components/account/com_account_nav'
 import com_orders from '@/components/account/com_orders'
 import com_orders_unit from '@/components/account/com_orders_unit'
-
-import com_exchanges from '@/components/exchange/com_exchanges'
-import com_exchanges_unit from '@/components/exchange/com_exchanges_unit'
 
 import com_history_query from '@/components/historyQuery/com_history_query'
 import com_input_comment from '@/components/historyQuery/com_input_comment'
@@ -47,12 +43,6 @@ import com_make_query from '@/components/historyQuery/com_make_query'
 import com_query_chat from '@/components/historyQuery/com_query_chat'
 import com_query_chat_unit from '@/components/historyQuery/com_query_chat_unit'
 import com_query_state from '@/components/historyQuery/com_query_state.vue'
-
-import com_payment_item from '@/components/payment/com_payment_item.vue'
-import com_payment_payment from '@/components/payment/com_payment_payment.vue'
-import com_payment_receiver from '@/components/payment/com_payment_receiver.vue'
-import com_payment_sender from '@/components/payment/com_payment_sender.vue'
-import com_payment_header from '@/components/payment/com_payment_header.vue'
 
 import com_updateAccount from '@/components/updateAccount/com_updateAccount.vue'
 
@@ -63,10 +53,6 @@ import com_tag_create from '@/components/createItem/com_tag_create'
 
 import com_history_review from '@/components/historyReview/com_history_review'
 import com_review_header_unit from '@/components/historyReview/com_review_header_unit'
-
-import com_ad_manage from '@/components/adManage/com_ad_manage'
-import com_unit_timeline from '@/components/adManage/com_unit_timeline'
-import com_select_date from '@/components/adManage/com_select_date'
 
 const components = {
     "com_header": com_header,
@@ -86,7 +72,6 @@ const components = {
     "com_login": com_login,
     "com_join": com_join,
 
-    "com_filter": com_filter,
     "group_checkbox": group_checkbox,
     "com_items": com_items,
     "com_sort": com_sort,
@@ -108,9 +93,6 @@ const components = {
     "com_orders": com_orders,
     "com_orders_unit": com_orders_unit,
 
-    "com_exchanges": com_exchanges,
-    "com_exchanges_unit": com_exchanges_unit,
-
     "com_history_query": com_history_query,
     "com_input_comment": com_input_comment,
     "com_make_query": com_make_query,
@@ -118,12 +100,6 @@ const components = {
     "com_query_chat": com_query_chat,
     "com_query_chat_unit": com_query_chat_unit,
     "com_query_state": com_query_state,
-
-    "com_payment_item": com_payment_item,
-    "com_payment_payment": com_payment_payment,
-    "com_payment_receiver": com_payment_receiver,
-    "com_payment_sender": com_payment_sender,
-    "com_payment_header": com_payment_header,
 
     "com_updateAccount": com_updateAccount,
 
@@ -134,10 +110,6 @@ const components = {
 
     "com_history_review": com_history_review,
     "com_review_header_unit": com_review_header_unit,
-
-    "com_ad_manage": com_ad_manage,
-    "com_unit_timeline": com_unit_timeline,
-    "com_select_date": com_select_date,
 };
 
 export default {

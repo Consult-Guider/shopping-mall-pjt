@@ -2,7 +2,6 @@ package com.project.shoppingmall.repository.querydsl;
 
 import com.project.shoppingmall.domain.HandledItem;
 import com.project.shoppingmall.repository.CustomHandledItemRepository;
-import com.project.shoppingmall.type.HandledType;
 import com.project.shoppingmall.type.ProcessType;
 import com.project.shoppingmall.utils.ElasticSearchOperationsUtil;
 import org.elasticsearch.index.query.QueryBuilder;
@@ -18,8 +17,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
-import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 import static org.elasticsearch.search.aggregations.AggregationBuilders.terms;
 
 public class HandledItemRepositoryImpl implements CustomHandledItemRepository {
@@ -32,19 +30,17 @@ public class HandledItemRepositoryImpl implements CustomHandledItemRepository {
 
     @Override
     public Page<HandledItem> findXxxAs(
-            HandledType handledType,
             ProcessType processType,
             Pageable pageable
     ) {
         QueryBuilder query = boolQuery()
-                .must(matchQuery("handledType", handledType))
                 .must(matchQuery("ProcessType", processType));
         return fetchUtil.fetchWithPageable(query, pageable);
     }
 
     @Override
-    public Map<String, Long> countDeliveryByProcessType() {
-        QueryBuilder query = matchQuery("handledType", HandledType.DELIVERY);
+    public Map<String, Long> countPaymentByProcessType() {
+        QueryBuilder query = matchAllQuery();
         String AGG_NAME = "countByProcessType";
         TermsAggregationBuilder aggregation = terms(AGG_NAME).field("ProcessType");
 

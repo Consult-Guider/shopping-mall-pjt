@@ -7,6 +7,6 @@ import lombok.Setter;
 import java.util.List;
 
 @NoArgsConstructor @Getter @Setter
-public class PaymentDoneCreateRequest {
+public class HandledItemDeleteRequest {
     private List<String> itemIds;
 }

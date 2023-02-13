@@ -5,20 +5,11 @@
             color="deep-purple-accent-3" rounded="0"
             group
         >
-            <v-btn value="total">
-                전체
-            </v-btn>
-
-            <v-btn value="ready">
-                배송 준비중
-            </v-btn>
-
-            <v-btn value="ing">
-                배송 중
-            </v-btn>
-
-            <v-btn value="done">
-                배송 완료
+            <v-btn 
+                v-for="item in tabs" :key="item"
+                :value="item.value"
+            >
+                {{ item.name }}
             </v-btn>
         </v-btn-toggle>
 
@@ -26,6 +17,7 @@
             <com_orders_unit 
                 v-for="item of items" :key="item"
                 v-bind="item" class="mb-6"
+                @update="fetchItems"
             />
         </v-card-text>
 
@@ -39,19 +31,50 @@
 </template>
 
 <script>
+import { ErrRes, PageReq, PurchaseRes } from '@/dto';
+
 export default {
 data() {return {
     page: 1,
-    total: 100,
+    total: 1,
 
-    tab: "total",
+    tab: "READY",
+    tabs: this.$env.com_orders,
 
-    items: [
-        {orderedAt: 20220205, state: "ing", name: "에이먼 먼지 제거제", price: 12300, num: 2, src: "https://thumbnail6.coupangcdn.com/thumbnails/remote/230x230ex/image/vendor_inventory/1c8a/b38f3a8042198fd731c7f32d1355890b5f85e4214a7c9b1cbf2c068497ef.jpg"},
-        {orderedAt: 20220205, state: "ready", name: "에이먼 먼지 제거제", price: 12300, num: 2, src: "https://thumbnail6.coupangcdn.com/thumbnails/remote/230x230ex/image/vendor_inventory/1c8a/b38f3a8042198fd731c7f32d1355890b5f85e4214a7c9b1cbf2c068497ef.jpg"},
-        {orderedAt: 20220205, state: "done", name: "에이먼 먼지 제거제", price: 12300, num: 2, src: "https://thumbnail6.coupangcdn.com/thumbnails/remote/230x230ex/image/vendor_inventory/1c8a/b38f3a8042198fd731c7f32d1355890b5f85e4214a7c9b1cbf2c068497ef.jpg"},
-    ],
+    items: [],
 }},
+watch: {
+    page() {
+        this.fetchItems();
+    },
+    tab() {
+        this.fetchItems();
+    },
+},
+created() {
+    this.fetchItems();
+},
+methods: {
+    fetchItems() {
+        const api = this.$env.util_com_orders(this.$env.com_orders, this.tab, "api");
+        const page = PageReq.of(this.page-1, 5).sort("createdAt", false);
+
+        this.$auth.get(api, {params: page.params()}).then(res => {
+            const response = PurchaseRes.of(res);
+            this.items = response.pages();
+            this.total = response.getTotalPages();
+        }).catch(err => {
+            const errorCode = ErrRes.of(err).errorCode;
+
+            // 에러 메세지 표시.
+            switch(errorCode) {
+                default:
+                    alert(errorCode);
+                    break;
+            }
+        });
+    },
+},
 }
 </script>
 

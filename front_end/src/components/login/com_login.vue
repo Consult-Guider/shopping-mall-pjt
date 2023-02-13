@@ -18,10 +18,6 @@
                 <v-icon>mdi-domain</v-icon>
                 판매자
             </v-tab>
-            <v-tab :value="roles.ADMIN">
-                <v-icon>mdi-police-badge</v-icon>
-                운영자
-            </v-tab>
 
             </v-tabs>
         </v-row>

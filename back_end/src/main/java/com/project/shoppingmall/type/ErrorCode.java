@@ -26,7 +26,8 @@ public enum ErrorCode {
     AD_BANNER_NOT_FOUNDED(HttpStatus.NOT_FOUND, "해당 광고 배너는 찾을 수가 없습니다."),
     ONLY_USER_CAN_ACCESS(HttpStatus.FORBIDDEN, "오직 소비자만 접근 가능한 기능입니다."),
     REVIEW_NOT_FOUNDED(HttpStatus.NOT_FOUND, "해당 리뷰는 찾을 수가 없습니다."),
-    QUESTION_NOT_FOUNDED(HttpStatus.NOT_FOUND, "해당 QnA는 찾을 수가 없습니다.");
+    QUESTION_NOT_FOUNDED(HttpStatus.NOT_FOUND, "해당 QnA는 찾을 수가 없습니다."),
+    HANDLED_ITEM_NOT_FOUNDED(HttpStatus.NOT_FOUND, "해당 거래 내역은 찾을 수가 없습니다.");
 
     private final HttpStatus status;
     private final String message;

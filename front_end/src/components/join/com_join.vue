@@ -18,10 +18,6 @@
                 <v-icon>mdi-domain</v-icon>
                 판매자
             </v-tab>
-            <v-tab :value="roles.ADMIN">
-                <v-icon>mdi-police-badge</v-icon>
-                운영자
-            </v-tab>
 
             </v-tabs>
         </v-row>
@@ -178,13 +174,6 @@ created() {
             name: this.name, 
             phone: this.phone,
             companyName: this.companyName,
-        },
-        ADMIN: {
-            email: this.email, 
-            password: this.password, 
-            passwordAgain: this.passwordAgain, 
-            name: this.name, 
-            phone: this.phone,
         },
     };
 },

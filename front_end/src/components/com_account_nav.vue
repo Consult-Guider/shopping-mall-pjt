@@ -1,16 +1,20 @@
 <template>
     <v-card class="t2b size-limit" variant="flat">
-        <div class="t2b pa-4 bg-nav">
-            <h2 class="mb-4">MY 쇼핑</h2>
-            <p class="clickable link" @click="$router.push($endPoint.myPage);"
-            >주문목록/배송조회</p>
-            <p class="clickable link" @click="$router.push($endPoint.exchange);"
-            >취소/반품/교환/환불 내역</p>
+        <div class="t2b pa-4 bg-nav" v-if="confirmAuth(['NULL'])">
+            <h2 class="mb-4">로그인을 먼저 해주세요!</h2>
 
             <v-divider class="my-3" />
         </div>
 
-        <div class="t2b pa-4 bg-nav">
+        <div class="t2b pa-4 bg-nav" v-if="confirmAuth(['SELLER', 'USER'])">
+            <h2 class="mb-4">MY 쇼핑</h2>
+            <p class="clickable link" @click="$router.push($endPoint.myPage);"
+            >구매 조회</p>
+
+            <v-divider class="my-3" />
+        </div>
+
+        <div class="t2b pa-4 bg-nav" v-if="confirmAuth(['SELLER', 'USER'])">
             <h2 class="mb-4">MY 활동</h2>
             <p class="clickable link" @click="$router.push($endPoint.historyQuery);"
             >문의내역 확인</p>
@@ -20,25 +24,15 @@
             <v-divider class="my-3" />
         </div>
 
-        <div class="t2b pa-4 bg-nav">
+        <div class="t2b pa-4 bg-nav" v-if="confirmAuth(['SELLER', 'USER'])">
             <h2 class="mb-4">MY 정보</h2>
             <p class="clickable link" @click="$router.push($endPoint.updateAccount);"
             >개인정보확인/수정</p>
 
             <v-divider class="my-3" />
         </div>
-
-        <div class="t2b pa-4 bg-nav">
-            <h2 class="mb-4">MY 운영</h2>
-            <p class="clickable link" @click="$router.push($endPoint.manageCategory);"
-            >카테고리 관리</p>
-            <p class="clickable link" @click="$router.push($endPoint.adManage);"
-            >광고 배너 관리</p>
-
-            <v-divider class="my-3" />
-        </div>
         
-        <div class="t2b pa-4 bg-nav">
+        <div class="t2b pa-4 bg-nav" v-if="confirmAuth(['SELLER'])">
             <h2 class="mb-4">MY 판매</h2>
             <p class="clickable link" @click="$router.push($endPoint.createItem);"
             >상품 생성</p>
@@ -50,7 +44,12 @@
 
 <script>
 export default {
-
+    methods: {
+        confirmAuth(arr) {
+            const role = this.$store.state.user.role;
+            return arr.includes(role);
+        },
+    },
 }
 </script>
 

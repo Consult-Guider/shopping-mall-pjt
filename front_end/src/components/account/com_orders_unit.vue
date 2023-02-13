@@ -6,8 +6,8 @@
         </p>
         <v-card>
             <!-- 사진, 이름, 가격, 갯수 -->
-            <div class="t2b">
-                <h2 class="mt-6 ml-6">{{ transState(state) }}</h2>
+            <div class="t2b mx-6 my-3">
+                <h2 class="mt-6">{{ transState(state) }}</h2>
                 <div class="l2r">
                     <com_img class="img-size-limit" no_link :src="src" />
                     <div class="t2b">
@@ -24,24 +24,11 @@
             <!-- 사진, 이름, 가격, 갯수 -->
             <div class="l2r children-btn pa-3">
                 <v-btn
+                    v-for="item in btns" :key="item"
                     color="primary"
-                    @click="btnListUp.click"
-                >{{ btnListUp.label }}</v-btn>
-
-                <v-btn
-                    color="primary"
-                    @click="btnExchange.click"
-                >{{ btnExchange.label }}</v-btn>
-
-                <v-btn
-                    color="primary"
-                    @click="btnReview.click"
-                >{{ btnReview.label }}</v-btn>
-
-                <v-btn
-                    color="primary"
-                    @click="btnQuery.click"
-                >{{ btnQuery.label }}</v-btn>
+                    @click="item.click"
+                    :disabled="item.banState.includes(state)"
+                >{{ item.label }}</v-btn>
             </div>
         </v-card>
         </v-card-text>
@@ -49,8 +36,12 @@
 </template>
 
 <script>
+import { ErrRes, CancelReq } from '@/dto';
+
 export default {
 props: {
+    pid: String,
+    iid: String,
     orderedAt: Number, 
     state: String, 
     name: String, 
@@ -59,46 +50,42 @@ props: {
     src: String,
 },
 data() {return {
-    btnListUp: {
-        label: "배송조회",
-        click: this.onClickListUp,
-    },
-    btnExchange: {
-        label: "교환, 반품 신청",
-        click: this.onClickExchange,
-    },
-    btnReview: {
-        label: "리뷰 작성하기",
-        click: this.onClickReview,
-    },
-    btnQuery: {
-        label: "판매자 문의",
-        click: this.onClickQuery,
+    btns: {
+        btnLink: {
+            label: "해당 상품으로",
+            click: this.onClickLink,
+            banState: [],
+        },
+        btnExchange: {
+            label: "취소 신청",
+            click: this.onClickCancellation,
+            banState: ["Cancellation"],
+        },
     },
 }},
 methods: {
     transState(state) {
-        if(state=="ready") {
-            return "배송 준비중";
-        } else if(state=="ing") {
-            return "배송 중";
-        } else if(state=="done") {
-            return "배송 완료";
-        } else {
-            return "상태 이상";
-        }
+        let origin = this.$env.com_orders;
+        return this.$env.util_com_orders(origin, state, "name");
     },
-    onClickListUp() {
-        console.log("click onClickListUp");
+    onClickCancellation() {
+        const data = CancelReq.of([this.pid]).json();
+
+        this.$auth.post(`/payment/CANCEL`, data).then(() => {
+            this.$emit("update");
+        }).catch(err => {
+            const errorCode = ErrRes.of(err).errorCode;
+
+            // 에러 메세지 표시.
+            switch(errorCode) {
+                default:
+                    alert(errorCode);
+                    break;
+            }
+        });
     },
-    onClickExchange() {
-        console.log("click onClickExchange");
-    },
-    onClickReview() {
-        console.log("click onClickReview");
-    },
-    onClickQuery() {
-        console.log("click onClickQuery");
+    onClickLink() {
+        this.$router.push(this.$endPoint.item(this.iid));
     },
 },
 }

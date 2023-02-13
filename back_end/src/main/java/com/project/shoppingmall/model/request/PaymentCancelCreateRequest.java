@@ -7,6 +7,6 @@ import lombok.Setter;
 import java.util.List;
 
 @NoArgsConstructor @Getter @Setter
-public class PaymentDoneCreateRequest {
+public class PaymentCancelCreateRequest {
     private List<String> itemIds;
 }

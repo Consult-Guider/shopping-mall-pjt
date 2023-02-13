@@ -4,7 +4,6 @@ import com.project.shoppingmall.domain.HandledItem;
 import com.project.shoppingmall.domain.Item;
 import com.project.shoppingmall.domain.User;
 import com.project.shoppingmall.domain.nested.Option;
-import com.project.shoppingmall.type.HandledType;
 import com.project.shoppingmall.type.ProcessType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +20,6 @@ public class PaymentReadyCreateRequest {
 
     public HandledItem toEntity(User user, Function<String, Item> loadItemById) {
         HandledItem entity = new HandledItem();
-        entity.setHandledType(HandledType.PAYMENT);
         entity.setProcessType(ProcessType.READY);
         entity.setItem(loadItemById.apply(itemId));
         entity.setUser(user);

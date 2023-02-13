@@ -39,25 +39,6 @@
             ></v-text-field>
         </div>
 
-        <v-spacer class="my-3" />
-
-        <!-- 추천 비추천 버튼 -->
-        <div class="l2r">
-            <v-btn
-                density="compact" variant="outlined"
-                color="primary"
-                @click="btnRec.click"
-            >{{ btnRec.label }}</v-btn>
-
-            <h3 class="mx-5">{{ `${ numRec-numNotRec }` }}</h3>
-
-            <v-btn
-                density="compact" variant="outlined"
-                color="primary"
-                @click="btnNoRec.click"
-            >{{ btnNoRec.label }}</v-btn>
-        </div>
-
         <v-spacer class="my-3" v-if="isThisYours"/>
 
         <div class="l2r" v-if="isThisYours">
@@ -87,8 +68,6 @@ export default {
         rate: Number,
         createdAt: String,
         content: String,
-        numRec: Number,
-        numNotRec: Number,
 
         readonly: {
             default: true,
@@ -100,15 +79,6 @@ export default {
             rate: this.rate,
             createdAt: this.createdAt,
             content: this.content,
-        },
-
-        btnRec: {
-            label: "추천", 
-            click: this.onClickRec,
-        },
-        btnNoRec: {
-            label: "비추천", 
-            click: this.onClickNoRec,
         },
 
         btnUpdate: {
@@ -124,13 +94,6 @@ export default {
         },
     }},
     methods: {
-        onClickRec() {
-            console.log("click onClickRec");
-        },
-        onClickNoRec() {
-            console.log("click onClickNoRec");
-        },
-
         onClickUpdate() {
             this.btnUpdate.value = !this.btnUpdate.value;
 

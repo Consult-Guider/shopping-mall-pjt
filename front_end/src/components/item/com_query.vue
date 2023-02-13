@@ -120,6 +120,8 @@ methods: {
 
             // 에러 메세지 표시.
             switch(errorCode) {
+                case "QUESTION_NOT_FOUNDED":
+                    break;
                 default:
                     alert(errorCode);
                     break;

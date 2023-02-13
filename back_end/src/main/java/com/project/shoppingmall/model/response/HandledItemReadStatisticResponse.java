@@ -7,6 +7,6 @@ import lombok.Setter;
 @NoArgsConstructor @Getter @Setter
 public class HandledItemReadStatisticResponse {
     private long countDeliveryByReady;
-    private long countDeliveryByOnGoing;
     private long countDeliveryByDONE;
+    private long countDeliveryByCancel;
 }

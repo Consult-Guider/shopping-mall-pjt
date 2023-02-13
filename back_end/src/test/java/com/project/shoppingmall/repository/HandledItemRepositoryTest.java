@@ -4,7 +4,6 @@ import com.project.shoppingmall.domain.HandledItem;
 import com.project.shoppingmall.domain.Item;
 import com.project.shoppingmall.domain.User;
 import com.project.shoppingmall.domain.nested.Option;
-import com.project.shoppingmall.type.HandledType;
 import com.project.shoppingmall.type.ProcessType;
 import com.project.shoppingmall.utils.EnableProjectElasticSearchConfiguration;
 import com.project.shoppingmall.utils.EnableProjectQueryDslConfiguration;
@@ -45,8 +44,7 @@ class HandledItemRepositoryTest {
         HandledItem handledItem = HandledItem.builder()
                 .item(item)
                 .user(user)
-                .handledType(HandledType.PAYMENT)
-                .ProcessType(ProcessType.ONGOING)
+                .ProcessType(ProcessType.CANCEL)
                 .count(2L)
                 .optionList(List.of(option))
                 .build();
@@ -69,37 +67,29 @@ class HandledItemRepositoryTest {
         // given
         List<HandledItem> entities = new ArrayList<>();
         entities.add(HandledItem.builder()
-                .handledType(HandledType.PAYMENT)
                 .ProcessType(ProcessType.READY)
                 .build());
         entities.add(HandledItem.builder()
-                .handledType(HandledType.PAYMENT)
-                .ProcessType(ProcessType.ONGOING)
+                .ProcessType(ProcessType.CANCEL)
                 .build());
         entities.add(HandledItem.builder()
-                .handledType(HandledType.PAYMENT)
                 .ProcessType(ProcessType.DONE)
                 .build());
         entities.add(HandledItem.builder()
-                .handledType(HandledType.DELIVERY)
                 .ProcessType(ProcessType.READY)
                 .build());
         entities.add(HandledItem.builder()
-                .handledType(HandledType.DELIVERY)
-                .ProcessType(ProcessType.ONGOING)
+                .ProcessType(ProcessType.CANCEL)
                 .build());
         entities.add(HandledItem.builder()
-                .handledType(HandledType.DELIVERY)
                 .ProcessType(ProcessType.DONE)
                 .build());
         Iterable<HandledItem> entitiesSaved = handledItemRepository.saveAll(entities);
 
-        HandledType handledType = HandledType.PAYMENT;
         ProcessType processType = ProcessType.DONE;
 
         // when
         Page<HandledItem> entitiesSearched = handledItemRepository.findXxxAs(
-                handledType,
                 processType,
                 Pageable.unpaged()
         );
@@ -108,10 +98,9 @@ class HandledItemRepositoryTest {
         // then
         entitiesSearched.forEach(handledItem -> {
             log.debug(
-                    "검색된 데이터의 HandledType: {}, ProcessType: {}",
-                    handledItem.getHandledType(), handledItem.getProcessType()
+                    "검색된 데이터의 ProcessType: {}",
+                    handledItem.getProcessType()
             );
-            assertThat(handledItem.getHandledType()).isEqualTo(handledType);
             assertThat(handledItem.getProcessType()).isEqualTo(processType);
         });
     }
@@ -122,33 +111,27 @@ class HandledItemRepositoryTest {
         // given
         List<HandledItem> entities = new ArrayList<>();
         entities.add(HandledItem.builder()
-                .handledType(HandledType.PAYMENT)
                 .ProcessType(ProcessType.READY)
                 .build());
         entities.add(HandledItem.builder()
-                .handledType(HandledType.PAYMENT)
-                .ProcessType(ProcessType.ONGOING)
+                .ProcessType(ProcessType.CANCEL)
                 .build());
         entities.add(HandledItem.builder()
-                .handledType(HandledType.PAYMENT)
                 .ProcessType(ProcessType.DONE)
                 .build());
         entities.add(HandledItem.builder()
-                .handledType(HandledType.DELIVERY)
                 .ProcessType(ProcessType.READY)
                 .build());
         entities.add(HandledItem.builder()
-                .handledType(HandledType.DELIVERY)
-                .ProcessType(ProcessType.ONGOING)
+                .ProcessType(ProcessType.CANCEL)
                 .build());
         entities.add(HandledItem.builder()
-                .handledType(HandledType.DELIVERY)
                 .ProcessType(ProcessType.DONE)
                 .build());
         Iterable<HandledItem> entitiesSaved = handledItemRepository.saveAll(entities);
 
         // when
-        Map<String, Long> mapCount = handledItemRepository.countDeliveryByProcessType();
+        Map<String, Long> mapCount = handledItemRepository.countPaymentByProcessType();
         handledItemRepository.deleteAll(entitiesSaved);
 
         // then

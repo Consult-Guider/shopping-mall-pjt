@@ -5,10 +5,9 @@ import lombok.Getter;
 
 @AllArgsConstructor @Getter
 public enum ProcessType {
-    RECEIVED("접수확인"),
     READY("준비중"),
-    ONGOING("진행중"),
-    DONE("처리완료");
+    DONE("처리완료"),
+    CANCEL("취소");
 
     private final String name;
 }

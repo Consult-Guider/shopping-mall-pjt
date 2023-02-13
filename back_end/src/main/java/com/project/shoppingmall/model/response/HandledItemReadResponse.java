@@ -4,7 +4,6 @@ import com.project.shoppingmall.domain.HandledItem;
 import com.project.shoppingmall.domain.Item;
 import com.project.shoppingmall.domain.User;
 import com.project.shoppingmall.domain.nested.Option;
-import com.project.shoppingmall.type.HandledType;
 import com.project.shoppingmall.type.ProcessType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +26,6 @@ public class HandledItemReadResponse {
     private Long itemSellerId;
     private String itemImagePath;
 
-    private HandledType handledType;
     private ProcessType processType;
 
     private Long count;
@@ -46,11 +44,11 @@ public class HandledItemReadResponse {
         dto.setUserName(user.getName());
 
         dto.setItemId(item.getId());
+        dto.setItemName(item.getName());
         dto.setItemPrice(item.getPrice());
         dto.setItemSellerId(item.getSeller());
         dto.setItemImagePath(item.getImagePath());
 
-        dto.setHandledType(entity.getHandledType());
         dto.setProcessType(entity.getProcessType());
 
         dto.setCount(entity.getCount());

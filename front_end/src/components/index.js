@@ -1,5 +1,6 @@
 import com_header from '@/components/com_header.vue'
 import com_footer from '@/components/com_footer.vue'
+import com_account_nav from '@/components/com_account_nav'
 
 import search_window from '@/components/header/search_window'
 import img_logo from '@/components/header/img_logo'

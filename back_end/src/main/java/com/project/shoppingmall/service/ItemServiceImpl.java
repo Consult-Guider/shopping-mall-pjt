@@ -24,8 +24,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static com.project.shoppingmall.utils.fileManager.S3FileNameManager.makeFileName;
+import static java.util.Optional.ofNullable;
+import static java.util.stream.IntStream.range;
 
 @Service
 @Transactional
@@ -75,28 +80,37 @@ public class ItemServiceImpl implements ItemService {
         String iid = entity.getId();
 
         // 상품 대표 이미지 or 설명 이미지 존재 여부
-        Boolean isThereMainImage = !request.getImage().isEmpty();
-        Boolean isThereDescriptionImage = !request.getDescriptionList().isEmpty();
+        AtomicBoolean flagForSaving = new AtomicBoolean(false);
 
         // 상품 대표 이미지 저장.
-        if (isThereMainImage) {
-            String trgPath = makeFileName(request.getImage(), Item.class, iid, ImageType.MAIN.getName());
-            entity.setImagePath(saveFile(request.getImage(), trgPath));
-        }
+        ofNullable(request.getImage())
+                .filter(multipartFile -> !multipartFile.isEmpty())
+                .ifPresent(mainImage -> {
+                    String trgPath = makeFileName(mainImage, Item.class, iid, ImageType.MAIN.getName());
+                    entity.setImagePath(saveFile(mainImage, trgPath));
+
+                    flagForSaving.set(true);
+                });
 
         // 상품 설명 이미지 저장.
-        if (isThereDescriptionImage) {
-            List<MultipartFile> descriptionList = request.getDescriptionList();
-            for(int i = 0; i < descriptionList.size(); i++) {
-                MultipartFile descriptionFile = descriptionList.get(i);
-                String imgPath = makeFileName(descriptionFile, Item.class, iid, ImageType.DESC.getName(i));
-                Description description = Description.builder().path(saveFile(descriptionFile, imgPath)).build();
-                entity.addDescriptionList(description);
-            }
-        }
+        List<MultipartFile> descriptionList = ofNullable(request.getDescriptionList()).orElse(List.of());
+        range(0, descriptionList.size()).boxed()
+                .collect(Collectors.toMap(Function.identity(), descriptionList::get))
+                .forEach((i, descriptionFile) -> {
+                    String imgPath = makeFileName(
+                            descriptionFile, Item.class, iid,
+                            ImageType.DESC.getName(i)
+                    );
+                    entity.addDescriptionList(
+                            Description.builder()
+                                    .path(saveFile(descriptionFile, imgPath))
+                                    .build()
+                    );
+                });
+        flagForSaving.compareAndSet(false, !descriptionList.isEmpty());
 
         // 이미지 재저장.
-        if (isThereMainImage || isThereDescriptionImage) {
+        if (flagForSaving.get()) {
             itemRepository.save(entity);
         }
     }

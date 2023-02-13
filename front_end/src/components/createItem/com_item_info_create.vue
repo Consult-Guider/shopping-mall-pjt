@@ -59,6 +59,8 @@
 </template>
 
 <script>
+import { ErrRes } from '@/dto';
+
 export default {
 props: {
     imgList: Array,
@@ -113,6 +115,17 @@ methods: {
 
         this.$auth.post(`/item`, formdata, {
             headers: {'Context-Type': 'multipart/form-data'},
+        }).then(() => {
+            alert("상품이 성공적으로 등록되었습니다!!");
+        }).then(err => {
+            const errorCode = ErrRes.of(err).errorCode;
+
+            // 에러 메세지 표시.
+            switch(errorCode) {
+                default:
+                    alert(errorCode);
+                    break;
+            }
         });
     },
 

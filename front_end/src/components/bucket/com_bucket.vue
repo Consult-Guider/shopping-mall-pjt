@@ -12,7 +12,6 @@
                         
                     </th>
                     <th>갯수</th>
-                    <th>품절 여부</th>
                     <th>상품 금액</th>
                 </tr>
             </thead>
@@ -34,10 +33,7 @@
                         </v-checkbox>
                     </td>
                     <td>
-                        <input type="number" min="1" v-model="thing.num"/>
-                    </td>
-                    <td>
-                        <p>{{ strSoldOut(thing.soldOut) }}</p>
+                        {{ thing.num }}개
                     </td>
                     <td>{{ $util.transPrice(thing.num * thing.price) }}원</td>
                 </tr>
@@ -52,12 +48,8 @@
             ></v-checkbox>
 
             <v-btn
-                @click="btnDelAll.click"
-            >{{ btnDelAll.label }}</v-btn>
-
-            <v-btn
-                @click="btnDelSaleOut.click"
-            >{{ btnDelSaleOut.label }}</v-btn>
+                @click="btnDelSelected.click"
+            >{{ btnDelSelected.label }}</v-btn>
         </div>
 
         <!-- 총합 계산기 -->
@@ -88,6 +80,9 @@
 </template>
 
 <script>
+import { BucketAllReq, ErrRes, PurchaseRes } from '@/dto';
+const qs = require('qs');
+
 export default {
 data() {return {
     total: {
@@ -99,19 +94,11 @@ data() {return {
         label: "전체 선택",
     },
 
-    things: [
-        {name: "삼다수", price: 10000, num: 3, selected: false, soldOut: false, img: "https://thumbnail10.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/1149549744484312-e1226fce-9a3a-4c6c-9732-9e2cc9ff6f50.jpg", },
-        {name: "GPU 4080", price: 100000, num: 1, selected: false, soldOut: true, img: "https://thumbnail10.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/1149549744484312-e1226fce-9a3a-4c6c-9732-9e2cc9ff6f50.jpg", },
-        {name: "제네시스", price: 5000000, num: 2, selected: false, soldOut: false, img: "https://thumbnail10.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/1149549744484312-e1226fce-9a3a-4c6c-9732-9e2cc9ff6f50.jpg", },
-    ],
+    things: [],
 
-    btnDelAll: {
-        label: "전체 삭제",
+    btnDelSelected: {
+        label: "바구니에서 삭제",
         click: this.onClickDelAll,
-    },
-    btnDelSaleOut: {
-        label: "품절 상품 삭제",
-        click: this.onClickDelSaleOut,
     },
     btnKeepShop: {
         label: "계속 쇼핑하기",
@@ -122,39 +109,74 @@ data() {return {
         click: this.onClickPurchase,
     },
 }},
+created() {
+    this.fetchPurchaseReady();
+},
 methods: {
-    onClickDelAll() {
-        console.log("click onClickDelAll");
-        this.deleteAllInBucket();
+    fetchPurchaseReady() {
+        this.$auth.get(`/payment/READY`).then(res => {
+            const page = PurchaseRes.of(res).pages();
+            this.things = page.map(this.transform);
+        }).catch(err => {
+            const errorCode = ErrRes.of(err).errorCode;
+
+            // 에러 메세지 표시.
+            switch(errorCode) {
+                default:
+                    alert(errorCode);
+                    break;
+            }
+        });
     },
-    onClickDelSaleOut() {
-        console.log("click onClickDelSaleOut");
-        this.deleteSoldOutInBucket();
+    transform(unit) {
+        return {
+            pid: unit.pid,
+            name: unit.name, 
+            price: unit.price, 
+            num: unit.num, 
+            selected: false, 
+            img: unit.src, 
+        };
     },
     onClickKeepShop() {
-        console.log("click onClickKeepShop");
         this.$router.push(this.$endPoint.home);
     },
-    onClickPurchase() {
-        console.log("click onClickPurchase");
-    },
-
-    deleteAllInBucket() {
-        this.things = [];
-    },
-
-    deleteSoldOutInBucket() {
-        for(const thing of this.things) {
-            if(thing.soldOut) {
-                const idx = this.things.indexOf(thing);
-                this.things.splice(idx, 1);
+    onClickDelAll() {
+        const data = BucketAllReq.of(this.pidsSelected).json();
+        this.$auth.delete(`/payment/READY`, {
+            params: data,
+            paramsSerializer: params => {
+                return qs.stringify(params, {arrayFormat: 'repeat'})
             }
-        }
-    },
+        }).then(() => {
+            this.fetchPurchaseReady();
+        }).catch(err => {
+            const errorCode = ErrRes.of(err).errorCode;
 
-    strSoldOut(val) {
-        return val ? "품절" : null;
-    }
+                // 에러 메세지 표시.
+                switch(errorCode) {
+                    default:
+                        alert(errorCode);
+                        break;
+                }
+        });
+    },
+    onClickPurchase() {
+        const data = BucketAllReq.of(this.pidsSelected).json();
+        this.$auth.post(`/payment/DONE`, data).then(() => {
+            alert("성공적으로 구매하였습니다.");
+            this.fetchPurchaseReady();
+        }).catch(err => {
+            const errorCode = ErrRes.of(err).errorCode;
+
+                // 에러 메세지 표시.
+                switch(errorCode) {
+                    default:
+                        alert(errorCode);
+                        break;
+                }
+        });
+    },
 },
 watch: {
     selectAll(val) {
@@ -172,6 +194,9 @@ watch: {
 
 },
 computed: {
+    pidsSelected() {
+        return this.things.filter(x => x["selected"]).map(x => x["pid"]);
+    },
     selectAll() {
         return this.checkboxSelectAll.value;
     },

@@ -33,10 +33,6 @@
                     variant="outlined" color="primary"
                     @click="bucket.click"
                 >{{bucket.label}}</v-btn>
-                <v-btn
-                    variant="flat" color="primary"
-                    @click="purchase.click"
-                >{{purchase.label}}</v-btn>
             </v-col></v-row>
         </v-container>
     </v-col>
@@ -45,12 +41,15 @@
 </template>
 
 <script>
+import { ErrRes, BucketReq } from '@/dto';
+
 export default {
 props: {
     data: Object,
 },
 watch: {
     data(val) {
+        this.item.iid = val.iid;
         this.item.img = val.imgPath;
         this.item.name = val.name;
         this.item.price = val.price;
@@ -59,6 +58,7 @@ watch: {
 },
 data() {return {
     item: {
+        iid: null,
         img: null,
         name: "{상품명}", 
         price: "{상품 가격}",
@@ -76,17 +76,27 @@ data() {return {
         label: "장바구니 담기",
         click: this.onClickBucket,
     },
-    purchase: {
-        label: "바로 구매",
-        click: this.onClickPurchase,
-    },
 }},
 methods: {
     onClickBucket() {
-        console.log("click onClickBucket");
-    },
-    onClickPurchase() {
-        console.log("click onClickPurchase");
+        if(!this.item.iid) {
+            alert("상품이 지정되지 않았음.");
+            return ;
+        }
+        const data = BucketReq.of(this.item.iid, this.incredment.value, this.option.value).json();
+
+        this.$auth.post(`/payment/READY`, data).then(() => {
+            alert("해당 상품이 장바구니로 이동되었습니다!");
+        }).catch(err => {
+            const errorCode = ErrRes.of(err).errorCode;
+
+            // 에러 메세지 표시.
+            switch(errorCode) {
+                default:
+                    alert(errorCode);
+                    break;
+            } 
+        });
     },
 
     optionMapper(unit) {

@@ -63,7 +63,7 @@
                 
             </v-col>
         </v-row>
-        <v-row>
+        <v-row v-if="$store.state.user.role=='USER'">
             <v-col class="th">
                 배송지
             </v-col>

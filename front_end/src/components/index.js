@@ -33,7 +33,6 @@ import com_review_posting from '@/components/item/com_review_posting'
 import com_bucket from '@/components/bucket/com_bucket'
 
 import com_account_header from '@/components/account/com_account_header'
-import com_account_nav from '@/components/account/com_account_nav'
 import com_orders from '@/components/account/com_orders'
 import com_orders_unit from '@/components/account/com_orders_unit'
 

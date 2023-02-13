@@ -1,4 +1,5 @@
 import roleType from "@/utils/roleType";
+import env from "@/cfg/env";
 
 // Request
 
@@ -190,6 +191,58 @@ export class QnAReq {
     json() {
         return {
             content: this.content,
+        };
+    }
+}
+
+export class BucketReq {
+    constructor(itemId, count, optionList) {
+        this.itemId = itemId;
+        this.count = count;
+        this.optionList = optionList;
+    }
+
+    static of(itemId, count, optionList) {
+        return new this(itemId, count, optionList);
+    }
+
+    json() {
+        return {
+            itemId: this.itemId,
+            count: this.count,
+            optionList: this.optionList,
+        };
+    }
+}
+
+export class BucketAllReq {
+    constructor(pids) {
+        this.pids = pids;
+    }
+
+    static of(pids) {
+        return new this(pids);
+    }
+
+    json() {
+        return {
+            itemIds: this.pids,
+        };
+    }
+}
+
+export class CancelReq {
+    constructor(paymentIdList) {
+        this.paymentIdList = paymentIdList;
+    }
+
+    static of(paymentIdList) {
+        return new this(paymentIdList);
+    }
+
+    json() {
+        return {
+            itemIds: this.paymentIdList,
         };
     }
 }
@@ -475,6 +528,37 @@ export class TagRes extends PageResponse {
     transform(unit) {
         return {
             "name": unit.name,
+        };
+    }
+}
+
+export class PurchaseStatisticRes extends BaseResponse {
+    transform(unit) {
+        const arr = [
+            {name: env.com_orders.PurchaseReady.name, value: unit.countDeliveryByReady},
+            {name: env.com_orders.PurchaseDone.name, value: unit.countDeliveryByDONE},
+            {name: env.com_orders.Cancellation.name, value: unit.countDeliveryByCancel},
+        ]
+        let obj = {};
+        arr.forEach((element) => {
+            obj[element.name] = element.value;
+        });
+        return obj;
+    }
+}
+
+export class PurchaseRes extends PageResponse {
+    transform(unit) {
+        return {
+            pid: unit.id,
+            iid: unit.itemId, 
+            orderedAt: unit.createdAt, 
+            state: unit.processType, 
+            name: unit.itemName, 
+            price: unit.itemPrice, 
+            num: unit.count, 
+            src: unit.itemImagePath,
+            optionList: unit.optionList,
         };
     }
 }

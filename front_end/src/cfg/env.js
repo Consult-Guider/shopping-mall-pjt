@@ -16,8 +16,9 @@ export default {
             value: "name", 
             api: "/item",
             btnSet: {
-                init_btn: "date-desc",
+                init_btn: "relevant-desc",
                 btns: {
+                    "relevant-desc": {label: "관련도순", json: {trg: null, isAsc: false,},},
                     "date-desc": {label: "최신순", json: {trg: "createdAt", isAsc: false,},},
                     "price-asc": {label: "낮은 가격순", json: {trg: "price", isAsc: true,},},
                     "price-desc": {label: "높은 가격순", json: {trg: "price", isAsc: false,},},
@@ -29,8 +30,9 @@ export default {
             value: "review", 
             api: "/review",
             btnSet: {
-                init_btn: "date-desc",
+                init_btn: "relevant-desc",
                 btns: {
+                    "relevant-desc": {label: "관련도순", json: {trg: null, isAsc: false,},},
                     "date-desc": {label: "최신순", json: {trg: "createdAt", isAsc: false,},},
                 },
             },
@@ -40,8 +42,9 @@ export default {
             value: "qna", 
             api: "/question",
             btnSet: {
-                init_btn: "date-desc",
+                init_btn: "relevant-desc",
                 btns: {
+                    "relevant-desc": {label: "관련도순", json: {trg: null, isAsc: false,},},
                     "date-desc": {label: "최신순", json: {trg: "createdAt", isAsc: false,},},
                 },
             },

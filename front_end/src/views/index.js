@@ -11,7 +11,6 @@ const routes = [
   { path: endPoint.myPage, component: () => import("@/views/view_account.vue")},
   { path: endPoint.historyQuery, component: () => import("@/views/view_history_query.vue")},
   { path: endPoint.historyReview, component: () => import("@/views/view_history_review.vue")},
-  { path: endPoint.payment, component: () => import("@/views/view_payment.vue")},
   { path: endPoint.updateAccount, component: () => import("@/views/view_updateAccount.vue")},
   { path: endPoint.createItem, component: () => import("@/views/view_create_item.vue")},
 ];

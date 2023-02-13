@@ -16,8 +16,6 @@ export default {
 
     "updateAccount": "/updateAccount",
 
-    "payment": "/payment",
-
     "createItem": "/createItem",
 
     "backend": {

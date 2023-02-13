@@ -1,9 +1,6 @@
 <template>
     <v-container>
         <v-row>
-            <v-col cols="auto">
-                <com_filter />
-            </v-col>
             <v-col>
                 <div class="t2b">
                     <h3>{{ `"${keyword}"에 대한 ${findLabel(method)} 검색 결과` }}</h3>

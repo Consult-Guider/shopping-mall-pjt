@@ -16,7 +16,6 @@ import com_item from '@/components/home/com_item'
 import com_login from '@/components/login/com_login'
 import com_join from '@/components/join/com_join'
 
-import com_filter from '@/components/search/com_filter'
 import group_checkbox from '@/components/search/group_checkbox'
 import com_items from '@/components/search/com_items'
 import com_sort from '@/components/search/com_sort'
@@ -73,7 +72,6 @@ const components = {
     "com_login": com_login,
     "com_join": com_join,
 
-    "com_filter": com_filter,
     "group_checkbox": group_checkbox,
     "com_items": com_items,
     "com_sort": com_sort,

@@ -158,7 +158,7 @@ export default {
 
             this.$auth.put(`${endpoint}/principal`, data.json())
             .then(() => {
-                this.setError("수정 완료");
+                alert("수정 완료");
                 this.$emit('fetchProfile');
             })
             .catch(err => {

@@ -215,6 +215,7 @@ methods: {
         this.$http.post(endpoint, data.json())
         .then(() => {
             // 전 페이지로 이동.
+            alert("회원 가입 완료!!");
             this.$router.push(this.$endPoint.login);
         })
         .catch(err => {

@@ -51,7 +51,7 @@ export class SignUpReq {
                         email: this.data("email"),
                         password: this.data("password"),
                         name: this.data("name"),
-                        phone: this.data("phone"),
+                        phoneNum: this.data("phone"),
                         companyName: this.data("companyName"),
                     };
             case roleType.roles.ADMIN:
@@ -59,7 +59,7 @@ export class SignUpReq {
                     email: this.data("email"),
                     password: this.data("password"),
                     name: this.data("name"),
-                    phone: this.data("phone"),
+                    phoneNum: this.data("phone"),
                 };
         
             default:

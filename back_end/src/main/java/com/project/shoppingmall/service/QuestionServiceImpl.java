@@ -5,12 +5,10 @@ import com.project.shoppingmall.domain.LoginEntity;
 import com.project.shoppingmall.domain.Question;
 import com.project.shoppingmall.exception.CrudException;
 import com.project.shoppingmall.model.LoginDto;
-import com.project.shoppingmall.model.SellerDto;
-import com.project.shoppingmall.model.UserDto;
 import com.project.shoppingmall.model.request.QuestionCreateRequest;
 import com.project.shoppingmall.model.request.QuestionUpdateRequest;
 import com.project.shoppingmall.model.response.QuestionReadResponse;
-import com.project.shoppingmall.model.response.QuestionSearchResponse;
+import com.project.shoppingmall.model.response.SearchResponse;
 import com.project.shoppingmall.repository.ItemRepository;
 import com.project.shoppingmall.repository.QuestionRepository;
 import com.project.shoppingmall.type.ErrorCode;
@@ -92,9 +90,9 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Page<QuestionSearchResponse> searchByKeyword(String keyword, Pageable pageable) {
+    public Page<SearchResponse> searchByKeyword(String keyword, Pageable pageable) {
         return questionRepository.searchQuestionByKeyword(keyword, pageable)
-                .map(QuestionSearchResponse::fromEntity);
+                .map(SearchResponse::fromEntity);
     }
 
     @Override

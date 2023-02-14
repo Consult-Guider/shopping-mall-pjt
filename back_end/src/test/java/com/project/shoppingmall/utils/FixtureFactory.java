@@ -10,6 +10,7 @@ import com.project.shoppingmall.model.SellerDto;
 import com.project.shoppingmall.model.UserDto;
 import com.project.shoppingmall.model.response.ItemReadResponse;
 import com.project.shoppingmall.model.request.*;
+import com.project.shoppingmall.model.response.SearchResponse;
 import com.project.shoppingmall.model.response.SellerWithItemResponse;
 import org.junit.jupiter.params.provider.Arguments;
 import org.springframework.mock.web.MockMultipartFile;
@@ -388,5 +389,15 @@ public class FixtureFactory {
                 .questionList(List.of(questionFixture()))
                 .tagList(List.of(tagFixture()))
                 .build();
+    }
+
+    public static SearchResponse SearchResponseFixture() {
+        SearchResponse response = new SearchResponse();
+        response.setId("mock id");
+        response.setCreatedAt(LocalDateTime.of(2023, 1, 1, 12, 10, 30));
+        response.setPrice(10000L);
+        response.setName("mock name");
+        response.setImagePath("https://cdn.pixabay.com/photo/2018/07/09/16/59/clouds-3526558_960_720.jpg");
+        return response;
     }
 }

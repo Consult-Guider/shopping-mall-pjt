@@ -9,8 +9,8 @@ import com.project.shoppingmall.model.UserDto;
 import com.project.shoppingmall.model.request.ReviewCreateRequest;
 import com.project.shoppingmall.model.request.ReviewUpdateRequest;
 import com.project.shoppingmall.model.response.ReviewReadResponse;
-import com.project.shoppingmall.model.response.ReviewSearchResponse;
 import com.project.shoppingmall.model.response.ReviewStatisticsResponse;
+import com.project.shoppingmall.model.response.SearchResponse;
 import com.project.shoppingmall.repository.ItemRepository;
 import com.project.shoppingmall.repository.ReviewRepository;
 import com.project.shoppingmall.type.ErrorCode;
@@ -119,9 +119,9 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Page<ReviewSearchResponse> searchByKeyword(String keyword, Pageable pageable) {
+    public Page<SearchResponse> searchByKeyword(String keyword, Pageable pageable) {
         return reviewRepository.searchReviewByKeyword(keyword, pageable)
-                .map(ReviewSearchResponse::fromEntity);
+                .map(SearchResponse::fromEntity);
     }
 
     @Override

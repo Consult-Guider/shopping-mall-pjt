@@ -5,6 +5,7 @@ import com.project.shoppingmall.model.request.ItemCreateRequest;
 import com.project.shoppingmall.model.request.ItemUpdateRequest;
 import com.project.shoppingmall.model.response.ItemReadResponse;
 import com.project.shoppingmall.model.response.Response;
+import com.project.shoppingmall.model.response.SearchResponse;
 import com.project.shoppingmall.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -52,7 +53,7 @@ public class ItemController {
     }
 
     @GetMapping
-    public Response<Page<ItemReadResponse>> searchItem(@RequestParam String keyword, @PageableDefault Pageable pageable) {
-        return Response.success(itemService.searchItem(keyword, pageable));
+    public Response<Page<SearchResponse>> searchItem(@RequestParam String keyword, @PageableDefault Pageable pageable) {
+        return Response.success(itemService.searchByKeyword(keyword, pageable));
     }
 }

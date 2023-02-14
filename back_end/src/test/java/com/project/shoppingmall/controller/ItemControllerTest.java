@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.shoppingmall.model.request.ItemCreateRequest;
 import com.project.shoppingmall.model.request.ItemUpdateRequest;
 import com.project.shoppingmall.model.response.ItemReadResponse;
+import com.project.shoppingmall.model.response.SearchResponse;
 import com.project.shoppingmall.service.ItemService;
 import com.project.shoppingmall.type.RoleType;
 import com.project.shoppingmall.utils.*;
@@ -197,9 +198,9 @@ class ItemControllerTest {
     void searchItem() throws Exception {
         // given
         String keyword = "mock keyword";
-        ItemReadResponse response = FixtureFactory.itemReadResponseFixture();
+        SearchResponse response = FixtureFactory.SearchResponseFixture();
 
-        given(itemService.searchItem(anyString(), any())).willReturn(new PageImpl<>(List.of(response)));
+        given(itemService.searchByKeyword(anyString(), any())).willReturn(new PageImpl<>(List.of(response)));
 
         // when
         RequestBuilder request = get(prefix).param("keyword", keyword);
@@ -213,7 +214,6 @@ class ItemControllerTest {
         actions.andExpect(jsonPath(makePathJsonPath("createdAt")).hasJsonPath());
         actions.andExpect(jsonPath(makePathJsonPath("name")).hasJsonPath());
         actions.andExpect(jsonPath(makePathJsonPath("price")).hasJsonPath());
-        actions.andExpect(jsonPath(makePathJsonPath("seller.companyName")).hasJsonPath());
         actions.andExpect(jsonPath(makePathJsonPath("imagePath")).hasJsonPath());
     }
 }

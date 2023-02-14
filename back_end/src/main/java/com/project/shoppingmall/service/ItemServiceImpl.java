@@ -8,6 +8,7 @@ import com.project.shoppingmall.model.LoginDto;
 import com.project.shoppingmall.model.request.ItemCreateRequest;
 import com.project.shoppingmall.model.request.ItemUpdateRequest;
 import com.project.shoppingmall.model.response.ItemReadResponse;
+import com.project.shoppingmall.model.response.SearchResponse;
 import com.project.shoppingmall.repository.ItemRepository;
 import com.project.shoppingmall.repository.SellerRepository;
 import com.project.shoppingmall.type.ErrorCode;
@@ -143,7 +144,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ItemReadResponse> searchItem(String keyword, Pageable pageable) {
-        return itemRepository.findByKeyword(keyword, pageable).map(ItemReadResponse::fromEntity);
+    @Override
+    public Page<SearchResponse> searchByKeyword(String keyword, Pageable pageable) {
+        return itemRepository.findByKeyword(keyword, pageable).map(SearchResponse::fromEntity);
     }
 }

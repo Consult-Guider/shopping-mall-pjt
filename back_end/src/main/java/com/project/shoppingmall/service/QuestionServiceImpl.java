@@ -1,6 +1,7 @@
 package com.project.shoppingmall.service;
 
 import com.project.shoppingmall.domain.Item;
+import com.project.shoppingmall.domain.LoginEntity;
 import com.project.shoppingmall.domain.Question;
 import com.project.shoppingmall.exception.CrudException;
 import com.project.shoppingmall.model.LoginDto;
@@ -47,67 +48,22 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     private void isQuestionYours(LoginDto loginDto, Question entity) {
-        Long trgId = entity.getUserId()!=null ? entity.getUserId() : entity.getSellerId();
+        LoginEntity trg = entity.getUser()!=null ? entity.getUser() : entity.getSeller();
 
-        if(!loginDto.getId().equals(trgId)) {
+        if(!loginDto.getId().equals(trg.getId())) {
             throw new CrudException(
                     ErrorCode.NO_OWNERSHIP,
-                    String.format("로그인된 유저 아이디: %s\nQnA의 작성자 아이디: %s", loginDto.getId(), trgId)
+                    String.format("로그인된 유저 아이디: %s\nQnA의 작성자 아이디: %s", loginDto.getId(), trg.getId())
             );
         }
     }
 
-    private Question fromDto(String iid, QuestionCreateRequest request, LoginDto loginDto) {
-        Item item = loadItemById(iid);
-
-        Question entity = Question.builder()
-                .content(request.getContent())
-
-                .itemId(iid)
-                .itemName(item.getName())
-
-                .build();
-
-        if(loginDto instanceof UserDto dto) {
-            entity.setUserId(dto.getId());
-            entity.setUserName(dto.getName());
-        } else if(loginDto instanceof SellerDto dto) {
-            entity.setSellerId(dto.getId());
-            entity.setSellerName(dto.getName());
-        } else {
-            throw new CrudException(ErrorCode.FORBIDDEN, "QnA 기능은 소비자와 판매자만 이용 가능.");
-        }
-        return entity;
-    }
-
-    private Question fromDtoWithParent(String parentId, QuestionCreateRequest request, LoginDto loginDto) {
-        Question parent = loadQuestionById(parentId);
-
-        Question entity = Question.builder()
-                .content(request.getContent())
-
-                .parentId(parentId)
-
-                .itemId(parent.getItemId())
-                .itemName(parent.getItemName())
-
-                .build();
-
-        if(loginDto instanceof UserDto dto) {
-            entity.setUserId(dto.getId());
-            entity.setUserName(dto.getName());
-        } else if(loginDto instanceof SellerDto dto) {
-            entity.setSellerId(dto.getId());
-            entity.setSellerName(dto.getName());
-        } else {
-            throw new CrudException(ErrorCode.FORBIDDEN, "QnA 기능은 소비자와 판매자만 이용 가능.");
-        }
-        return entity;
-    }
-
     @Override
     public void create(String iid, QuestionCreateRequest request, LoginDto loginDto) {
-        Question entity = fromDto(iid, request, loginDto);
+        Item item = loadItemById(iid);
+        Question entity = Question.fromDto(null, item, request, loginDto, () -> {
+            throw new CrudException(ErrorCode.FORBIDDEN, "QnA 기능은 소비자와 판매자만 이용 가능.");
+        });
         questionRepository.save(entity);
     }
 
@@ -143,7 +99,10 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public void createChildrenByQid(String qid, QuestionCreateRequest request, LoginDto loginDto) {
-        Question entity = fromDtoWithParent(qid, request, loginDto);
+        Question parent = loadQuestionById(qid);
+        Question entity = Question.fromDto(qid, parent.getItem(), request, loginDto, () -> {
+            throw new CrudException(ErrorCode.FORBIDDEN, "QnA 기능은 소비자와 판매자만 이용 가능.");
+        });
         questionRepository.save(entity);
     }
 

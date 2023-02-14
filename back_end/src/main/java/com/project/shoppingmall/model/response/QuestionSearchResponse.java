@@ -1,5 +1,6 @@
 package com.project.shoppingmall.model.response;
 
+import com.project.shoppingmall.domain.Item;
 import com.project.shoppingmall.domain.Question;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,13 +17,14 @@ public class QuestionSearchResponse {
     private String option;
 
     public static QuestionSearchResponse fromEntity(Question entity) {
+        Item item = entity.getItem();
         QuestionSearchResponse dto = new QuestionSearchResponse();
         dto.setId(entity.getId());
 
         dto.setContent(entity.getContent());
 
-        dto.setItemId(entity.getItemId());
-        dto.setItemName(entity.getItemName());
+        dto.setItemId(item.getId());
+        dto.setItemName(item.getName());
         return dto;
     }
 }

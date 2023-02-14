@@ -325,8 +325,8 @@ public class FixtureFactory {
 
     public static Question questionFixture(long userId, String itemId, String keyword) {
         Question entity = questionFixture();
-        entity.setUserId(userId);
-        entity.setItemId(itemId);
+        entity.setUser(User.builder().id(userId).build());
+        entity.setItem(Item.builder().id(itemId).build());
         entity.setContent(keyword);
         return entity;
     }

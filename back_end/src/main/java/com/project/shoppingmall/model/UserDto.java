@@ -31,7 +31,6 @@ public class UserDto implements LoginDto {
         return UserDto.builder()
                 .id(entity.getId())
                 .createdAt(entity.getCreatedAt())
-                .deletedAt(entity.getDeletedAt())
                 .email(entity.getEmail())
                 .password(entity.getPassword())
                 .name(entity.getName())
@@ -57,7 +56,6 @@ public class UserDto implements LoginDto {
         User entity = new User();
         entity.setId(id);
         entity.setCreatedAt(createdAt);
-        entity.setDeletedAt(deletedAt);
 
         entity.setEmail(email);
         entity.setPassword(password);

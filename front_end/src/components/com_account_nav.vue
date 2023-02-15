@@ -6,7 +6,7 @@
             <v-divider class="my-3" />
         </div>
 
-        <div class="t2b pa-4 bg-nav" v-if="confirmAuth(['SELLER', 'USER'])">
+        <div class="t2b pa-4 bg-nav" v-if="confirmAuth(['USER'])">
             <h2 class="mb-4">MY 쇼핑</h2>
             <p class="clickable link" @click="$router.push($endPoint.myPage);"
             >구매 조회</p>
@@ -36,6 +36,9 @@
             <h2 class="mb-4">MY 판매</h2>
             <p class="clickable link" @click="$router.push($endPoint.createItem);"
             >상품 생성</p>
+
+            <p class="clickable link" @click="$router.push($endPoint.myPage);"
+            >구매 현황</p>
 
             <v-divider class="my-3" />
         </div>

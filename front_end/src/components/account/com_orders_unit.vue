@@ -27,7 +27,7 @@
                     v-for="item in btns" :key="item"
                     color="primary"
                     @click="item.click"
-                    :disabled="item.banState.includes(state)"
+                    :disabled="isBan(item, state)"
                 >{{ item.label }}</v-btn>
             </div>
         </v-card>
@@ -59,11 +59,14 @@ data() {return {
         btnExchange: {
             label: "취소 신청",
             click: this.onClickCancellation,
-            banState: ["CANCEL"],
+            banState: ["READY", "CANCEL"],
         },
     },
 }},
 methods: {
+    isBan(item, state) {
+        return item.banState.includes(state) || !this.$store.getters.isUser;
+    },
     transState(state) {
         let origin = this.$env.com_orders;
         return this.$env.util_com_orders(origin, state, "name");

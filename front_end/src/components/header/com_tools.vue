@@ -3,6 +3,7 @@
         class="d-flex align-center"
     >
         <v-btn 
+            v-if="isUser"
             @click="btnHolder.click"
             stacked
         >
@@ -63,6 +64,9 @@ export default {
     computed: {
         isLogin() {
             return this.$store.getters.isLogin;
+        },
+        isUser() {
+            return this.$store.getters.isUser;
         },
     },
     methods: {

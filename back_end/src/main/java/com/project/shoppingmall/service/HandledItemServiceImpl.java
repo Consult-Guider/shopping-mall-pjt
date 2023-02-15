@@ -5,6 +5,7 @@ import com.project.shoppingmall.domain.Item;
 import com.project.shoppingmall.exception.AuthenticationException;
 import com.project.shoppingmall.exception.CrudException;
 import com.project.shoppingmall.model.LoginDto;
+import com.project.shoppingmall.model.SellerDto;
 import com.project.shoppingmall.model.UserDto;
 import com.project.shoppingmall.model.request.HandledItemDeleteRequest;
 import com.project.shoppingmall.model.request.PaymentCancelCreateRequest;
@@ -25,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 @Service
 @Transactional
@@ -50,6 +52,19 @@ public class HandledItemServiceImpl implements HandledItemService {
         UserDto userDto = (UserDto) loginDto;
         HandledItem entity = request.toEntity(userDto.toEntity(), this::loadItemById);
         handledItemRepository.save(entity);
+    }
+
+    public <U> U doGivenRole(
+            LoginDto loginDto,
+            Supplier<U> runWhenUser, Supplier<U> runWhenSeller
+            ) {
+        if(loginDto instanceof UserDto) {
+            return runWhenUser.get();
+        } else if(loginDto instanceof SellerDto) {
+            return runWhenSeller.get();
+        } else {
+            throw new AuthenticationException(ErrorCode.INVALID_ROLETYPE);
+        }
     }
 
     @Override
@@ -89,9 +104,11 @@ public class HandledItemServiceImpl implements HandledItemService {
     }
 
     @Override
-    public Page<HandledItemReadResponse> readPaymentAsReady(Pageable pageable) {
-        return handledItemRepository.findXxxAs(ProcessType.READY, pageable)
-                .map(HandledItemReadResponse::fromEntity);
+    public Page<HandledItemReadResponse> readPaymentAsReady(LoginDto loginDto, Pageable pageable) {
+        return doGivenRole(loginDto,
+                () -> handledItemRepository.findXxxByUser(ProcessType.READY, loginDto.getId(), pageable),
+                () -> handledItemRepository.findXxxBySeller(ProcessType.READY, loginDto.getId(), pageable)
+        ).map(HandledItemReadResponse::fromEntity);
     }
 
     @Override
@@ -100,15 +117,19 @@ public class HandledItemServiceImpl implements HandledItemService {
     }
 
     @Override
-    public Page<HandledItemReadResponse> readPaymentAsDone(Pageable pageable) {
-        return handledItemRepository.findXxxAs(ProcessType.DONE, pageable)
-                .map(HandledItemReadResponse::fromEntity);
+    public Page<HandledItemReadResponse> readPaymentAsDone(LoginDto loginDto, Pageable pageable) {
+        return doGivenRole(loginDto,
+                () -> handledItemRepository.findXxxByUser(ProcessType.DONE, loginDto.getId(), pageable),
+                () -> handledItemRepository.findXxxBySeller(ProcessType.DONE, loginDto.getId(), pageable)
+        ).map(HandledItemReadResponse::fromEntity);
     }
 
     @Override
-    public Page<HandledItemReadResponse> readPaymentAsCancel(Pageable pageable) {
-        return handledItemRepository.findXxxAs(ProcessType.CANCEL, pageable)
-                .map(HandledItemReadResponse::fromEntity);
+    public Page<HandledItemReadResponse> readPaymentAsCancel(LoginDto loginDto, Pageable pageable) {
+        return doGivenRole(loginDto,
+                () -> handledItemRepository.findXxxByUser(ProcessType.CANCEL, loginDto.getId(), pageable),
+                () -> handledItemRepository.findXxxBySeller(ProcessType.CANCEL, loginDto.getId(), pageable)
+        ).map(HandledItemReadResponse::fromEntity);
     }
 
     private long getLong(Long value) {
@@ -116,9 +137,12 @@ public class HandledItemServiceImpl implements HandledItemService {
     }
 
     @Override
-    public HandledItemReadStatisticResponse readPaymentAsStatistic() {
+    public HandledItemReadStatisticResponse readPaymentAsStatistic(LoginDto loginDto) {
         HandledItemReadStatisticResponse response = new HandledItemReadStatisticResponse();
-        Map<String, Long> mapCount = handledItemRepository.countPaymentByProcessType();
+        Map<String, Long> mapCount = doGivenRole(loginDto,
+                () -> handledItemRepository.countPaymentByProcessTypeWithUserId(loginDto.getId()),
+                () -> handledItemRepository.countPaymentByProcessTypeWithSellerId(loginDto.getId())
+        );
         response.setCountDeliveryByReady(getLong(mapCount.get(ProcessType.READY.name())));
         response.setCountDeliveryByDONE(getLong(mapCount.get(ProcessType.DONE.name())));
         response.setCountDeliveryByCancel(getLong(mapCount.get(ProcessType.CANCEL.name())));

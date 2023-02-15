@@ -16,11 +16,11 @@ public interface HandledItemService {
     void createPaymentAsDoneWithId(String pid, LoginDto loginDto);
 
     void createPaymentAsCancel(PaymentCancelCreateRequest request, LoginDto loginDto);
-    Page<HandledItemReadResponse> readPaymentAsReady(Pageable pageable);
-    Page<HandledItemReadResponse> readPaymentAsDone(Pageable pageable);
-    Page<HandledItemReadResponse> readPaymentAsCancel(Pageable pageable);
+    Page<HandledItemReadResponse> readPaymentAsReady(LoginDto loginDto, Pageable pageable);
+    Page<HandledItemReadResponse> readPaymentAsDone(LoginDto loginDto, Pageable pageable);
+    Page<HandledItemReadResponse> readPaymentAsCancel(LoginDto loginDto, Pageable pageable);
 
-    HandledItemReadStatisticResponse readPaymentAsStatistic();
+    HandledItemReadStatisticResponse readPaymentAsStatistic(LoginDto loginDto);
 
     void deletePaymentAsReady(HandledItemDeleteRequest request);
 }

@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import java.util.Map;
 
 public interface CustomHandledItemRepository {
-    Page<HandledItem> findXxxAs(ProcessType processType, Pageable pageable);
-    Map<String, Long> countPaymentByProcessType();
+    Page<HandledItem> findXxxByUser(ProcessType processType, Long uid, Pageable pageable);
+    Page<HandledItem> findXxxBySeller(ProcessType processType, Long uid, Pageable pageable);
+    Map<String, Long> countPaymentByProcessTypeWithUserId(Long uid);
+    Map<String, Long> countPaymentByProcessTypeWithSellerId(Long uid);
 }

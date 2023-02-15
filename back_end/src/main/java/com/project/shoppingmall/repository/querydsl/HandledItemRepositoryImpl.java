@@ -29,18 +29,44 @@ public class HandledItemRepositoryImpl implements CustomHandledItemRepository {
     }
 
     @Override
-    public Page<HandledItem> findXxxAs(
+    public Page<HandledItem> findXxxByUser(
             ProcessType processType,
+            Long uid,
             Pageable pageable
     ) {
         QueryBuilder query = boolQuery()
-                .must(matchQuery("ProcessType", processType));
+                .must(matchQuery("ProcessType", processType))
+                .must(matchQuery("user.id", uid));
         return fetchUtil.fetchWithPageable(query, pageable);
     }
 
     @Override
-    public Map<String, Long> countPaymentByProcessType() {
-        QueryBuilder query = matchAllQuery();
+    public Page<HandledItem> findXxxBySeller(
+            ProcessType processType,
+            Long uid,
+            Pageable pageable
+    ) {
+        QueryBuilder query = boolQuery()
+                .must(matchQuery("ProcessType", processType))
+                .must(matchQuery("item.seller", uid));
+        return fetchUtil.fetchWithPageable(query, pageable);
+    }
+
+    @Override
+    public Map<String, Long> countPaymentByProcessTypeWithUserId(Long uid) {
+        QueryBuilder query = matchQuery("user.id", uid);
+        String AGG_NAME = "countByProcessType";
+        TermsAggregationBuilder aggregation = terms(AGG_NAME).field("ProcessType");
+
+        return fetchUtil.fetchAggregation(query, ParsedStringTerms.class, AGG_NAME, aggregation)
+                .map(ParsedStringTerms::getBuckets)
+                .stream().flatMap(Collection::stream)
+                .collect(Collectors.toMap(Terms.Bucket::getKeyAsString, Terms.Bucket::getDocCount));
+    }
+
+    @Override
+    public Map<String, Long> countPaymentByProcessTypeWithSellerId(Long uid) {
+        QueryBuilder query = matchQuery("item.seller", uid);
         String AGG_NAME = "countByProcessType";
         TermsAggregationBuilder aggregation = terms(AGG_NAME).field("ProcessType");
 

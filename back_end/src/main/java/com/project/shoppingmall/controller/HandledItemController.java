@@ -59,14 +59,17 @@ public class HandledItemController {
     }
 
     @GetMapping("/payment/READY")
-    public Response<Page<HandledItemReadResponse>> readPaymentAsReady(@PageableDefault Pageable pageable) {
-        Page<HandledItemReadResponse> pages = handledItemService.readPaymentAsReady(pageable);
+    public Response<Page<HandledItemReadResponse>> readPaymentAsReady(
+            @AuthenticationPrincipal LoginDto loginDto,
+            @PageableDefault Pageable pageable
+    ) {
+        Page<HandledItemReadResponse> pages = handledItemService.readPaymentAsReady(loginDto, pageable);
         return Response.success(pages);
     }
 
     @GetMapping("/payment/statistic")
-    public Response<HandledItemReadStatisticResponse> readPaymentAsStatistic() {
-        HandledItemReadStatisticResponse dto = handledItemService.readPaymentAsStatistic();
+    public Response<HandledItemReadStatisticResponse> readPaymentAsStatistic(@AuthenticationPrincipal LoginDto loginDto) {
+        HandledItemReadStatisticResponse dto = handledItemService.readPaymentAsStatistic(loginDto);
         return Response.success(dto);
     }
 
@@ -77,14 +80,20 @@ public class HandledItemController {
     }
 
     @GetMapping("/payment/DONE")
-    public Response<Page<HandledItemReadResponse>> readPaymentAsDone(@PageableDefault Pageable pageable) {
-        Page<HandledItemReadResponse> pages = handledItemService.readPaymentAsDone(pageable);
+    public Response<Page<HandledItemReadResponse>> readPaymentAsDone(
+            @AuthenticationPrincipal LoginDto loginDto,
+            @PageableDefault Pageable pageable
+    ) {
+        Page<HandledItemReadResponse> pages = handledItemService.readPaymentAsDone(loginDto, pageable);
         return Response.success(pages);
     }
 
     @GetMapping("/payment/CANCEL")
-    public Response<Page<HandledItemReadResponse>> readPaymentAsCancel(@PageableDefault Pageable pageable) {
-        Page<HandledItemReadResponse> pages = handledItemService.readPaymentAsCancel(pageable);
+    public Response<Page<HandledItemReadResponse>> readPaymentAsCancel(
+            @AuthenticationPrincipal LoginDto loginDto,
+            @PageableDefault Pageable pageable
+    ) {
+        Page<HandledItemReadResponse> pages = handledItemService.readPaymentAsCancel(loginDto, pageable);
         return Response.success(pages);
     }
 }

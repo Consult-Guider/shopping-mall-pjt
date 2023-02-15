@@ -20,7 +20,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
-@DisplayName("Admin Repository Test")
+@DisplayName("AdImg Repository Test")
 @SetProfile
 @EnableProjectQueryDslConfiguration
 @DataJpaTest

@@ -4,8 +4,9 @@ import com.project.shoppingmall.domain.Item;
 import com.project.shoppingmall.domain.Question;
 import com.project.shoppingmall.domain.Review;
 import com.project.shoppingmall.domain.User;
-import com.project.shoppingmall.domain.nested.*;
-import com.project.shoppingmall.model.AdminDto;
+import com.project.shoppingmall.domain.nested.Description;
+import com.project.shoppingmall.domain.nested.Option;
+import com.project.shoppingmall.domain.nested.Tag;
 import com.project.shoppingmall.model.SellerDto;
 import com.project.shoppingmall.model.UserDto;
 import com.project.shoppingmall.model.response.ItemReadResponse;
@@ -33,26 +34,12 @@ public class FixtureFactory {
             .email("mock email").password("mock password").name("mock name")
             .phoneNum("mock phoneNum").address("mock address").companyName("mock companyName")
             .build();
-    public static final AdminDto adminDtoFixture = AdminDto.builder()
-            .id(1L).createdAt(LocalDateTime.now()).deletedAt(null)
-            .email("mock email").password("mock password").name("mock name")
-            .phoneNum("mock phoneNum")
-            .build();
 
     public static final UserCreateRequest userCreateRequestFixture =
             makeUserCreateRequestFixture();
 
     private static UserCreateRequest makeUserCreateRequestFixture() {
         return UserCreateRequest.of(
-                "mockEmail@gmail.com",
-                "mock password",
-                "mock name",
-                "010-1234-0234"
-        );
-    }
-
-    public static AdminCreateRequest adminCreateRequestFixture() {
-        return AdminCreateRequest.of(
                 "mockEmail@gmail.com",
                 "mock password",
                 "mock name",
@@ -132,56 +119,6 @@ public class FixtureFactory {
                 userDto.getName(),
                 userDto.getPhoneNum(),
                 userDto.getAddress()
-        ));
-    }
-
-    private static Stream<AdminDto> provideInappropriateAdminDto() {
-        return Stream.of(
-                // 부적절한 이메일 형식
-                AdminDto.builder()
-                        .email("Inappropriate Email Format")
-                        .password("mock password")
-                        .name("mock name")
-                        .phoneNum("010-1234-1234")
-                        .build(),
-                // '-' 표시가 없는 전화번호
-                AdminDto.builder()
-                        .email("mockEmail@gmail.com")
-                        .password("mock password")
-                        .name("mock name")
-                        .phoneNum("01012341234")
-                        .build(),
-                // 앞의 자릿수(4)가 맞지 않는 전화번호
-                AdminDto.builder()
-                        .email("mockEmail@gmail.com")
-                        .password("mock password")
-                        .name("mock name")
-                        .phoneNum("0101-1234-1234")
-                        .build(),
-                // 중간 자릿수(5)가 맞지 않는 전화번호
-                AdminDto.builder()
-                        .email("mockEmail@gmail.com")
-                        .password("mock password")
-                        .name("mock name")
-                        .phoneNum("010-12345-1234")
-                        .build(),
-                // 마지막 자릿수(5)가 맞지 않는 전화번호
-                AdminDto.builder()
-                        .email("mockEmail@gmail.com")
-                        .password("mock password")
-                        .name("mock name")
-                        .phoneNum("010-1234-12345")
-                        .build()
-        );
-    }
-
-    public static Stream<Arguments> provideInappropriateParametersAdminCreateRequest() {
-        Stream<AdminDto> stream = provideInappropriateAdminDto();
-        return stream.map(adminDto -> Arguments.of(
-                adminDto.getEmail(),
-                adminDto.getPassword(),
-                adminDto.getName(),
-                adminDto.getPhoneNum()
         ));
     }
 

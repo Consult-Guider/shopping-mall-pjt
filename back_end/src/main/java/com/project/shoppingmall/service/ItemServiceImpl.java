@@ -13,12 +13,10 @@ import com.project.shoppingmall.repository.ItemRepository;
 import com.project.shoppingmall.repository.SellerRepository;
 import com.project.shoppingmall.type.ErrorCode;
 import com.project.shoppingmall.type.ImageType;
-import com.project.shoppingmall.type.RoleType;
 import com.project.shoppingmall.utils.fileManager.FileManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -55,10 +53,6 @@ public class ItemServiceImpl implements ItemService {
 
     public void assertPossession(LoginDto principal, String iid) {
         Long uid = principal.getId();
-
-        for(GrantedAuthority role : principal.getAuthorities()) {
-            if(role.getAuthority().equals(RoleType.ADMIN.getName())) { return ; }
-        }
 
         itemRepository.findById(iid)
                 .map(Item::getSeller).filter(seller -> seller.equals(uid))

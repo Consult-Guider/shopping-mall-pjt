@@ -16,7 +16,6 @@ public class WithSecurityContextFactoryImpl implements WithSecurityContextFactor
         UserDetails principal = switch (role) {
             case USER -> FixtureFactory.userDtoFixture;
             case SELLER -> FixtureFactory.sellerDtoFixture;
-            case ADMIN -> FixtureFactory.adminDtoFixture;
         };
 
         UsernamePasswordAuthenticationToken token =

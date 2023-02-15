@@ -20,7 +20,4 @@ public abstract class BaseEntity {
 
     @CreatedDate @Field(type = FieldType.Date, format = DateFormat.date_hour_minute_second_millis)
     private LocalDateTime createdAt;
-
-    @Field(type = FieldType.Date, format = DateFormat.date_hour_minute_second_millis)
-    private LocalDateTime deletedAt;
 }

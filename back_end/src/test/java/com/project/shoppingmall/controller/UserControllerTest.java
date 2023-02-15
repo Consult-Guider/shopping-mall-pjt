@@ -120,7 +120,6 @@ class UserControllerTest {
     }
 
     @Test
-    @WithMockAdmin
     @DisplayName("[정상 작동][get][/api/v1/user/:id] 계정 단일 조회")
     public void givenUid_whenCallReadUser_thenReturnUser() throws Exception {
         // given
@@ -139,7 +138,6 @@ class UserControllerTest {
     }
 
     @Test
-    @WithMockAdmin
     @DisplayName("[정상 작동][put][/api/v1/user/:id] 계정 수정")
     public void givenUidAndRequest_whenCallUpdateUser_thenUpdate() throws Exception {
         // given
@@ -158,7 +156,6 @@ class UserControllerTest {
     }
 
     @Test
-    @WithMockAdmin
     @DisplayName("[비정상 작동][put][/api/v1/user/:id] 존재하지 않는 계정 수정")
     public void givenUidNotExistingAndRequest_whenCallUpdateUser_thenUpdate() throws Exception {
         // given
@@ -182,7 +179,6 @@ class UserControllerTest {
     }
 
     @Test
-    @WithMockAdmin
     @DisplayName("[정상 작동][delete][/api/v1/user/:id] 계정 삭제")
     public void givenUid_whenCallDeleteUser_thenDelete() throws Exception {
         // given
@@ -198,7 +194,6 @@ class UserControllerTest {
     }
 
     @Test
-    @WithMockAdmin
     @DisplayName("[비정상 작동][delete][/api/v1/user/:id] 존재하지 않는 계정 삭제")
     public void givenUidNotExisting_whenCallDeleteUser_thenDelete() throws Exception {
         // given

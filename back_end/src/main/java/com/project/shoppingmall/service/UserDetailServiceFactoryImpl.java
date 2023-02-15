@@ -10,13 +10,11 @@ import org.springframework.stereotype.Service;
 public class UserDetailServiceFactoryImpl extends UserDetailServiceFactory {
     private final UserService userService;
     private final SellerService sellerService;
-    private final AdminService adminService;
 
     public UserDetailsService newInstance(RoleType role) {
         return switch (role) {
             case USER -> userService;
             case SELLER -> sellerService;
-            case ADMIN -> adminService;
         };
     }
 }

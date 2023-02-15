@@ -17,9 +17,7 @@ import java.util.List;
 
 @ToString
 @Document(indexName = "handled_item")
-// 위는 Elastic Search Document 사용을 위한 어노테이션
 @NoArgsConstructor @Getter @Setter
-// 위는 JPA Entity 사용을 위한 어노테이션
 @AllArgsConstructor @SuperBuilder(toBuilder = true)
 public class HandledItem {
 

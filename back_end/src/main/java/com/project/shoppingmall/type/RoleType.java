@@ -7,9 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor @Getter
 public enum RoleType {
     USER("ROLE_USER"),
-    SELLER("ROLE_SELLER"),
-    ADMIN("ROLE_ADMIN")
-    ;
+    SELLER("ROLE_SELLER");
 
     public String withoutPrefix() {
         return name.substring("ROLE_".length());

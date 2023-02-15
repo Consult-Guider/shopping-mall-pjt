@@ -9,6 +9,8 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+import static java.util.Optional.ofNullable;
+
 @NoArgsConstructor @Getter @Setter
 public class SearchResponse {
     private String id;
@@ -19,6 +21,7 @@ public class SearchResponse {
     private String imagePath;
 
     public static SearchResponse fromEntity(Item item) {
+        item = ofNullable(item).orElseGet(Item::new);
         SearchResponse response = new SearchResponse();
         response.setId(item.getId());
         response.setCreatedAt(item.getCreatedAt());

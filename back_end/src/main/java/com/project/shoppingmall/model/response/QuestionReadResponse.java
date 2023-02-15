@@ -10,6 +10,8 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+import static java.util.Optional.ofNullable;
+
 @NoArgsConstructor @Getter @Setter
 public class QuestionReadResponse {
     private String id;
@@ -29,9 +31,9 @@ public class QuestionReadResponse {
     private String option;
 
     public static QuestionReadResponse fromEntity(Question entity) {
-        User user = entity.getUser();
-        Seller seller = entity.getSeller();
-        Item item = entity.getItem();
+        User user = ofNullable(entity.getUser()).orElseGet(User::new);
+        Seller seller = ofNullable(entity.getSeller()).orElseGet(Seller::new);
+        Item item = ofNullable(entity.getItem()).orElseGet(Item::new);
 
         QuestionReadResponse dto = new QuestionReadResponse();
         dto.setId(entity.getId());

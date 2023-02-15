@@ -52,7 +52,7 @@ class QuestionRepositoryTest {
 
         // then
         page.map(Question::toString).forEach(log::debug);
-        page.forEach(question -> assertThat(question.getItemId()).isEqualTo("item1"));
+        page.forEach(question -> assertThat(question.getItem().getId()).isEqualTo("item1"));
     }
 
     @Test

@@ -34,6 +34,8 @@ export default {
                 btns: {
                     "relevant-desc": {label: "관련도순", json: {trg: null, isAsc: false,},},
                     "date-desc": {label: "최신순", json: {trg: "createdAt", isAsc: false,},},
+                    "price-asc": {label: "낮은 가격순", json: {trg: "item.price", isAsc: true,},},
+                    "price-desc": {label: "높은 가격순", json: {trg: "item.price", isAsc: false,},},
                 },
             },
         },
@@ -46,6 +48,8 @@ export default {
                 btns: {
                     "relevant-desc": {label: "관련도순", json: {trg: null, isAsc: false,},},
                     "date-desc": {label: "최신순", json: {trg: "createdAt", isAsc: false,},},
+                    "price-asc": {label: "낮은 가격순", json: {trg: "item.price", isAsc: true,},},
+                    "price-desc": {label: "높은 가격순", json: {trg: "item.price", isAsc: false,},},
                 },
             },
         },

@@ -18,7 +18,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -92,8 +95,8 @@ class ItemRepositoryTest {
     }
 
     @Test
-    @DisplayName("[정상 구동][findByKeyword] keyword를 이용해서 검색을 시도할 때")
-    void givenKeyword_whenCallFindByKeyword_thenGivePageOfItem() {
+    @DisplayName("[정상 구동][findByKeyword] keyword를 이용해서 제목 검색을 시도할 때")
+    void givenTitleKeyword_whenCallFindByKeyword_thenGivePageOfItem() {
         // given
         String keyword = "4080";
         PageRequest page = PageRequest.of(0, 10);
@@ -104,6 +107,22 @@ class ItemRepositoryTest {
         // then
         hits.map(Item::toString).forEach(log::debug);
         hits.map(Item::getName).forEach(name -> assertThat(name).contains(keyword));
+    }
+
+    @Test
+    @DisplayName("[정상 구동][findByKeyword] keyword를 이용해서 태그 검색을 시도할 때")
+    void givenTagKeyword_whenCallFindByKeyword_thenGivePageOfItem() {
+        // given
+        String keyword = "가전제품";
+        PageRequest page = PageRequest.of(0, 10);
+
+        // when
+        Page<Item> hits = itemRepository.findByKeyword(keyword, page);
+
+        // then
+        hits.map(Item::toString).forEach(log::debug);
+        hits.map(item -> item.getTagList().stream().map(Tag::getName).toList())
+                .forEach(nameList -> assertThat(nameList).contains(keyword));
     }
 
     @Test

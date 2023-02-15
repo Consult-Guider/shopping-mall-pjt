@@ -41,6 +41,9 @@ watch: {
         this.$emit("update", this.btns[val].json);
     },
 },
+created() {
+    this.$emit("update", this.btns[this.kind].json);
+},
 }
 </script>
 

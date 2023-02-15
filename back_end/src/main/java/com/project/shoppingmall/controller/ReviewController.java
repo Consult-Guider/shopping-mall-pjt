@@ -3,10 +3,7 @@ package com.project.shoppingmall.controller;
 import com.project.shoppingmall.model.LoginDto;
 import com.project.shoppingmall.model.request.ReviewCreateRequest;
 import com.project.shoppingmall.model.request.ReviewUpdateRequest;
-import com.project.shoppingmall.model.response.Response;
-import com.project.shoppingmall.model.response.ReviewReadResponse;
-import com.project.shoppingmall.model.response.ReviewSearchResponse;
-import com.project.shoppingmall.model.response.ReviewStatisticsResponse;
+import com.project.shoppingmall.model.response.*;
 import com.project.shoppingmall.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -50,11 +47,11 @@ public class ReviewController {
     }
 
     @GetMapping("/review")
-    public Response<Page<ReviewSearchResponse>> search(
+    public Response<Page<SearchResponse>> search(
             @RequestParam String keyword,
             @PageableDefault Pageable pageable
     ) {
-        Page<ReviewSearchResponse> pages = reviewService.searchByKeyword(keyword, pageable);
+        Page<SearchResponse> pages = reviewService.searchByKeyword(keyword, pageable);
         return Response.success(pages);
     }
 

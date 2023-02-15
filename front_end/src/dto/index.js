@@ -51,7 +51,7 @@ export class SignUpReq {
                         email: this.data("email"),
                         password: this.data("password"),
                         name: this.data("name"),
-                        phone: this.data("phone"),
+                        phoneNum: this.data("phone"),
                         companyName: this.data("companyName"),
                     };
             case roleType.roles.ADMIN:
@@ -59,7 +59,7 @@ export class SignUpReq {
                     email: this.data("email"),
                     password: this.data("password"),
                     name: this.data("name"),
-                    phone: this.data("phone"),
+                    phoneNum: this.data("phone"),
                 };
         
             default:
@@ -397,12 +397,27 @@ export class ItemSearchedRes extends PageResponse {
     }
 }
 
+export class ReviewSearchedRes extends PageResponse {
+    transform(unit) {
+        return {
+            "iid": unit.id,
+            "src": unit.imagePath,
+            "name": unit.name,
+            "price": unit.price,
+        };
+    }
+
+    pages() {
+        return this.getData().map(this.transform);
+    }
+}
+
 export class QnASearchedRes extends PageResponse {
     transform(unit) {
         return {
-            "iid": unit.itemId,
+            "iid": unit.id,
             "src": unit.imagePath,
-            "name": unit.itemName,
+            "name": unit.name,
             "price": unit?.price ?? 0,
         };
     }

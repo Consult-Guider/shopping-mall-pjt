@@ -1,11 +1,11 @@
 package com.project.shoppingmall.controller;
 
 import com.project.shoppingmall.model.LoginDto;
-import com.project.shoppingmall.model.response.QuestionReadResponse;
 import com.project.shoppingmall.model.request.QuestionCreateRequest;
 import com.project.shoppingmall.model.request.QuestionUpdateRequest;
+import com.project.shoppingmall.model.response.QuestionReadResponse;
 import com.project.shoppingmall.model.response.Response;
-import com.project.shoppingmall.model.response.QuestionSearchResponse;
+import com.project.shoppingmall.model.response.SearchResponse;
 import com.project.shoppingmall.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -57,11 +57,11 @@ public class QuestionController {
     }
 
     @GetMapping("/question")
-    public Response<Page<QuestionSearchResponse>> search(
+    public Response<Page<SearchResponse>> search(
             @RequestParam String keyword,
             @PageableDefault Pageable pageable
     ) {
-        Page<QuestionSearchResponse> pages = questionService.searchByKeyword(keyword, pageable);
+        Page<SearchResponse> pages = questionService.searchByKeyword(keyword, pageable);
         return Response.success(pages);
     }
 

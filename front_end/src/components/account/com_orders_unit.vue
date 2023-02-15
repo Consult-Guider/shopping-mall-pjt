@@ -59,7 +59,7 @@ data() {return {
         btnExchange: {
             label: "취소 신청",
             click: this.onClickCancellation,
-            banState: ["Cancellation"],
+            banState: ["CANCEL"],
         },
     },
 }},

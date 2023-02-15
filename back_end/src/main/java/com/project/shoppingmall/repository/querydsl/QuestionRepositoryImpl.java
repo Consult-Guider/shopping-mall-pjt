@@ -27,7 +27,7 @@ public class QuestionRepositoryImpl implements CustomQuestionRepository {
     @Override
     public Page<Question> findQuestionByItemId(String iid, Pageable pageable) {
         QueryBuilder query = boolQuery()
-                .must(matchQuery("itemId", iid))
+                .must(matchQuery("item.id", iid))
                 .mustNot(existsQuery("parentId"));
 
         return fetchUtil.fetchWithPageable(query, pageable);
@@ -53,7 +53,7 @@ public class QuestionRepositoryImpl implements CustomQuestionRepository {
     @Override
     public Page<Question> findQuestionByUserId(Long uid, Pageable pageable) {
         QueryBuilder query = boolQuery()
-                .must(matchQuery("userId", uid))
+                .must(matchQuery("user.id", uid))
                 .mustNot(existsQuery("parentId"));
 
         return fetchUtil.fetchWithPageable(query, pageable);
@@ -62,8 +62,8 @@ public class QuestionRepositoryImpl implements CustomQuestionRepository {
     @Override
     public Optional<Question> findByIidAndUid(String iid, Long uid) {
         QueryBuilder query = boolQuery()
-                .must(matchQuery("userId", uid))
-                .must(matchQuery("itemId", iid))
+                .must(matchQuery("user.id", uid))
+                .must(matchQuery("item.id", iid))
                 .mustNot(existsQuery("parentId"));
 
         return fetchUtil.fetchOne(query);

@@ -30,7 +30,8 @@ public class ItemRepositoryImpl implements KeywordRepository<Item> {
     @Override
     public Page<Item> findByKeyword(String keyword, Pageable pageable) {
         QueryBuilder query = boolQuery()
-                .should(matchQuery("name", keyword));
+                .should(matchQuery("name", keyword))
+                .should(matchQuery("tagList.name", keyword));
 
         return fetchUtil.fetchWithPageable(query, pageable);
     }

@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { PageReq, ErrRes, ItemSearchedRes, QnASearchedRes } from '@/dto';
+import { PageReq, ErrRes, ItemSearchedRes, ReviewSearchedRes, QnASearchedRes } from '@/dto';
 
 export default {
 data() {return {
@@ -34,7 +34,7 @@ data() {return {
     data: [],
 
     sortVal: {
-        obj: "createdAt",
+        obj: null,
         isAsc: false,
     },
 
@@ -106,7 +106,7 @@ methods: {
             case "name":
                 return ItemSearchedRes.of(res);
             case "review":
-                return ItemSearchedRes.of(res);
+                return ReviewSearchedRes.of(res);
             case "qna":
                 return QnASearchedRes.of(res);
             default:
@@ -116,6 +116,7 @@ methods: {
 },
 watch: {
     keyword() {
+        this.setBtnSet(this.method);
         this.fetchItemsSearched();
     },
     method(val) {
@@ -124,7 +125,7 @@ watch: {
     },
 },
 created() {
-    this.setBtnSet("name");
+    this.setBtnSet(this.method);
     this.fetchItemsSearched();
 },
 }

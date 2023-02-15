@@ -397,12 +397,27 @@ export class ItemSearchedRes extends PageResponse {
     }
 }
 
+export class ReviewSearchedRes extends PageResponse {
+    transform(unit) {
+        return {
+            "iid": unit.id,
+            "src": unit.imagePath,
+            "name": unit.name,
+            "price": unit.price,
+        };
+    }
+
+    pages() {
+        return this.getData().map(this.transform);
+    }
+}
+
 export class QnASearchedRes extends PageResponse {
     transform(unit) {
         return {
-            "iid": unit.itemId,
+            "iid": unit.id,
             "src": unit.imagePath,
-            "name": unit.itemName,
+            "name": unit.name,
             "price": unit?.price ?? 0,
         };
     }

@@ -26,8 +26,6 @@ class RepositoryFactoryTest {
     UserRepository userRepository;
     @Autowired
     SellerRepository sellerRepository;
-    @Autowired
-    AdminRepository adminRepository;
 
     @Test
     @DisplayName("[getFinderByEmail] UserRepository 호출 실험")
@@ -51,19 +49,6 @@ class RepositoryFactoryTest {
         // when & then
         LoginEntity entity = assertDoesNotThrow(() ->
                 repositoryFactory.getFinderByEmail(role, "iksadsouth@gmail.com").get()
-        );
-        log.debug(entity.toString());
-    }
-
-    @Test
-    @DisplayName("[getFinderByEmail] AdminRepository 호출 실험")
-    void givenAdminRole_whenCallGetFinderByEmail_thenDoesNotThrow() {
-        // given
-        RoleType role = RoleType.ADMIN;
-
-        // when & then
-        LoginEntity entity = assertDoesNotThrow(() ->
-                repositoryFactory.getFinderByEmail(role, "iksadeast@gmail.com").get()
         );
         log.debug(entity.toString());
     }

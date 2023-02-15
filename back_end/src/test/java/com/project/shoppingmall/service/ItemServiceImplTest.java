@@ -3,7 +3,6 @@ package com.project.shoppingmall.service;
 import com.project.shoppingmall.domain.Item;
 import com.project.shoppingmall.domain.Seller;
 import com.project.shoppingmall.exception.CrudException;
-import com.project.shoppingmall.model.AdminDto;
 import com.project.shoppingmall.model.LoginDto;
 import com.project.shoppingmall.model.SellerDto;
 import com.project.shoppingmall.repository.ItemRepository;
@@ -113,24 +112,6 @@ class ItemServiceImplTest {
 
         given(itemRepository.findById(anyString())).willReturn(Optional.of(response));
         
-        // when & then
-        assertDoesNotThrow(() -> itemService.assertPossession(principal, iid));
-    }
-
-    @Test
-    @DisplayName("[정상 작동][assertPossession] 운영자가 본인이 생성하지 않은 상품에 접근 가능한지 확인")
-    void givenAdminAccount_whenAssertPossession_thenDoNothing() {
-        // given
-        LoginDto principal = AdminDto.builder().id(1L).build();
-        Item response = new Item();
-        response.setSeller(principal.getId());
-
-        String iid = "mock Id";
-
-        ErrorCode code = ErrorCode.NO_OWNERSHIP;
-
-        given(itemRepository.findById(anyString())).willReturn(Optional.empty());
-
         // when & then
         assertDoesNotThrow(() -> itemService.assertPossession(principal, iid));
     }

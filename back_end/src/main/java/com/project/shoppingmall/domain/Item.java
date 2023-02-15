@@ -17,18 +17,13 @@ import java.util.List;
 
 @ToString
 @Document(indexName = "item")
-// 위는 Elastic Search Document 사용을 위한 어노테이션
 @NoArgsConstructor @Getter @Setter
-// 위는 JPA Entity 사용을 위한 어노테이션
-// TODO: 해당 엔티티는 JPA를 통해 delete가 이뤄지는 것이 아니기 때문에 Soft Delete를 직접 구현해서 사용해야 함.
 @AllArgsConstructor @SuperBuilder(toBuilder = true)
 public class Item {
     @Id @Field(type = FieldType.Auto)
     private String id;
     @Field(type = FieldType.Date, format = DateFormat.date_hour_minute_second_millis) @CreatedDate
     private LocalDateTime createdAt;
-    @Field(type = FieldType.Date, format = DateFormat.date_hour_minute_second_millis)
-    private LocalDateTime deletedAt;
 
     @Field(type = FieldType.Text)
     private String name;

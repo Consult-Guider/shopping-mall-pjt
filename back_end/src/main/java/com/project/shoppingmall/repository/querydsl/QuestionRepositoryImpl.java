@@ -1,20 +1,16 @@
 package com.project.shoppingmall.repository.querydsl;
 
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import com.project.shoppingmall.domain.Question;
 import com.project.shoppingmall.repository.CustomQuestionRepository;
 import com.project.shoppingmall.utils.ElasticSearchOperationsUtil;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.sort.FieldSortBuilder;
-import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 
 import java.util.Optional;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 public class QuestionRepositoryImpl implements CustomQuestionRepository {
     private final ElasticSearchOperationsUtil<Question> fetchUtil;
@@ -26,46 +22,49 @@ public class QuestionRepositoryImpl implements CustomQuestionRepository {
 
     @Override
     public Page<Question> findQuestionByItemId(String iid, Pageable pageable) {
-        QueryBuilder query = boolQuery()
-                .must(matchQuery("item.id", iid))
-                .mustNot(existsQuery("parentId"));
-
-        return fetchUtil.fetchWithPageable(query, pageable);
+        Query itemIdQuery = new Query.Builder().match(q -> q.field("item.id").query(iid)).build();
+        Query parentIdQuery = new Query.Builder().exists(q -> q.field("parentId")).build();
+        return fetchUtil.fetchWithPageable(
+                b -> b.withQuery(q -> q.bool(bool -> bool.must(itemIdQuery).mustNot(parentIdQuery))),
+                pageable);
     }
 
     @Override
     public Page<Question> searchQuestionByKeyword(String keyword, Pageable pageable) {
-        QueryBuilder query = boolQuery().should(QueryBuilders.matchQuery("content", keyword));
-
-        return fetchUtil.fetchWithPageable(query, pageable);
+        Query query = new Query.Builder().match(q -> q.field("content").query(keyword)).build();
+        return fetchUtil.fetchWithPageable(
+                b -> b.withQuery(q -> q.bool(bool -> bool.should(query))),
+                pageable);
     }
 
     @Override
     public Page<Question> readChildrenByQid(String qid) {
-        FieldSortBuilder sortBuilder = new FieldSortBuilder("createdAt");
-        sortBuilder.order(SortOrder.ASC);
-
-        QueryBuilder query = matchQuery("parentId", qid);
-
-        return fetchUtil.fetchWithSorting(query, sortBuilder);
+        return fetchUtil.fetchWithPageable(
+                b -> b.withSort(Sort.by(Sort.Direction.ASC, "createdAt"))
+                        .withQuery(q -> q.match(m -> m.field("parentId").query(qid))),
+                Pageable.unpaged());
     }
 
     @Override
     public Page<Question> findQuestionByUserId(Long uid, Pageable pageable) {
-        QueryBuilder query = boolQuery()
-                .must(matchQuery("user.id", uid))
-                .mustNot(existsQuery("parentId"));
-
-        return fetchUtil.fetchWithPageable(query, pageable);
+        Query userIdQuery = new Query.Builder().match(q -> q.field("user.id").query(uid)).build();
+        Query parentIdQuery = new Query.Builder().exists(q -> q.field("parentId")).build();
+        return fetchUtil.fetchWithPageable(
+                b -> b.withQuery(q -> q.bool(bool -> bool.must(userIdQuery).mustNot(parentIdQuery))),
+                pageable);
     }
 
     @Override
     public Optional<Question> findByIidAndUid(String iid, Long uid) {
-        QueryBuilder query = boolQuery()
-                .must(matchQuery("user.id", uid))
-                .must(matchQuery("item.id", iid))
-                .mustNot(existsQuery("parentId"));
-
-        return fetchUtil.fetchOne(query);
+        Query userIdQuery = new Query.Builder().match(q -> q.field("user.id").query(uid)).build();
+        Query itemIdQuery = new Query.Builder().match(q -> q.field("item.id").query(uid)).build();
+        Query parentIdQuery = new Query.Builder().exists(q -> q.field("parentId")).build();
+        return fetchUtil.fetchOne(
+                b -> b.withQuery(q -> q.bool(bool -> bool
+                        .must(userIdQuery)
+                        .must(itemIdQuery)
+                        .mustNot(parentIdQuery))
+                )
+        );
     }
 }

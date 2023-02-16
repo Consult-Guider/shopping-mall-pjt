@@ -53,6 +53,8 @@ dependencies {
 
 //	elasticsearch search 적용
 	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'jakarta.json:jakarta.json-api:2.0.1'
 
 //	amazon S3 적용
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'

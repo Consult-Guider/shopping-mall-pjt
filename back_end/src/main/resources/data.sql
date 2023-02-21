@@ -6,7 +6,7 @@ INSERT INTO ad_img (`created_at`, `item_name`, `company_name`, `path`, `link`, `
 INSERT INTO ad_img (`created_at`, `item_name`, `company_name`, `path`, `link`, `start_at`, `end_at`) VALUES (NOW(), '까까로', '농심', 'https://www.lotteconf.co.kr/images/brand/img_hp03_01_2022.png', 'https://www.lotteconf.co.kr/brand/hero/pepero', '2000-01-01', '3000-01-01');
 INSERT INTO ad_img (`created_at`, `item_name`, `company_name`, `path`, `link`, `start_at`, `end_at`) VALUES (NOW(), '따따로', '농심', 'https://www.lotteconf.co.kr/images/brand/img_hp03_01_2022.png', 'https://www.lotteconf.co.kr/brand/hero/pepero', '2000-01-01', '3000-01-01');
 
-INSERT INTO USER_ACCOUNT (`created_at`,`email`,`name`,`password`,`phone_num`) VALUES (NOW(),'iksadnorth@gmail.com','박정훈','q1w2e3r4','010-1234-5678');
-INSERT INTO USER_ACCOUNT (`created_at`,`email`,`name`,`password`,`phone_num`) VALUES (NOW(),'iksadnorth1@gmail.com','박정훈','q1w2e3r4','010-1234-5678');
+INSERT INTO user_account (`created_at`,`email`,`name`,`password`,`phone_num`) VALUES (NOW(),'iksadnorth@gmail.com','박정훈','q1w2e3r4','010-1234-5678');
+INSERT INTO user_account (`created_at`,`email`,`name`,`password`,`phone_num`) VALUES (NOW(),'iksadnorth1@gmail.com','박정훈','q1w2e3r4','010-1234-5678');
 
-INSERT INTO SELLER (`created_at`,`email`,`name`,`password`,`phone_num`,`company_name`) VALUES (NOW(),'iksadsouth@gmail.com','김정훈','q1w2e3r4','010-1111-2222','goupang');
+INSERT INTO seller (`created_at`,`email`,`name`,`password`,`phone_num`,`company_name`) VALUES (NOW(),'iksadsouth@gmail.com','김정훈','q1w2e3r4','010-1111-2222','goupang');

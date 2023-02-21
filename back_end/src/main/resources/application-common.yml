@@ -1,6 +1,6 @@
 spring:
   datasource:
-    username: iksad
+    username: root
     password: 1234
 
   jpa:

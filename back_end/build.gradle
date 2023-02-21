@@ -62,6 +62,9 @@ dependencies {
 //	FilenameUtils 적용
 	implementation 'commons-io:commons-io:2.5'
 
+//	MySQL 적용.
+	implementation 'mysql:mysql-connector-java'
+
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'

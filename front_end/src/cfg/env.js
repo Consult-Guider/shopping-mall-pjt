@@ -7,8 +7,10 @@ function transState(origin, state, key) {
     return mapper[state] ?? "상태 이상";
 }
 
+const origin = process.env.VUE_APP_BACKEND_URL ?? "localhost:8080"
+
 export default {
-    backendURL: 'http://localhost:8080/api/v1',
+    backendURL: `http://${origin}/api/v1`,
 
     queryMethods: {
         name: {

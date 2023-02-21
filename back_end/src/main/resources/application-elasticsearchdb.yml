@@ -2,5 +2,5 @@ logging.level:
   org.springframework.data.elasticsearch.client.WIRE: TRACE
 
 es.cfg:
-  host: localhost
+  host: elasticsearch_app
   port: 9200

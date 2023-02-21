@@ -1,0 +1,57 @@
+version: "3.1"
+
+services:
+  es:
+    image: elasticsearch:7.17.7
+    container_name: elasticsearch_app
+    restart: always
+    environment:
+      - node.name=single-node
+      - discovery.type=single-node
+      - cluster.name=${CLUSTER_NAME}
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - pjt-bridge
+    volumes:
+      - ${DIR_MOUNTED_ELASTICSEARCH}:/usr/share/elasticsearch/data
+
+  mysql:
+    image: mysql:8-oracle
+    container_name: mysql_app
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+    ports:
+      - 3306:3306
+    networks:
+      - pjt-bridge
+    volumes:
+      - ${DIR_MOUNTED_MYSQL}:/var/lib/mysql
+
+  spring:
+    container_name: spring_app
+    image: iksadnorth/spring_app:latest
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - es
+      - mysql
+    networks:
+      - pjt-bridge
+  
+  nginx_vue:
+    container_name: nginx_vue
+    image: iksadnorth/vue_app:latest
+    restart: always
+    ports:
+      - 80:80
+    networks:
+      - pjt-bridge
+
+networks:
+  pjt-bridge:
+    driver: bridge

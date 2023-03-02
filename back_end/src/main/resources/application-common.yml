@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    username: root
+    password: 1234
+
+  jpa:
+    properties.hibernate.format_sql: true
+
+logging.level:
+  com.project.shoppingmall: TRACE
+
+  org.hibernate:
+    SQL: TRACE
+    type.descriptor.sql.BasicBinder: TRACE
+    transaction.JDBCTransaction: TRACE

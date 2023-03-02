@@ -1,0 +1,13 @@
+jwt:
+  secret-key: Ly8gVE9ETzogcGxlYXNlIGRldGVybWluZSB0aGlzIGtleSEhIEJ5IGlrc2FkTm9ydGguIDop
+  expired-time-ms: 86400000
+
+cors:
+  allowed-url:
+    http://localhost:80,
+    http://localhost,
+    http://nginx_vue:80,
+    http://nginx_vue
+
+logging.level:
+  org.springframework.security: DEBUG

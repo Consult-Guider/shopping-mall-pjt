@@ -47,7 +47,7 @@
 
 # 📌웹 사이트 UI
 
-[웹사이트 UI](https://www.notion.so/bf8fe07911d0488ebbd9aa36d3a14eef)
+[웹사이트 UI](https://iksadnorth-ai.notion.site/bf8fe07911d0488ebbd9aa36d3a14eef)
 
 ---
 
